@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神奇动物精神状态测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        .option input {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .result h3 {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #3498db;
+        }
+        .result p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 15px 0;
+            color: #555;
+        }
+        .result strong {
+            color: #2c3e50;
+        }
+        .result ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            padding-left: 20px;
+        }
+        .result li {
+            margin: 10px 0;
+            color: #555;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 20px 10px;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .back-link:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .result-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .animal-icon {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <a href="index.html" class="back-link" style="margin: 0;">返回总目录</a>
+        </div>
+        <h1>神奇动物精神状态测试</h1>
+        <form id="test-form">
+            <div class="question">
+                <h3>Q1. 深夜醒来，窗外有月光，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" value="A" required>
+                        A. 数着月光发呆，直到困意重新袭来
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="B">
+                        B. 打开灯，找本书看
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="C">
+                        C. 起来倒杯水，顺便看看冰箱
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="D">
+                        D. 刷会儿手机，时间不知不觉就没了
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q2. 走在路上，看到一只流浪猫，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" value="A" required>
+                        A. 停下脚步，跟它对视一会儿
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="B">
+                        B. 看看周围有没有猫粮可以喂
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="C">
+                        C. 拍张照片，继续走
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="D">
+                        D. 想想它从哪里来，要到哪里去
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q3. 朋友说"我们好久没见了"，你心里想的是？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" value="A" required>
+                        A. 是啊，时间过得真快
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="B">
+                        B. 找个时间约一下吧
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="C">
+                        C. 最近有点忙，改天再说
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="D">
+                        D. 其实我一直想找你
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q4. 手机电量只剩 10%，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" value="A" required>
+                        A. 继续用，反正还能撑一会儿
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="B">
+                        B. 赶紧找充电器
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="C">
+                        C. 开启省电模式，减少使用
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="D">
+                        D. 已经找到充电宝了
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q5. 看到一朵形状奇怪的云，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" value="A" required>
+                        A. 盯着看，想象它像什么
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="B">
+                        B. 拍下来发给朋友
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="C">
+                        C. 继续赶路，没太多在意
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="D">
+                        D. 想想云为什么会变成这样
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q6. 收到一封陌生人的邮件，标题是"给未来的你"，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" value="A" required>
+                        A. 好奇点开看看
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="B">
+                        B. 先看看发件人是谁
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="C">
+                        C. 可能是垃圾邮件，直接删除
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="D">
+                        D. 收藏起来，等有空再看
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q7. 下雨天被困在屋檐下，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" value="A" required>
+                        A. 静静听雨声，享受这一刻
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="B">
+                        B. 看看有没有带伞的人可以拼车
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="C">
+                        C. 有点烦躁，不停看天气预报
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="D">
+                        D. 想想等雨停了去哪里
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q8. 看到一面镜子，你会想？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" value="A" required>
+                        A. 今天的发型怎么样
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="B">
+                        B. 镜子里的人是谁
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="C">
+                        C. 镜子背后有什么
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="D">
+                        D. 如果镜子里的世界是真的呢
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q9. 听到一首老歌，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q9" value="A" required>
+                        A. 跟着哼唱，回忆涌上心头
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="B">
+                        B. 查查这首歌的信息
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="C">
+                        C. 继续做自己的事
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="D">
+                        D. 分享给喜欢这首歌的朋友
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q10. 看到一个空房间，你会想？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q10" value="A" required>
+                        A. 这里曾经住过谁
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="B">
+                        B. 可以摆些什么家具
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="C">
+                        C. 为什么是空的
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="D">
+                        D. 如果住在这里会怎样
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q11. 深夜的便利店，你会买？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q11" value="A" required>
+                        A. 热腾腾的关东煮
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="B">
+                        B. 一瓶冰可乐
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="C">
+                        C. 便当，加热后吃
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="D">
+                        D. 零食，边走边吃
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q12. 看到一只蝴蝶停在手上，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q12" value="A" required>
+                        A. 屏住呼吸，怕吓跑它
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="B">
+                        B. 赶紧拍照
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="C">
+                        C. 轻轻吹口气，看它飞走
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="D">
+                        D. 想想它从哪里飞来
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q13. 朋友说"我有个秘密告诉你"，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q13" value="A" required>
+                        A. 安静听着，不打断
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="B">
+                        B. 问是什么秘密
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="C">
+                        C. 想想这个秘密值不值得听
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="D">
+                        D. 说"我也有个秘密"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q14. 看到流星划过，你会许愿？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q14" value="A" required>
+                        A. 希望世界和平
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="B">
+                        B. 希望自己开心
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="C">
+                        C. 希望朋友一切都好
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="D">
+                        D. 希望明天是个好天气
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q15. 人生如果可以重来一次，你会？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q15" value="A" required>
+                        A. 还是会做类似的选择
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="B">
+                        B. 想试试完全不同的活法
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="C">
+                        C. 更早开始做想做的事
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="D">
+                        D. 珍惜每一个当下
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">提交测试</button>
+        </form>
+        
+        <div id="result" class="result" style="display: none;">
+            <h2>测试结果</h2>
+            <div id="result-content" class="result-content"></div>
+            <div style="margin-top: 30px;">
+                <a href="index.html" class="back-link">返回测试目录</a>
+                <a href="test1.html" class="back-link">重新测试</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 统计各选项的数量
+            const counts = { A: 0, B: 0, C: 0, D: 0 };
+            for (let i = 1; i <= 15; i++) {
+                const radio = document.querySelector(`input[name="q${i}"]:checked`);
+                if (radio) {
+                    counts[radio.value]++;
+                }
+            }
+            
+            // 找出最多的选项
+            let maxCount = 0;
+            let maxOption = '';
+            let isUniform = true;
+            
+            for (const [option, count] of Object.entries(counts)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxOption = option;
+                    isUniform = false;
+                } else if (count === maxCount && maxOption) {
+                    isUniform = true;
+                }
+            }
+            
+            // 显示结果
+            const resultContent = document.getElementById('result-content');
+            if (isUniform) {
+                resultContent.innerHTML = `
+                    <div class="animal-icon">🦄</div>
+                    <h3>独角兽系</h3>
+                    <p><strong>关键词：</strong>平衡、神秘、不可定义</p>
+                    <p>你的精神状态像一只独角兽，没有固定模式，但什么都能应付。你今天像水獭，明天像猫头鹰，后天像狐狸，大后天像蝴蝶。</p>
+                    <p>这种人最可怕，因为你无法被预测。你不是在变来变去，你是在流动——像水一样，适应任何容器。</p>
+                    <p><strong>✨ 你的超能力：</strong></p>
+                    <ul>
+                        <li>随机应变，什么都能应付</li>
+                        <li>不被定义，自由自在地活着</li>
+                        <li>你是来体验生活的，不是来被分类的</li>
+                    </ul>
+                    <p><strong>💌 给你的话：</strong></p>
+                    <p>你不需要找答案，你就是答案。继续做你自己，这个世界需要像你这样的人，提醒我们生命本该如此丰富多彩。</p>
+                `;
+            } else {
+                switch (maxOption) {
+                    case 'A':
+                        resultContent.innerHTML = `
+                            <div class="animal-icon">🦦</div>
+                            <h3>水獭系</h3>
+                            <p><strong>关键词：</strong>治愈、慢生活、内心柔软</p>
+                            <p>你的精神状态像一只水獭，喜欢漂浮在水面上，手里握着心爱的石头。你不需要太多，一点点小确幸就能让你开心很久。</p>
+                            <p>别人在焦虑未来，你在享受当下。别人在追求效率，你在感受生活。这不是懒，这是一种智慧——你知道什么才是真正重要的。</p>
+                            <p><strong>✨ 你的超能力：</strong></p>
+                            <ul>
+                                <li>能在混乱中找到平静</li>
+                                <li>对美好事物特别敏感</li>
+                                <li>不需要太多就能满足</li>
+                            </ul>
+                            <p><strong>💭 小心：</strong></p>
+                            <ul>
+                                <li>有时候会沉浸在自己的世界，忽略现实问题</li>
+                                <li>容易被情绪淹没，需要学会表达</li>
+                                <li>别人会觉得你"想太多"</li>
+                            </ul>
+                            <p><strong>💌 给你的话：</strong></p>
+                            <p>你的慢不是缺点，是天赋。这个世界需要像你这样的人，提醒我们停下来看看路边的花。别急着改变，你本来就很美好。</p>
+                        `;
+                        break;
+                    case 'B':
+                        resultContent.innerHTML = `
+                            <div class="animal-icon">🦉</div>
+                            <h3>猫头鹰系</h3>
+                            <p><strong>关键词：</strong>理性、观察者、深度思考</p>
+                            <p>你的精神状态像一只猫头鹰，站在高处观察世界。你不轻易下结论，喜欢先收集信息、分析情况、想清楚再行动。</p>
+                            <p>别人凭直觉做事，你要先查资料。别人凭感觉判断，你要先找证据。这不是犹豫，这是一种严谨——你知道草率决定会带来什么后果。</p>
+                            <p><strong>✨ 你的超能力：</strong></p>
+                            <ul>
+                                <li>能看到别人忽略的细节</li>
+                                <li>善于发现问题本质</li>
+                                <li>是团队里的智囊和军师</li>
+                            </ul>
+                            <p><strong>💭 小心：</strong></p>
+                            <ul>
+                                <li>容易陷入"分析瘫痪"，想太多做太少</li>
+                                <li>有时候会错过直觉带来的机会</li>
+                                <li>别人会觉得你"太较真"</li>
+                            </ul>
+                            <p><strong>💌 给你的话：</strong></p>
+                            <p>你的思考不是负担，是礼物。但记住，有时候"足够好"比"完美"更重要。试着偶尔相信直觉，它可能比你想象的更准。</p>
+                        `;
+                        break;
+                    case 'C':
+                        resultContent.innerHTML = `
+                            <div class="animal-icon">🦊</div>
+                            <h3>狐狸系</h3>
+                            <p><strong>关键词：</strong>灵活、适应力强、边界感</p>
+                            <p>你的精神状态像一只狐狸，在森林中灵活穿梭。你知道什么时候该前进，什么时候该后退，什么时候该保持距离。</p>
+                            <p>别人全情投入，你留三分余地。别人相信永远，你相信当下。这不是冷漠，这是一种自我保护——你知道世界不确定，所以要为自己留后路。</p>
+                            <p><strong>✨ 你的超能力：</strong></p>
+                            <ul>
+                                <li>适应力强，什么环境都能生存</li>
+                                <li>懂得保护自己，不容易受伤</li>
+                                <li>善于权衡利弊，做最稳妥的选择</li>
+                            </ul>
+                            <p><strong>💭 小心：</strong></p>
+                            <ul>
+                                <li>有时候会显得疏离，让人难以靠近</li>
+                                <li>过度防备可能错过真正的连接</li>
+                                <li>别人会觉得你"不够真诚"</li>
+                            </ul>
+                            <p><strong>💌 给你的话：</strong></p>
+                            <p>你的谨慎不是缺陷，是经验。但也要记得，有时候冒险才能遇见惊喜。试着偶尔放下防备，真正值得的人不会伤害你。</p>
+                        `;
+                        break;
+                    case 'D':
+                        resultContent.innerHTML = `
+                            <div class="animal-icon">🦋</div>
+                            <h3>蝴蝶系</h3>
+                            <p><strong>关键词：</strong>好奇、探索、生命力</p>
+                            <p>你的精神状态像一只蝴蝶，对世界充满好奇。今天学这个，明天学那个，什么都想试试。你不是三分钟热度，你是生命力的体现。</p>
+                            <p>别人深耕一个领域，你广泛涉猎。别人追求稳定，你追求新鲜。这不是浮躁，这是一种天赋——你知道世界很大，要趁年轻多看看。</p>
+                            <p><strong>✨ 你的超能力：</strong></p>
+                            <ul>
+                                <li>学习能力强，上手快</li>
+                                <li>人脉广，朋友多</li>
+                                <li>总能发现新机会</li>
+                            </ul>
+                            <p><strong>💭 小心：</strong></p>
+                            <ul>
+                                <li>容易分心，难以专注</li>
+                                <li>有时候会感到迷茫，不知道方向</li>
+                                <li>别人会觉得你"不踏实"</li>
+                            </ul>
+                            <p><strong>💌 给你的话：</strong></p>
+                            <p>你的好奇不是缺点，是动力。但也要记得，找到 1-2 个真正热爱的事情，深耕下去。广度很重要，但深度才能让你真正满足。</p>
+                        `;
+                        break;
+                }
+            }
+            
+            // 显示结果，隐藏表单
+            document.getElementById('test-form').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
