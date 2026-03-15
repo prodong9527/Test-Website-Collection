@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>塔罗潜意识测试：未来一个月，你与TA的缘分指引</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            min-height: 100vh;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 0 10px 20px 0;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .back-link:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        .option input {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .result h3 {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #3498db;
+        }
+        .result p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 15px 0;
+            color: #555;
+        }
+        .result strong {
+            color: #2c3e50;
+        }
+        .result ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            padding-left: 20px;
+        }
+        .result li {
+            margin: 10px 0;
+            color: #555;
+        }
+        .result-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .tarot-icon {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <a href="index.html" class="back-link">返回总目录</a>
+        </div>
+        <h1>塔罗潜意识测试：未来一个月，你与TA的缘分指引</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">这是一套为你精心设计的塔罗潜意识投射测试题，跟随直觉选择在脑海中最先浮现的画面。</p>
+        <form id="test-form">
+            <div class="question">
+                <h3>1. 闭上眼，你发现自己推开了一扇光之门，眼前的地貌是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" value="A" required>
+                        A. 一望无际、微风拂过的广阔平原
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="B">
+                        B. 水波粼粼、不知流向何方的蜿蜒河流
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="C">
+                        C. 云雾缭绕、宁静而庄严的高耸山脉
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="D">
+                        D. 光影斑驳、充满神秘气息的幽静森林
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>2. 这时，一只动物向你走来，似乎要为你引路。它是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" value="A" required>
+                        A. 一只眼神坚定、步伐轻盈的银狼
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="B">
+                        B. 一只目光深邃、栖息在枝头的夜枭
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="C">
+                        C. 一只头顶繁花、温和优雅的白鹿
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="D">
+                        D. 一只尾巴蓬松、充满好奇的赤狐
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>3. 你跟着它走了一段路，此时天空的景象是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" value="A" required>
+                        A. 破晓时分，晨星刚刚隐没
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="B">
+                        B. 正午时分，阳光穿透云层
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="C">
+                        C. 逢魔时刻，晚霞如绚烂的油画
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="D">
+                        D. 午夜时分，繁星与极光交织
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>4. 在路边，你发现了一个被人遗落的物件，直觉告诉你它是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" value="A" required>
+                        A. 一把带有黄铜光泽的旧钥匙
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="B">
+                        B. 一枚刻着古老图腾的银币
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="C">
+                        C. 一根散发着微光的飞鸟羽毛
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="D">
+                        D. 一块冰冷但澄澈的水晶原石
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>5. 突然，周围的天气发生了微妙的变化：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" value="A" required>
+                        A. 下起了淅淅沥沥的温柔小雨
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="B">
+                        B. 吹来了一阵带着暖意的微风
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="C">
+                        C. 飘落了几片晶莹剔透的雪花
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="D">
+                        D. 浓云散开，落下一束明亮的光
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>6. 你继续前行，看到远处有一团光芒。那团光的颜色是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" value="A" required>
+                        A. 温暖耀眼的灿金色
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="B">
+                        B. 温润静谧的珍珠银
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="C">
+                        C. 生机勃勃的祖母绿
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="D">
+                        D. 深邃迷人的蓝宝石色
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>7. 随着你的靠近，空气中飘来一种气味：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" value="A" required>
+                        A. 雨后泥土与青草的清新
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="B">
+                        B. 燃烧的松木传来的安稳香气
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="C">
+                        C. 海水与微风带来的微咸气息
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="D">
+                        D. 淡淡的、带点甜味的香草味
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>8. 在光芒中，你听见了一种声音：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" value="A" required>
+                        A. 风铃被吹动的清脆声
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="B">
+                        B. 沉稳而有节奏的心跳声
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="C">
+                        C. 泉水涌出石缝的潺潺声
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="D">
+                        D. 木柴在火中燃烧的噼啪声
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>9. 光芒散去，出现了一扇紧闭的门。门把手的材质是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q9" value="A" required>
+                        A. 缠绕着藤蔓的粗糙木头
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="B">
+                        B. 带着岁月痕迹的生铁
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="C">
+                        C. 折射着彩虹光的玻璃
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="D">
+                        D. 雕刻着玫瑰纹路的纯铜
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>10. 推开门，里面是一个奇幻的庭院。庭院正中央是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q10" value="A" required>
+                        A. 一座流淌着发光液体的喷泉
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="B">
+                        B. 一个爬满青苔的古老日晷
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="C">
+                        C. 一棵需要十人合抱的参天巨树
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="D">
+                        D. 一丛正在盛放的奇异玫瑰
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>11. 庭院里的石桌上放着一杯茶，你端起来喝了一口，味道是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q11" value="A" required>
+                        A. 清凉提神的薄荷
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="B">
+                        B. 安定舒缓的洋甘菊
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="C">
+                        C. 醇厚回甘的红茶
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="D">
+                        D. 酸甜交织的果茶
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>12. 一只蝴蝶停在了你的肩膀上，它翅膀上的图案是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q12" value="A" required>
+                        A. 细碎的星辰斑点
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="B">
+                        B. 像神秘眼睛一样的圆圈
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="C">
+                        C. 规则的几何线条
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="D">
+                        D. 没有任何杂色的纯白
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>13. 石桌上还有一本没有名字的书，它的封面是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q13" value="A" required>
+                        A. 柔软细腻的天鹅绒
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="B">
+                        B. 带有划痕的厚重皮革
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="C">
+                        C. 散发着草木香的羊皮纸
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="D">
+                        D. 冰冷光滑的金属
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>14. 翻开书，映入眼帘的第一个词是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q14" value="A" required>
+                        A. 瞬间 (Moment)
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="B">
+                        B. 永恒 (Eternity)
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="C">
+                        C. 旅途 (Journey)
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="D">
+                        D. 宿命 (Destiny)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>15. 书里夹着一件微型的魔法物品，它是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q15" value="A" required>
+                        A. 一根精致的魔杖
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="B">
+                        B. 一面小巧的盾牌
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="C">
+                        C. 一个永远指着前方的指南针
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="D">
+                        D. 一盏里面装着星光的提灯
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>16. 抬头看向庭院上空的星象，星星连成了一个形状：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q16" value="A" required>
+                        A. 一把高举的宝剑
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" value="B">
+                        B. 一个满溢的圣杯
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" value="C">
+                        C. 一顶闪耀的王冠
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" value="D">
+                        D. 一枚古老的金币
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>17. 庭院角落有一口许愿井，你决定扔一样东西进去：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q17" value="A" required>
+                        A. 一滴自己的眼泪
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" value="B">
+                        B. 口袋里的一枚硬币
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" value="C">
+                        C. 刚刚捡到的一片落叶
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" value="D">
+                        D. 一张写着秘密的字条
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>18. 井底传来了一阵回声，这回声让你感到：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q18" value="A" required>
+                        A. 一种久违的怀念
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" value="B">
+                        B. 充满力量的振奋
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" value="C">
+                        C. 前所未有的平静
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" value="D">
+                        D. 想要探索的神秘感
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>19. 井水如镜子般倒映出画面。你在水里看到的不是自己，而是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q19" value="A" required>
+                        A. 一团正在燃烧的熊熊烈火
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" value="B">
+                        B. 一片无边无际的宁静海洋
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" value="C">
+                        C. 一阵吹散迷雾的狂风
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" value="D">
+                        D. 一块坚不可摧的大地
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>20. 梦境即将结束，当你睁开现实中的双眼时，手心里残留的感觉是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q20" value="A" required>
+                        A. 令人安心的余温
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q20" value="B">
+                        B. 一丝清醒的微凉
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q20" value="C">
+                        C. 一下轻柔的脉动
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q20" value="D">
+                        D. 一阵掠过的微风
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">提交测试</button>
+        </form>
+        
+        <div id="result" class="result" style="display: none;">
+            <h2>测试结果</h2>
+            <div id="result-content" class="result-content"></div>
+            <div style="margin-top: 30px;">
+                <a href="index.html" class="back-link">返回测试目录</a>
+                <a href="test2.html" class="back-link">重新测试</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 统计各选项的数量
+            const counts = { A: 0, B: 0, C: 0, D: 0 };
+            for (let i = 1; i <= 20; i++) {
+                const radio = document.querySelector(`input[name="q${i}"]:checked`);
+                if (radio) {
+                    counts[radio.value]++;
+                }
+            }
+            
+            // 找出最多的选项
+            let maxCount = 0;
+            let maxOption = '';
+            let isUniform = true;
+            
+            for (const [option, count] of Object.entries(counts)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxOption = option;
+                    isUniform = false;
+                } else if (count === maxCount && maxOption) {
+                    isUniform = true;
+                }
+            }
+            
+            // 显示结果
+            const resultContent = document.getElementById('result-content');
+            switch (maxOption) {
+                case 'A':
+                    resultContent.innerHTML = `
+                        <div class="tarot-icon">🔮</div>
+                        <h3>太阳与战车</h3>
+                        <p><strong>关系走向预测：</strong>破冰升温，行动力至上的一个月</p>
+                        <p>在未来的一个月里，你们的关系将迎来如同“平原上的晨日”般明朗的转折。潜意识测试中你对光芒、火焰和直接力量（如宝剑、魔杖、狼）的偏好，暗示了你们之间的能量场正在快速活跃。</p>
+                        <p><strong>互动特征：</strong>之前模糊不清的边界感会被打破，你们会有更直接的交流。可能会有一次充满激情的对话，或者一次突如其来的邀约。对方在你面前会展现出更真实、甚至有些孩子气的一面。</p>
+                        <p><strong>潜在阻碍：</strong>进展太快可能会带来偶尔的摩擦，或者因为某方过于直率而产生短暂的误会。</p>
+                        <p><strong>疗愈建议：</strong>不要去猜忌那些直白的表达，打直球是这个月对你们最有效的沟通方式。享受这种明媚的互动，你的坦诚就是最强的魔法。</p>
+                    `;
+                    break;
+                case 'B':
+                    resultContent.innerHTML = `
+                        <div class="tarot-icon">🔮</div>
+                        <h3>女祭司与月亮</h3>
+                        <p><strong>关系走向预测：</strong>灵魂共振，情绪暗流涌动的一个月</p>
+                        <p>未来一个月，你们的关系不会是轰轰烈烈的烈火，而是如同“蜿蜒的河流”般向潜意识深处流淌。你选择了许多关于水、夜晚、直觉与神秘的意象（如夜枭、海洋、圣杯），这意味着你们正在建立一种隐秘的精神连结。</p>
+                        <p><strong>互动特征：</strong>你们可能会在深夜有深刻的交心，或者在某些艺术、音乐、潜意识的话题上产生强烈的共鸣。表面上看起来风平浪静，但彼此的心里都在经历着复杂的情感发酵。你们能敏锐地察觉到对方的情绪变化。</p>
+                        <p><strong>潜在阻碍：</strong>月亮的能量容易带来患得患失和过度解读。你可能会因为对方的一个小动作而脑补出一场大戏。</p>
+                        <p><strong>疗愈建议：</strong>允许关系暂时处于“未定义”的阶段。在这个月里，懂比爱更重要。相信你的直觉，但不被恐惧裹挟，给他/她一点消化内心情感的时间。</p>
+                    `;
+                    break;
+                case 'C':
+                    resultContent.innerHTML = `
+                        <div class="tarot-icon">🔮</div>
+                        <h3>节制与星币骑士</h3>
+                        <p><strong>关系走向预测：</strong>缓慢生长，建立坚实信任的一个月</p>
+                        <p>未来的一个月，关系的发展是充满疗愈感与踏实感的。你选择了山脉、白鹿、巨树与大地等极具稳定性与生长性的元素，这在塔罗牌中象征着土元素与炼金术的融合过程。</p>
+                        <p><strong>互动特征：</strong>你们的相处会非常舒服、自然，甚至带有一种“老夫老妻”般的默契。这个月不会有太多刺激的戏剧性冲突，更多的是互相陪伴、在生活细节上的互相照应。你们会成为彼此在疲惫生活里的避风港。</p>
+                        <p><strong>潜在阻碍：</strong>可能会觉得关系过于平淡，缺乏激情的火花，导致你怀疑对方是不是只把你当“好朋友”。</p>
+                        <p><strong>疗愈建议：</strong>巨树的生长是无声的。不要急于在这个月要一个轰轰烈烈的承诺，安全感的建立比一时的浪漫更珍贵。可以尝试一起做一些手工、烹饪等接地气的事情，稳固这段缘分。</p>
+                    `;
+                    break;
+                case 'D':
+                    resultContent.innerHTML = `
+                        <div class="tarot-icon">🔮</div>
+                        <h3>命运之轮与愚者</h3>
+                        <p><strong>关系走向预测：</strong>奇遇连连，充满惊喜与变数的一个月</p>
+                        <p>未来一个月，你们的关系将被“命运的推手”介入。你对森林、赤狐、星辰斑点与风等元素的偏好，暗示了强烈的风元素与不可预测性。这将是一段轻盈、解压且充满奇遇的时光。</p>
+                        <p><strong>互动特征：</strong>可能会有很多“巧合”发生：意外的相遇、默契的同步、或者因为某个突发事件让你们的距离瞬间拉近。关系中充满了试探、玩笑和轻松的氛围，像是一场有趣的捉迷藏。</p>
+                        <p><strong>潜在阻碍：</strong>愚者的能量过于自由，可能会让你觉得对方难以掌控，像一阵风一样抓不住，关系走向随时在变。</p>
+                        <p><strong>疗愈建议：</strong>放下你心中的“关系进度条”和各种预设的剧本！在这个月里，把谈恋爱当成一场游戏去体验。保持你的好奇心和幽默感，不要去定义结局，享受当下的快乐，好运自然会降临。</p>
+                    `;
+                    break;
+                default:
+                    resultContent.innerHTML = `
+                        <div class="tarot-icon">🔮</div>
+                        <h3>综合解读</h3>
+                        <p>你的选择比较均衡，综合了多种能量。建议参考多个结果的解读，找到最符合你当前状态的部分。</p>
+                    `;
+                    break;
+            }
+            
+            // 显示结果，隐藏表单
+            document.getElementById('test-form').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
