@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>塔罗真爱预测测试：你的真爱会在什么时候出现？</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            min-height: 100vh;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 0 10px 20px 0;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .back-link:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        .option input {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result h2 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .result h3 {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #3498db;
+        }
+        .result p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 15px 0;
+            color: #555;
+        }
+        .result strong {
+            color: #2c3e50;
+        }
+        .result ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            padding-left: 20px;
+        }
+        .result li {
+            margin: 10px 0;
+            color: #555;
+        }
+        .result-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .tarot-icon {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <a href="index.html" class="back-link">返回总目录</a>
+        </div>
+        <h1>塔罗真爱预测测试：你的真爱会在什么时候出现？</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">这 20 道题会带你进入潜意识的深处，看看宇宙为你准备了什么样的爱情剧本。</p>
+        <form id="test-form">
+            <div class="question">
+                <h3>第 1 题：深夜失眠时，你更倾向于：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" value="A" required>
+                        A. 看一部老电影，沉浸在别人的故事里
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="B">
+                        B. 翻手机相册，回忆过去的美好
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="C">
+                        C. 写日记，梳理自己的情绪
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="D">
+                        D. 听纯音乐，什么都不想
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 2 题：如果可以去任何一个地方旅行，你会选：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" value="A" required>
+                        A. 海边小镇，听海浪声
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="B">
+                        B. 古老城堡，感受历史
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="C">
+                        C. 热带雨林，探索未知
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="D">
+                        D. 雪山之巅，看日出
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 3 题：朋友聚会时，你通常是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" value="A" required>
+                        A. 安静倾听，偶尔发表看法
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="B">
+                        B. 活跃气氛，讲笑话
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="C">
+                        C. 观察每个人，分析关系
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="D">
+                        D. 和熟悉的人深度聊天
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 4 题：看到一朵形状奇特的云，你会想：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" value="A" required>
+                        A. 它像一只动物
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="B">
+                        B. 它像某个熟悉的人
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="C">
+                        C. 它在预示什么
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="D">
+                        D. 它只是云而已，很美
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 5 题：收到一份包装精美的礼物，你首先注意：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" value="A" required>
+                        A. 包装纸的颜色
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="B">
+                        B. 丝带的系法
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="C">
+                        C. 卡片上的字
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="D">
+                        D. 礼物的重量
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 6 题：下雨天，你更喜欢：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" value="A" required>
+                        A. 待在室内，煮一杯热茶
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="B">
+                        B. 撑伞漫步，感受雨声
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="C">
+                        C. 看窗外的雨滴
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="D">
+                        D. 计划雨后的活动
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 7 题：梦中经常出现：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" value="A" required>
+                        A. 飞翔的感觉
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="B">
+                        B. 被追赶的焦虑
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="C">
+                        C. 回到童年的场景
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="D">
+                        D. 见到已故的亲人
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 8 题：选择餐厅时，你看重：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" value="A" required>
+                        A. 环境氛围
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="B">
+                        B. 菜品口碑
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="C">
+                        C. 价格性价比
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="D">
+                        D. 距离远近
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 9 题：听到一首老歌，你会：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q9" value="A" required>
+                        A. 立刻想起某个人
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="B">
+                        B. 想起某个时间段
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="C">
+                        C. 想起某个地方
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="D">
+                        D. 只是觉得好听
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 10 题：镜子里的自己，你觉得：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q10" value="A" required>
+                        A. 比实际好看
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="B">
+                        B. 比实际难看
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="C">
+                        C. 和实际一样
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="D">
+                        D. 每天都在变化
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 11 题：最喜欢的季节是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q11" value="A" required>
+                        A. 春天，万物复苏
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="B">
+                        B. 夏天，热情奔放
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="C">
+                        C. 秋天，宁静致远
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="D">
+                        D. 冬天，纯净安静
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 12 题：遇到挫折时，你会：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q12" value="A" required>
+                        A. 找人倾诉
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="B">
+                        B. 独自消化
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="C">
+                        C. 转移注意力
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q12" value="D">
+                        D. 立刻找解决方法
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 13 题：看到别人情侣秀恩爱，你会：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q13" value="A" required>
+                        A. 默默祝福
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="B">
+                        B. 有点羡慕
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="C">
+                        C. 觉得肉麻
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q13" value="D">
+                        D. 想起自己的期待
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 14 题：最珍贵的物品是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q14" value="A" required>
+                        A. 家人送的礼物
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="B">
+                        B. 自己努力获得的
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="C">
+                        C. 有特殊意义的
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q14" value="D">
+                        D. 陪伴时间最长的
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 15 题：理想中的约会地点：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q15" value="A" required>
+                        A. 浪漫的餐厅
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="B">
+                        B. 安静的咖啡馆
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="C">
+                        C. 户外自然风景
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q15" value="D">
+                        D. 有趣的活动场所
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 16 题：对"一见钟情"的看法：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q16" value="A" required>
+                        A. 相信，而且很美好
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" value="B">
+                        B. 怀疑，需要时间验证
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" value="C">
+                        C. 不相信，都是冲动
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q16" value="D">
+                        D. 无所谓，看情况
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 17 题：睡前最后一个念头通常是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q17" value="A" required>
+                        A. 明天的计划
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" value="B">
+                        B. 今天的回顾
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" value="C">
+                        C. 某个人的身影
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q17" value="D">
+                        D. 完全放空
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 18 题：收到暗恋对象的消息，你会：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q18" value="A" required>
+                        A. 立刻回复
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" value="B">
+                        B. 想很久再回
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" value="C">
+                        C. 装作不在意
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q18" value="D">
+                        D. 反复看很多遍
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 19 题：爱情中你最看重：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q19" value="A" required>
+                        A. 理解和包容
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" value="B">
+                        B. 激情和浪漫
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" value="C">
+                        C. 稳定和安全
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q19" value="D">
+                        D. 成长和陪伴
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>第 20 题：如果塔罗牌告诉你真爱将至，你会：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q20" value="A" required>
+                        A. 相信并期待
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q20" value="B">
+                        B. 半信半疑
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q20" value="C">
+                        C. 等待验证
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q20" value="D">
+                        D. 做好心理准备
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">提交测试</button>
+        </form>
+        
+        <div id="result" class="result" style="display: none;">
+            <h2>测试结果</h2>
+            <div id="result-content" class="result-content"></div>
+            <div style="margin-top: 30px;">
+                <a href="index.html" class="back-link">返回测试目录</a>
+                <a href="test3.html" class="back-link">重新测试</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 统计各选项的数量
+            const counts = { A: 0, B: 0, C: 0, D: 0 };
+            for (let i = 1; i <= 20; i++) {
+                const radio = document.querySelector(`input[name="q${i}"]:checked`);
+                if (radio) {
+                    counts[radio.value]++;
+                }
+            }
+            
+            // 找出最多的选项
+            let maxCount = 0;
+            let maxOption = '';
+            let isUniform = true;
+            
+            for (const [option, count] of Object.entries(counts)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxOption = option;
+                    isUniform = false;
+                } else if (count === maxCount && maxOption) {
+                    isUniform = true;
+                }
+            }
+            
+            // 显示结果
+            const resultContent = document.getElementById('result-content');
+            if (isUniform) {
+                // 如果选项平均，以A或B为主
+                resultContent.innerHTML = `
+                    <div class="tarot-icon">🔮</div>
+                    <h3>综合解读</h3>
+                    <p>你的选择比较均衡，建议参考A或B的解读，找到最符合你当前状态的部分。</p>
+                `;
+            } else {
+                switch (maxOption) {
+                    case 'A':
+                        resultContent.innerHTML = `
+                            <div class="tarot-icon">🔮</div>
+                            <h3>3个月内，TA已在你身边</h3>
+                            <p>你不是孤单一人，塔罗显示你的真爱可能已经出现在生活中了！</p>
+                            <p><strong>未来预测：</strong></p>
+                            <ul>
+                                <li>时间线：未来 1-3 个月内，你们的关系会有质的突破</li>
+                                <li>相遇场景：很可能是你熟悉的环境（公司、朋友聚会、常去的店）</li>
+                                <li>对方特征：温和内敛，可能已经认识但没往那方面想</li>
+                            </ul>
+                            <p><strong>对方心意分析：</strong></p>
+                            <p>TA 其实早就注意到你了，只是也在犹豫。你们之间有某种默契，但都缺少一个"开始"的勇气。</p>
+                            <p><strong>具体建议：</strong></p>
+                            <ul>
+                                <li>多参加朋友组织的活动，不要总宅家</li>
+                                <li>对身边那个"普通朋友"多留意，TA 可能一直在等你主动</li>
+                                <li>学会释放一些信号，不要太被动</li>
+                            </ul>
+                            <p>你不是没人爱，星盘显示你只是需要一点勇气去发现。</p>
+                        `;
+                        break;
+                    case 'B':
+                        resultContent.innerHTML = `
+                            <div class="tarot-icon">🔮</div>
+                            <h3>6个月后，远方来的人</h3>
+                            <p>你不是运气不好，塔罗显示你的真爱还在路上，但已经在向你靠近！</p>
+                            <p><strong>未来预测：</strong></p>
+                            <ul>
+                                <li>时间线：未来 4-6 个月，一次偶然的相遇会改变一切</li>
+                                <li>相遇场景：旅行、出差、或者网络社群</li>
+                                <li>对方特征：来自不同的城市/背景，思想独立，有故事</li>
+                            </ul>
+                            <p><strong>对方心意分析：</strong></p>
+                            <p>TA 也在寻找灵魂伴侣，你们的相遇会是"终于找到你"的感觉。距离不会成为问题，因为心灵相通。</p>
+                            <p><strong>具体建议：</strong></p>
+                            <ul>
+                                <li>不要拒绝出差或旅行机会</li>
+                                <li>多参与线上兴趣社群</li>
+                                <li>保持开放的心态，不要设限</li>
+                            </ul>
+                            <p>你不是被遗忘，塔罗显示你只是在等一个"对的人"，而不是"早的人"。</p>
+                        `;
+                        break;
+                    case 'C':
+                        resultContent.innerHTML = `
+                            <div class="tarot-icon">🔮</div>
+                            <h3>1年内，命中注定的重逢</h3>
+                            <p>你不是遇不到真爱，塔罗显示你和 TA 可能曾经有过交集！</p>
+                            <p><strong>未来预测：</strong></p>
+                            <ul>
+                                <li>时间线：未来 6-12 个月，一个"老熟人"会重新出现</li>
+                                <li>相遇场景：同学聚会、行业活动、或者偶然的重逢</li>
+                                <li>对方特征：可能是前任、旧同学、或者曾经错过的人</li>
+                            </ul>
+                            <p><strong>对方心意分析：</strong></p>
+                            <p>你们之间有过未完成的故事。这次重逢，两人都已经成长，不会再重蹈覆辙。</p>
+                            <p><strong>具体建议：</strong></p>
+                            <ul>
+                                <li>不要抗拒过去的联系</li>
+                                <li>给彼此一个重新开始的机会</li>
+                                <li>学会放下过去的包袱</li>
+                            </ul>
+                            <p>你不是没有缘分，塔罗显示你们只是在等一个"更好的时机"。</p>
+                        `;
+                        break;
+                    case 'D':
+                        resultContent.innerHTML = `
+                            <div class="tarot-icon">🔮</div>
+                            <h3>1-2年，自我成长后的遇见</h3>
+                            <p>你不是注定孤独，塔罗显示你需要先遇见更好的自己！</p>
+                            <p><strong>未来预测：</strong></p>
+                            <ul>
+                                <li>时间线：未来 1-2 年，当你完成某个目标后，真爱会出现</li>
+                                <li>相遇场景：学习、工作、或者追求爱好的过程中</li>
+                                <li>对方特征：欣赏你的才华和独立，被你的光芒吸引</li>
+                            </ul>
+                            <p><strong>对方心意分析：</strong></p>
+                            <p>TA 会被你的成长和自信吸引。这不是等待，而是"吸引"。当你成为更好的自己，对的人自然会被你吸引。</p>
+                            <p><strong>具体建议：</strong></p>
+                            <ul>
+                                <li>专注于个人成长，不要为了恋爱而恋爱</li>
+                                <li>发展自己的兴趣爱好，扩大社交圈</li>
+                                <li>学会享受单身，这会让你更有魅力</li>
+                            </ul>
+                            <p>你不是不够好，塔罗显示你只是在准备成为"更好的版本"，值得更好的爱。</p>
+                        `;
+                        break;
+                }
+            }
+            
+            // 显示结果，隐藏表单
+            document.getElementById('test-form').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
