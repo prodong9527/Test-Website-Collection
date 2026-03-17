@@ -26,17 +26,36 @@
             display: inline-block;
             margin: 0 10px 20px 0;
             padding: 12px 24px;
-            background-color: #3498db;
+            background-color: #8B0000;
             color: white;
             text-decoration: none;
             border-radius: 25px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         .back-link:hover {
-            background-color: #2980b9;
+            background-color: #A52A2A;
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 12px rgba(255, 68, 68, 0.3);
+        }
+        .prev-btn {
+            display: inline-block;
+            margin: 20px 10px 0 0;
+            padding: 12px 24px;
+            background-color: #660000;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .prev-btn:hover {
+            background-color: #8B0000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 68, 68, 0.3);
         }
         h1 {
             text-align: center;
@@ -163,7 +182,6 @@
             <div id="result-content" class="result"></div>
             <div style="margin-top: 30px; text-align: center;">
                 <a href="test4.html" class="back-link">重新测试</a>
-                <a href="index.html" class="back-link">返回测试目录</a>
             </div>
         </div>
     </div>
@@ -454,8 +472,12 @@
             }
         };
         
+        // 历史记录数组，用于存储答题路径
+        let history = [];
+        
         // 开始测试
         function startTest() {
+            history = [];
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('question-screen').classList.remove('hidden');
             showQuestion('q1');
@@ -475,7 +497,15 @@
                 html += `<div class="option" onclick="selectOption('${option.next}')">${option.text}</div>`;
             });
             
-            html += `</div></div>`;
+            // 添加返回上一题按钮（如果不是第一题）
+            if (history.length > 0) {
+                html += `</div>
+                <button class="prev-btn" onclick="goBack()">返回上一题</button>`;
+            } else {
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
             questionContent.innerHTML = html;
         }
         
@@ -485,8 +515,24 @@
             if (testData.endings[next]) {
                 showResult(next);
             } else {
-                // 否则显示下一题
+                // 记录当前题目到历史
+                history.push(next);
+                // 显示下一题
                 showQuestion(next);
+            }
+        }
+        
+        // 返回上一题
+        function goBack() {
+            if (history.length > 1) {
+                // 移除最后一个记录
+                history.pop();
+                // 显示上一题
+                showQuestion(history[history.length - 1]);
+            } else if (history.length === 1) {
+                // 如果只有一个记录，返回第一题
+                history.pop();
+                showQuestion('q1');
             }
         }
         
