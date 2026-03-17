@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红月降临：你在末世能活多久？</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 0 10px 20px 0;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .back-link:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        h1 {
+            text-align: center;
+            color: #ff4444;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .start-screen {
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+        }
+        .warning {
+            color: #ff4444;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px rgba(255, 68, 68, 0.5);
+        }
+        .start-btn {
+            padding: 15px 40px;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+        .start-btn:hover {
+            background-color: #ff0000;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.8);
+        }
+        .question {
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+            margin-bottom: 20px;
+        }
+        .question h2 {
+            color: #ff4444;
+            margin-bottom: 20px;
+        }
+        .options {
+            margin-top: 20px;
+        }
+        .option {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .option:hover {
+            background-color: rgba(255, 68, 68, 0.3);
+            transform: translateX(10px);
+        }
+        .result {
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+            text-align: center;
+        }
+        .result h2 {
+            color: #ff4444;
+            margin-bottom: 20px;
+        }
+        .result h3 {
+            color: #ffffff;
+            margin: 20px 0;
+        }
+        .result p {
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+        .result-icon {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <a href="index.html" class="back-link">返回总目录</a>
+        </div>
+        
+        <!-- 开始页面 -->
+        <div id="start-screen" class="start-screen fade-in">
+            <h1>红月降临：你在末世能活多久？</h1>
+            <div class="warning">
+                ⚠警告：陨石坠落，携带的未知病毒在48小时内席卷全球。文明崩塌，红月升起，秩序荡然无存。<br>
+                命运的轮盘悄然转动。在极度绝境下，你最真实的人格底色将被彻底激发。<br>
+                你会选择成为食物链的哪一环？你将走向灿烂的覆灭，还是在余烬中加冕为王？
+            </div>
+            <button class="start-btn" onclick="startTest()">开始测试</button>
+        </div>
+        
+        <!-- 题目页面 -->
+        <div id="question-screen" class="hidden">
+            <div id="question-content"></div>
+        </div>
+        
+        <!-- 结果页面 -->
+        <div id="result-screen" class="hidden">
+            <div id="result-content" class="result"></div>
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="test4.html" class="back-link">重新测试</a>
+                <a href="index.html" class="back-link">返回测试目录</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 测试数据
+        const testData = {
+            questions: {
+                q1: {
+                    text: "Q1：灾难爆发的第一个夜晚，天空挂着诡异的红月。你的手机还有最后5%的电量，基站即将断联，你会用来做什么？",
+                    options: [
+                        { text: "A. 给最在乎的人发最后一条信息，或者在朋友圈留下遗言。", next: "q2" },
+                        { text: "B. 疯狂下载离线地图、避难所坐标和野外生存指南。", next: "q3" }
+                    ]
+                },
+                q2: {
+                    text: "Q2：几天后，你决定离开危险的城市。你只剩下一个背包的容量，你会优先装满什么？",
+                    options: [
+                        { text: "A. 高热量食物（巧克力、肉罐头）和生命之源净水片。", next: "q4" },
+                        { text: "B. 基础医疗用品（抗生素、绷带）和一把趁手的武器（如开山刀）。", next: "q5" }
+                    ]
+                },
+                q3: {
+                    text: "Q3：你决定苟在家里，把房子打造成堡垒。你找到了两种防御方案，你会选择哪种？",
+                    options: [
+                        { text: "A. 物理防御：用重物死死封住门窗，在走廊设置复杂的致盲/致伤陷阱。", next: "q5" },
+                        { text: "B. 隐蔽防御：打造夹层密室，把大厅伪装成已经被洗劫一空的废墟。", next: "q6" }
+                    ]
+                },
+                q4: {
+                    text: "Q4：在逃亡路上，你遇到一个带着发烧小孩的陌生人，对方跪在地上恳求你分一点水， 你会怎么做？",
+                    options: [
+                        { text: "A. 抱歉，末世里心软活不长，自己的生存最重要，快速离开。", next: "q7" },
+                        { text: "B. 犹豫一下，分给他们一点水，顺便打听一下前面的路况情报。", next: "q8" }
+                    ]
+                },
+                q5: {
+                    text: "Q5：夜晚，你躲在一个废弃加油站里，外面传来了某种变异生物的嘶吼声，而且脚步声越来越近……",
+                    options: [
+                        { text: "A. 找个极其隐蔽的角落（如通风管道）缩进去，屏住呼吸祈祷它离开。", next: "q7" },
+                        { text: "B. 紧握武器，守在视野最好的死角，心跳加速但准备随时拼命。", next: "q9" }
+                    ]
+                },
+                q6: {
+                    text: "Q6：你在家苟活了两个月，但一伙凶残的暴徒还是砸开了你家的大门。",
+                    options: [
+                        { text: "A. 趁他们没发现夹层，从早就准备好的秘密绳索滑窗逃跑。", next: "q9" },
+                        { text: "B. 启动你布置的致命陷阱，大不了和他们同归于尽或极限反杀。", next: "q10" }
+                    ]
+                },
+                q7: {
+                    text: "Q7：你发现了一个庞大的幸存者基地。但进入的条件是：必须上交所有武器，并无条件服从高强度的苦力分配，你会：",
+                    options: [
+                        { text: "A. 妥协进入。太累了，我需要高墙的保护和同类的温度。", next: "a" },
+                        { text: "B. 拒绝进入。宁愿在基地外围的黑市做个法外狂徒，我的命我自己做主。", next: "b" }
+                    ]
+                },
+                q8: {
+                    text: "Q8：那个被你救下的人，竟然是某个神秘武装组织的成员。他为了报恩，邀请你加入他们前往一个物资充沛的\"伊甸园\"。",
+                    options: [
+                        { text: "A. 答应他。反正烂命一条，不如赌个大的！", next: "c" },
+                        { text: "B. 拒绝他。天下没有免费的午餐，末世里除了自己谁也不能信。", next: "d" }
+                    ]
+                },
+                q9: {
+                    text: "Q9：在一次探索中，你意外被困在塌方的地下室，救援无望。手边只有两支药剂：未经验证的变异血清（可能获得异能或变成怪物）和一支安乐死药剂。",
+                    options: [
+                        { text: "A. 绝境中搏一把，注射变异血清！死也要站着死！", next: "e" },
+                        { text: "B. 喝下安乐死药剂。体面地结束这一切，总比饿死或被怪物撕碎好。", next: "f" }
+                    ]
+                },
+                q10: {
+                    text: "Q10：你成功反杀了暴徒，但也受了重伤。此时收音机里传来了遥远军方基地的微弱广播，你会：",
+                    options: [
+                        { text: "A. 拖着重伤的身体，把所有物资装车，孤注一掷前往军方基地寻找希望。", next: "g" },
+                        { text: "B. 留守原地，利用暴徒留下的物资包扎修养，把这里变成自己的领地。", next: "h" }
+                    ]
+                }
+            },
+            endings: {
+                a: {
+                    title: "【结局 A】避难所的齿轮 ⚙",
+                    content: "<p><strong>存活时间：30年+（直到寿终正寝）</strong></p><p>你的末世人设：适应力极强的现实主义者。你明白在末世中\"英雄\"总是死得最早。你懂得妥协，擅长在规则中寻找生存空间。虽然失去了绝对的自由，但你拥有了末世里最奢侈的东西——安稳的睡眠。</p><p><strong>组队建议：</strong>适合寻找【结局H（铁血领主）】作为你的同盟。他们能为你提供坚不可摧的物理庇护，而你细致入微的后勤管理和对规则的绝对适应力，正是维持他们营地运转不可或缺的基石。你们是各取所需、最为稳固的生存搭档。</p>"
+                },
+                b: {
+                    title: "【结局 B】废土黑市游侠 🦅",
+                    content: "<p><strong>存活时间：5年</strong></p><p>你的末世人设：向往自由的孤狼。你不信任任何体制，嗅觉敏锐，擅长在危险边缘反复横跳。你游走在灰色地带，倒卖物资，收集情报。你的一生短暂但极其精彩，最终可能死于一次黑吃黑的火拼。</p><p><strong>组队建议：</strong>最适合与【结局D（理智独狼）】结成限时小队。你拥有绝佳的情报网和惊人的直觉，而他们拥有无死角的精密计划与执行力。你们的结合能将风险降到最低，即使在废土的刀尖上也能优雅起舞。</p>"
+                },
+                c: {
+                    title: "【结局 C】新世界的拓荒者 🌍",
+                    content: "<p><strong>存活时间：???（未知）</strong></p><p>你的末世人设：极具赌徒精神的冒险家。你的同情心和冒险精神在末世是一把双刃剑，这次为你赢来了一张通往新世界的船票。你可能会成为新文明的建立者，也可能在前往伊甸园的路上成为实验品。未来由你书写。</p><p><strong>组队建议：</strong>你的目光在远方，但脚下需要坚实的土地。带上【结局A（避难所齿轮）】或【结局G（追光者）】。前者能帮你打理一切繁杂的生存后勤，后者能在你被未知的恐惧吞噬时，为你点亮前路。</p>"
+                },
+                d: {
+                    title: "【结局 D】绝对理智的独狼 🐺",
+                    content: "<p><strong>存活时间：10年</strong></p><p>你的末世人设：谨慎到令人发指的生存大师。你的每一步都经过精密计算，绝对不占便宜，也绝对不冒风险。你有着极强的动手能力和反侦察能力，末世对你来说不过是换了一个硬核的独居环境。</p><p><strong>组队建议：</strong>你习惯了独来独往，因为信任在末世是稀缺品。如果一定要并肩作战，只有【结局B（黑市游侠）】的敏锐能让你觉得有价值。你们不需要时刻黏在一起，背靠背的默契才是你最舒服的距离。</p>"
+                },
+                e: {
+                    title: "【结局 E】疯狂的进化者/畸变体 🧬",
+                    content: "<p><strong>存活时间：永生 / 或 3天</strong></p><p>你的末世人设：不疯魔不成活的极端派。在你的字典里没有\"等死\"两个字。你骨子里有种毁灭倾向和对力量的极度渴望。如果你运气好，你会成为末世新人类的统帅；如果你运气差，你就是新手村外的那个精英怪。</p><p><strong>组队建议：</strong>强大的力量往往伴随着失控的深渊。你需要【结局F（末日体面人）】留在你身边。当你在无尽的杀戮或异变中即将迷失自我时，他们身上那份纯粹的人性底色，是你锚定灵魂、不至于完全堕落为怪物的唯一缰绳。</p>"
+                },
+                f: {
+                    title: "【结局 F】末日的体面人 🥀",
+                    content: "<p><strong>存活时间：3个月</strong></p><p>你的末世人设：精神洁癖者。你不怕死，但你害怕失去尊严和人性。面对为了半块面包就互相残杀的世界，你感到的不是恐惧，而是深深的厌恶。你在这个肮脏的废土上，保持了人类最后的体面和高贵。</p><p><strong>组队建议：</strong>你的精神纯度在废土中极其罕见，你是这片焦土上的人性微光。你适合与【结局E（进化者）】或【结局G（追光者）】同行。前者会被你的纯粹吸引，甘当利刃，后者则懂得你的坚守，愿意与你一同守护最后的净土。</p>"
+                },
+                g: {
+                    title: "【结局 G】黎明前的追光者 🌅",
+                    content: "<p><strong>存活时间：1年</strong></p><p>你的末世人设：永远怀抱希望的理想主义战士。无论遭遇多大的创伤，你眼里的光永远不会熄灭。你像一个殉道者一样追寻着人类复兴的火种，你的故事最终会成为其他幸存者口口相传的废土传说。</p><p><strong>组队建议：</strong>你天生带有让人信服的领袖光环，能将一盘散沙凝聚成燎原之火。你最需要【结局D（理智独狼）】来补足你有时过于理想化的决策漏洞，用他们冰冷的计算为你保驾护航，让你的那束光能照得更远。</p>"
+                },
+                h: {
+                    title: "【结局 H】废墟上的铁血领主 👑",
+                    content: "<p><strong>存活时间：15年</strong></p><p>你的末世人设：杀伐果断的战术大师。你有着极强的领地意识和报复心理。犯我者必诛之，你用敌人的恐惧建立了绝对的威慑力。你不仅能活下来，还能在废墟上建立起属于自己的小王国，成为一方霸主。</p><p><strong>组队建议：</strong>你的王座需要坚固的城墙，也需要向外延伸的触角。寻找【结局B（黑市游侠）】作为你的眼睛，去收集荒野的稀缺物资；同时，你也需要【结局A（避难所齿轮）】来建立内部秩序。你们的结合，将真正缔造废土上的新帝国。</p>"
+                }
+            }
+        };
+        
+        // 开始测试
+        function startTest() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion('q1');
+        }
+        
+        // 显示题目
+        function showQuestion(questionId) {
+            const question = testData.questions[questionId];
+            if (!question) return;
+            
+            const questionContent = document.getElementById('question-content');
+            let html = `<div class="question fade-in">
+                <h2>${question.text}</h2>
+                <div class="options">`;
+            
+            question.options.forEach(option => {
+                html += `<div class="option" onclick="selectOption('${option.next}')">${option.text}</div>`;
+            });
+            
+            html += `</div></div>`;
+            questionContent.innerHTML = html;
+        }
+        
+        // 选择选项
+        function selectOption(next) {
+            // 检查是否是结局
+            if (testData.endings[next]) {
+                showResult(next);
+            } else {
+                // 否则显示下一题
+                showQuestion(next);
+            }
+        }
+        
+        // 显示结果
+        function showResult(endingId) {
+            const ending = testData.endings[endingId];
+            if (!ending) return;
+            
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const resultContent = document.getElementById('result-content');
+            resultContent.innerHTML = `
+                <h2>${ending.title}</h2>
+                <div class="result-content">${ending.content}</div>
+            `;
+        }
+    </script>
+</body>
+</html>
