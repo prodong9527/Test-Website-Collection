@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>丧尸围城：末日生存测试</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(180deg, #1a1a0f 0%, #0d0d08 50%, #050505 100%);
+            color: #d4d4aa;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(ellipse at 20% 30%, rgba(100, 140, 60, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(80, 100, 50, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 0 10px 20px 0;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #3d4a2d 0%, #2a3320 100%);
+            color: #a8c89a;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 2px 4px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+            border: 1px solid #4a5a36;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .back-link:hover {
+            background: linear-gradient(135deg, #4a5a36 0%, #3d4a2d 100%);
+            color: #c4e0b4;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 4px 8px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #8b9a6b;
+            font-size: 32px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 
+                0 0 10px rgba(139, 154, 107, 0.5),
+                2px 2px 0 #1a1a0f;
+            font-weight: bold;
+        }
+        .start-screen {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(145deg, #1f2318 0%, #151810 100%);
+            border-radius: 8px;
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.8),
+                inset 0 1px 0 rgba(255,255,255,0.02),
+                inset 0 -1px 0 rgba(0,0,0,0.3);
+            margin: 20px 0;
+            position: relative;
+            border: 1px solid #3a4230;
+        }
+        .start-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #6b7a4b, transparent);
+            opacity: 0.6;
+        }
+        .warning-text {
+            color: #b8c49a;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: biohazard-pulse 2s ease-in-out infinite;
+        }
+        @keyframes biohazard-pulse {
+            0%, 100% { 
+                opacity: 0.7;
+                text-shadow: 0 0 5px rgba(184, 196, 154, 0.3);
+            }
+            50% { 
+                opacity: 1;
+                text-shadow: 0 0 15px rgba(184, 196, 154, 0.6);
+            }
+        }
+        .prologue {
+            color: #9a9a7a;
+            font-size: 15px;
+            line-height: 2;
+            margin-bottom: 30px;
+            text-align: left;
+            padding: 25px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            border: 1px solid #2a2a1f;
+            position: relative;
+        }
+        .prologue::before {
+            content: '►';
+            position: absolute;
+            left: 10px;
+            top: -12px;
+            background: #151810;
+            padding: 0 8px;
+            color: #6b7a4b;
+            font-size: 12px;
+        }
+        .prologue p {
+            margin: 12px 0;
+        }
+        .prologue strong {
+            color: #a8c89a;
+            font-weight: normal;
+            background: rgba(107, 122, 75, 0.2);
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        .prologue em {
+            color: #c4a87a;
+            font-style: normal;
+            background: rgba(196, 168, 122, 0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .start-btn {
+            padding: 16px 50px;
+            background: linear-gradient(135deg, #4a5a36 0%, #3d4a2d 50%, #2a3320 100%);
+            color: #d4e8c4;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                inset 0 -2px 5px rgba(0,0,0,0.2);
+            border: 1px solid #5a6a42;
+            position: relative;
+            overflow: hidden;
+        }
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        .start-btn:hover::before {
+            left: 100%;
+        }
+        .start-btn:hover {
+            background: linear-gradient(135deg, #5a6a42 0%, #4a5a36 50%, #3d4a2d 100%);
+            color: #e8f5de;
+            transform: scale(1.02);
+            box-shadow: 
+                0 6px 25px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.15),
+                inset 0 -2px 5px rgba(0,0,0,0.3);
+        }
+        .question {
+            padding: 30px;
+            background: linear-gradient(145deg, #1a1c14 0%, #12140e 100%);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2e24;
+            box-shadow: 
+                0 5px 20px rgba(0,0,0,0.6),
+                inset 0 1px 0 rgba(255,255,255,0.02);
+            position: relative;
+        }
+        .question::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, rgba(139, 154, 107, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .question h2 {
+            color: #a8c89a;
+            margin-bottom: 25px;
+            font-size: 18px;
+            line-height: 1.6;
+            font-weight: normal;
+            border-bottom: 1px solid #2a2e24;
+            padding-bottom: 15px;
+        }
+        .options {
+            margin-top: 20px;
+        }
+        .option {
+            margin: 18px 0;
+            padding: 18px 20px;
+            background: linear-gradient(135deg, rgba(42, 46, 36, 0.6) 0%, rgba(30, 33, 25, 0.8) 100%);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .option::before {
+            content: '▸';
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5a6a42;
+            opacity: 0;
+            transition: all 0.25s ease;
+        }
+        .option:hover {
+            background: linear-gradient(135deg, rgba(74, 90, 54, 0.7) 0%, rgba(58, 70, 42, 0.9) 100%);
+            transform: translateX(8px);
+            border-color: #5a6a42;
+            box-shadow: 
+                0 3px 15px rgba(0,0,0,0.4),
+                inset 0 0 20px rgba(107, 122, 75, 0.1);
+        }
+        .option:hover::before {
+            opacity: 1;
+            left: 12px;
+        }
+        .option:active {
+            transform: translateX(8px) scale(0.98);
+        }
+        .prev-btn {
+            display: inline-block;
+            margin: 25px 10px 0 0;
+            padding: 12px 24px;
+            background: rgba(30, 33, 25, 0.8);
+            color: #8a9a7a;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            border: 1px solid #3a3e30;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .prev-btn:hover {
+            background: rgba(50, 54, 44, 0.9);
+            color: #a8b88a;
+            border-color: #4a4e40;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .result {
+            padding: 40px;
+            background: linear-gradient(145deg, #1a1c14 0%, #0f100c 100%);
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #3a4230;
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.8),
+                inset 0 1px 0 rgba(255,255,255,0.02);
+            position: relative;
+        }
+        .result::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(107, 122, 75, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: 8px;
+        }
+        .result h2 {
+            color: #8b9a6b;
+            margin-bottom: 25px;
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(139, 154, 107, 0.4);
+        }
+        .result h3 {
+            color: #a8c89a;
+            margin: 25px 0;
+            font-size: 20px;
+            font-weight: normal;
+            background: rgba(107, 122, 75, 0.15);
+            padding: 15px 20px;
+            border-radius: 6px;
+            border: 1px solid #4a5a36;
+        }
+        .result p {
+            line-height: 1.9;
+            margin: 18px 0;
+            color: #9a9a7a;
+            font-size: 15px;
+        }
+        .result-icon {
+            font-size: 56px;
+            margin: 25px 0;
+            filter: drop-shadow(0 0 10px rgba(139, 154, 107, 0.5));
+        }
+        .hidden {
+            display: none;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(15px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        .blood-splatter {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.03;
+        }
+        .splatter-1 {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(ellipse, #4a0000 0%, transparent 70%);
+            border-radius: 50% 40% 60% 50%;
+            transform: rotate(-15deg);
+        }
+        .splatter-2 {
+            bottom: 15%;
+            right: 8%;
+            width: 200px;
+            height: 180px;
+            background: radial-gradient(ellipse, #3a0000 0%, transparent 70%);
+            border-radius: 60% 40% 50% 50%;
+            transform: rotate(25deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="blood-splatter splatter-1"></div>
+    <div class="blood-splatter splatter-2"></div>
+    
+    <div class="container">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <a href="index.html" class="back-link">← 返回目录</a>
+        </div>
+        
+        <!-- 开始页面 -->
+        <div id="start-screen" class="start-screen fade-in">
+            <h1>☣ 丧尸围城 ☣</h1>
+            <div class="warning-text">生化危机 · 生存测试</div>
+            <div class="prologue">
+                <p><strong>【前情提要】</strong></p>
+                <p>周一早晨，你本来正向往常一样在工位上工作，怨种老板在办公室里骂骂咧咧，HR在一边瑟瑟发抖。</p>
+                <p>突然，老板发病了——<em>他满嘴是血地趴在工位上啃食HR！</em>整个办公室陷入了混乱，尖叫声此起彼伏。</p>
+                <p>你意识到：这不是演习，<strong>丧尸爆发了。</strong></p>
+                <p>现在，你必须在这座沦陷的大楼里找到逃生的路。你的每一个选择都将决定你的生死存亡...</p>
+            </div>
+            <button class="start-btn" onclick="startTest()">▷ 开始生存测试</button>
+        </div>
+        
+        <!-- 题目页面 -->
+        <div id="question-screen" class="hidden">
+            <div id="question-content"></div>
+        </div>
+        
+        <!-- 结果页面 -->
+        <div id="result-screen" class="hidden">
+            <div id="result-content" class="result"></div>
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="test6.html" class="prev-btn">↻ 重新测试</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let history = [];
+        
+        const testData = {
+            questions: {
+                q1: {
+                    text: "1. 星期一早晨，你的怨种老板突然发狂，正趴在工位上啃食HR。他满嘴是血地转头看向你，你手边只有两样东西，你拿哪个？",
+                    options: [
+                        { text: "A. 沉重的机械键盘", next: "q2" },
+                        { text: "B. 刚泡好的滚烫冰美式（但它确实很烫）", next: "q3" }
+                    ]
+                },
+                q2: {
+                    text: "2. 键盘被你拍断了，你发现老板变异后头骨邦硬，他嗷嗷叫着扑过来了！你决定：",
+                    options: [
+                        { text: "A. 往服务器机房跑，那里的防盗门很厚", next: "q4" },
+                        { text: "B. 顺着保洁阿姨的布草推车，一路滑下楼梯", next: "q5" }
+                    ]
+                },
+                q3: {
+                    text: "3. 热咖啡泼了老板一脸，他居然因为高温痛觉迟钝了一下。趁现在！",
+                    options: [
+                        { text: "A. 打破窗户，顺着空调外机爬下去（这里是二楼）", next: "q6" },
+                        { text: "B. 踩着他的背，百米冲刺向电梯间", next: "q7" }
+                    ]
+                },
+                q4: {
+                    text: "4. 服务器机房冷气开得很足，但里面已经躲着一个平时总抢你业绩的同事。他压低声音让你滚出去，说你身上有血腥味。",
+                    options: [
+                        { text: "A. 物理说服他（揍他），强行抢占机房", next: "q8" },
+                        { text: "B. 不理他，反锁门，自己在机房另一边角落待着", next: "q9" }
+                    ]
+                },
+                q5: {
+                    text: "5. 推车带你一路火花带闪电冲到一楼大堂，大堂里全是游荡的丧尸，但他们还没发现趴在推车里的你。",
+                    options: [
+                        { text: "A. 趁乱悄悄滚进前台下面的柜子", next: "q10" },
+                        { text: "B. 随手抄起大堂发财树的盆栽扔向远处，制造噪音调虎离山", next: "q11" }
+                    ]
+                },
+                q6: {
+                    text: "6. 空调外机老化，你摔在了一条小巷子里。万幸没骨折，旁边停着一辆没拔钥匙的送货小电驴。",
+                    options: [
+                        { text: "A. 骑上电驴就跑，管他去哪", next: "q12" },
+                        { text: "B. 怕电驴跑一半没电，决定去街上找其他交通工具", next: "q13" }
+                    ]
+                },
+                q7: {
+                    text: "7. 电梯门开了，里面是满满一电梯的丧尸，他们因为太挤了出不来，但正齐刷刷盯着你。",
+                    options: [
+                        { text: "A. 狂按关门键，赌单身二十年的手速", next: "q14" },
+                        { text: "B. 放弃电梯，转身跑向漆黑的消防通道", next: "q15" }
+                    ]
+                },
+                q8: {
+                    text: "8. 你把他揍晕了，但他鼻子流血了，血腥味可能会引来外面的丧尸。",
+                    options: [
+                        { text: "A. 用服务器的数据线把他死死绑起来止血", next: "q16" },
+                        { text: "B. 把他推出机房当诱饵，自己锁门", next: "ending_a" }
+                    ]
+                },
+                q9: {
+                    text: "9. 没过多久，大楼停电了，备用电源只能维持通风。那个同事开始情绪崩溃大哭，声音越来越大。",
+                    options: [
+                        { text: "A. 冲过去死死捂住他的嘴", next: "q17" },
+                        { text: "B. 自己带上降噪耳机，随他去吧，尊重他人命运", next: "q18" }
+                    ]
+                },
+                q10: {
+                    text: "10. 前台下面有个抽屉，里面除了两支笔，还有一样东西，你会拿？",
+                    options: [
+                        { text: "A. 一把生锈的美工刀", next: "q19" },
+                        { text: "B. 几个过期了三个月的小面包", next: "q20" }
+                    ]
+                },
+                q11: {
+                    text: "11. 盆栽砸碎了，丧尸全跑向了右边。你面前有两条路可以离开大楼。",
+                    options: [
+                        { text: "A. 冲出旋转门，去大街上", next: "q21" },
+                        { text: "B. 溜进地下车库寻找载具", next: "q22" }
+                    ]
+                },
+                q12: {
+                    text: "12. 电驴速度不慢且静音。但你在拐角差点撞上一个正在啃食外卖员的丧尸。",
+                    options: [
+                        { text: "A. 拧满电门，直接碾过去！", next: "q23" },
+                        { text: "B. 紧急捏刹车，弃车翻墙逃跑", next: "q24" }
+                    ]
+                },
+                q13: {
+                    text: "13. 你在巷子尽头发现一辆废弃房车，车窗贴着黑膜，门半掩着。",
+                    options: [
+                        { text: "A. 壮着胆子进去看看有没有物资", next: "q25" },
+                        { text: "B. 觉得这就像电影里的送死陷阱，绕道走", next: "q26" }
+                    ]
+                },
+                q14: {
+                    text: "14. 奇迹般地，门关上了！电梯开始往下走，停在了负二楼（大厦停尸间/冷库所在楼层）。",
+                    options: [
+                        { text: "A. 死也不出去，狂按一楼按钮", next: "ending_b" },
+                        { text: "B. 赶紧冲出去寻找楼梯出口", next: "q27" }
+                    ]
+                },
+                q15: {
+                    text: "15. 消防通道里很暗，你听到上面有沉重的脚步声正走下来，还伴随着喉咙里的呼噜声。",
+                    options: [
+                        { text: "A. 贴墙站好，举起手机手电筒准备伏击", next: "q28" },
+                        { text: "B. 转身往下狂奔", next: "q29" }
+                    ]
+                },
+                q16: {
+                    text: "16. 你的包扎技术太烂，数据线勒破了他的血管，血喷了你一身。",
+                    options: [
+                        { text: "A. 赶紧脱掉带血的外套，防止气味扩散", next: "q30" },
+                        { text: "B. 完了，已经听到丧尸在砸门了，准备拼命", next: "ending_c" }
+                    ]
+                },
+                q17: {
+                    text: "17. 你捂得太紧，同事在缺氧挣扎中狠狠咬了你的手腕一口。",
+                    options: [
+                        { text: "A. 把他推开，惊恐地检查伤口", next: "ending_d" },
+                        { text: "B. 认定他已经感染了，用键盘线直接勒死他", next: "ending_e" }
+                    ]
+                },
+                q18: {
+                    text: "18. 丧尸顺着哭声爬进了通风管，然后压塌了管道，掉了下来！",
+                    options: [
+                        { text: "A. 把同事推过去挡枪，自己趁机开门跑", next: "q21" },
+                        { text: "B. 拔出服务器主板当刀使，大喊\"德玛西亚\"迎战！", next: "ending_f" }
+                    ]
+                },
+                q19: {
+                    text: "19. 美工刀太脆了，你决定用它来干嘛？",
+                    options: [
+                        { text: "A. 悄悄割开旁边遇害保安的防刺服偷走穿上", next: "q22" },
+                        { text: "B. 留着以防万一，继续躲着等救援", next: "q20" }
+                    ]
+                },
+                q20: {
+                    text: "20. 极度的饥饿感袭来，你吃下了过期小面包，结果肚子开始翻江倒海的剧痛。",
+                    options: [
+                        { text: "A. 强忍疼痛，憋着汗爬向洗手间", next: "ending_g" },
+                        { text: "B. 痛得在地上打滚，不小心发出了呻吟声", next: "ending_h" }
+                    ]
+                },
+                q21: {
+                    text: "21. 大街上犹如地狱，汽车连环相撞。你看到一辆警车停在不远处。",
+                    options: [
+                        { text: "A. 冒着风险去警车里搜寻武器", next: "q23" },
+                        { text: "B. 警车目标太大，掀开井盖躲进下水道", next: "q24" }
+                    ]
+                },
+                q22: {
+                    text: "22. 地下车库光线昏暗，你看到一辆敞篷跑车和一辆重型越野车，钥匙都在车里。",
+                    options: [
+                        { text: "A. 开跑车，速度就是生命！", next: "ending_i" },
+                        { text: "B. 开越野车，抗撞才是王道！", next: "q25" }
+                    ]
+                },
+                q23: {
+                    text: "23. 运气爆棚！你搜到了一把霰弹枪，但只有两发子弹。",
+                    options: [
+                        { text: "A. 留着对付怀有恶意的人类幸存者", next: "q26" },
+                        { text: "B. 留着遇到大型变异丧尸时保命", next: "q27" }
+                    ]
+                },
+                q24: {
+                    text: "24. 下水道里气味难闻，你发现墙壁上长着一些奇怪的发光真菌。",
+                    options: [
+                        { text: "A. 摘下来抹在衣服上当作照明", next: "ending_j" },
+                        { text: "B. 觉得有毒，尽量避开，摸黑前进", next: "q28" }
+                    ]
+                },
+                q25: {
+                    text: "25. 车里有一台还能用的收音机，正在广播城外军方安全区的位置。",
+                    options: [
+                        { text: "A. 一脚油门，立刻前往安全区", next: "q29" },
+                        { text: "B. 末世小说看多了，觉得是官方的诱饵，反向行驶进山", next: "q30" }
+                    ]
+                },
+                q26: {
+                    text: "26. 你遇到了一个求救的小女孩，她被卡在了废车堆里。",
+                    options: [
+                        { text: "A. 浪费宝贵的时间救她，带上她一起走", next: "ending_k" },
+                        { text: "B. 冷酷地搜刮她背包里的巧克力后离开", next: "ending_l" }
+                    ]
+                },
+                q27: {
+                    text: "27. 你来到了一个大型超市，里面物资丰富，但似乎被一群暴徒占领了。",
+                    options: [
+                        { text: "A. 高举双手走出去，表示自己没有恶意想加入", next: "ending_m" },
+                        { text: "B. 悄悄潜入，偷两罐牛肉罐头就走", next: "ending_n" }
+                    ]
+                },
+                q28: {
+                    text: "28. 你在黑暗中摸索，突然被一张从天而降的大网罩住了！",
+                    options: [
+                        { text: "A. 掏出随身物品拼命割网挣脱", next: "ending_o" },
+                        { text: "B. 放弃挣扎，大声呼救", next: "ending_p" }
+                    ]
+                },
+                q29: {
+                    text: "29. 你在前往安全区的路上遇到了成百上千的尸潮堵路。",
+                    options: [
+                        { text: "A. 弃车步行，绕道穿过旁边阴森的原始森林", next: "ending_q" },
+                        { text: "B. 找块石头压住汽车喇叭，自己跳车，用汽车引开尸潮", next: "ending_r" }
+                    ]
+                },
+                q30: {
+                    text: "30. 你独自在末世深山生存了一个月，某天你发现，你居然开始听得懂游荡丧尸的吼叫声了！",
+                    options: [
+                        { text: "A. 尝试回应他们，和丧尸交流", next: "ending_s" },
+                        { text: "B. 觉得自己已经感染产生幻觉了，决定自我了断", next: "ending_t" }
+                    ]
+                }
+            },
+            endings: {
+                ending_a: {
+                    title: "结局 A：职场孤狼",
+                    content: "<p>你自私的行为引来了业报，被推出去的同事没能喂饱丧尸，他们顺势撞开了机房的门。最终，你和同事成为了相亲相爱的丧尸组合，继续在工位上\"加班\"。</p>"
+                },
+                ending_b: {
+                    title: "结局 B：地府直通车",
+                    content: "<p>电梯门在负二楼停尸间打开，里面是已经开完早会的几百个丧尸。你被VIP最高规格接待，连骨头渣都没剩下。</p>"
+                },
+                ending_c: {
+                    title: "结局 C：战损版狂战士",
+                    content: "<p>你被逼入绝境，和丧尸血战到底！虽然你光荣阵亡，但你死前砸碎了7个丧尸的脑壳，你的英勇事迹被后来的幸存者编成了传说。</p>"
+                },
+                ending_d: {
+                    title: "结局 D：零号病人",
+                    content: "<p>惊天大反转！同事并没有感染丧尸病毒，但他咬破了你的静脉。而你刚好携带了某种未知的罕见抗体，两相结合下，你变异成了拥有人类智商的丧尸领主。</p>"
+                },
+                ending_e: {
+                    title: "结局 E：草木皆兵",
+                    content: "<p>你杀了他，才发现他根本没被咬，只是吓尿了。在强烈的负罪感和极度高压下，你的心理防线崩溃，最终在末世中发疯，逢人就问：\"你看我键盘好敲吗？\"</p>"
+                },
+                ending_f: {
+                    title: "结局 F：赛博朋克剑圣",
+                    content: "<p>你拔出的主板意外连着高压电容！你一刀一个电烤丧尸，电流特效拉满，竟然奇迹般地杀出重围，成为了这座城市里的\"赛博剑圣传说\"。</p>"
+                },
+                ending_g: {
+                    title: "结局 G：死于窜稀",
+                    content: "<p>在末世，过期的科技狠活比丧尸更致命。你因为急性肠胃炎虚脱在马桶上，被循味而来的丧尸当成了\"带馅的汉堡\"吃掉了。</p>"
+                },
+                ending_h: {
+                    title: "结局 H：响彻云霄的悲鸣",
+                    content: "<p>你因为肚子痛发出的惨叫，在空旷的大楼里犹如丧尸们的开饭铃声。你的末世体验卡仅维持了2小时。</p>"
+                },
+                ending_i: {
+                    title: "结局 I：敞篷超跑的诱惑",
+                    content: "<p>跑车确实快，但也确实吵！而且底盘太低，刚开出车库就卡在了外面的丧尸堆里。敞篷设计让你成为了丧尸们最方便拿取的\"回转寿司\"。</p>"
+                },
+                ending_j: {
+                    title: "结局 J：发光的小蘑菇",
+                    content: "<p>那些真菌是外星孢子！它们寄生了你，你并没有死，而是变成了能在夜里发出炫彩RGB光芒的高级真菌人，成了尸群中最靓的仔。</p>"
+                },
+                ending_k: {
+                    title: "结局 K：带娃奶爸/妈",
+                    content: "<p>小女孩其实是全球唯一的病毒免疫者！你拼死保护了她到达科研所，疫苗因她而诞生。你成为了人类复兴的绝对英雄，载入史册！</p>"
+                },
+                ending_l: {
+                    title: "结局 L：无情铁手",
+                    content: "<p>你冷酷地拿走了她的巧克力。一个月后，你因为吃甜食不刷牙导致牙髓炎，在没有抗生素和牙医的末世，你活活痛死了。这就是业障。</p>"
+                },
+                ending_m: {
+                    title: "结局 M：加入营地，但...",
+                    content: "<p>暴徒看中了你的老实巴交。你被收编为营地的\"挑粪工\"兼\"丧尸诱饵\"。虽然毫无尊严，每天累得像狗，但好歹在这个操蛋的世界活下来了。</p>"
+                },
+                ending_n: {
+                    title: "结局 N：神偷陨落",
+                    content: "<p>你潜行技术满分，却不小心踩到了地上的\"尖叫鸡\"玩具。那声凄厉的鸡叫声让据点的主人发现了你，你被打成了筛子。</p>"
+                },
+                ending_o: {
+                    title: "结局 O：网中之鱼",
+                    content: "<p>捕网是末世猎人设的陷阱。你越挣扎网越紧，最终被当成新鲜肉排，卖给了末世里的食人族营地。下辈子注意点。</p>"
+                },
+                ending_p: {
+                    title: "结局 P：意外获救",
+                    content: "<p>猎人听到你中气十足的呼救声，觉得你嗓门很大，非常适合当营地的\"人体防空警报器\"。你被救回营地，靠着每天大吼大叫混上了一口饭吃。</p>"
+                },
+                ending_q: {
+                    title: "结局 Q：德鲁伊化",
+                    content: "<p>你在原始森林里迷路了三年。你学会了和变异动植物共存，生吃变异野果，最终退化成了不穿衣服、在树藤上荡来荡去的\"末世泰山\"。</p>"
+                },
+                ending_r: {
+                    title: "结局 R：伟大的诱饵",
+                    content: "<p>你成功引开了尸潮，拯救了附近隐藏的一个几百人的幸存者车队。你牺牲了，但车队在新世界建立基地后，在广场中心为你立了一座雕像。</p>"
+                },
+                ending_s: {
+                    title: "结局 S：尸语者",
+                    content: "<p>你发现丧尸吼叫其实是在吐槽：\"这肉太柴了！\"你利用沟通能力，开了一家末世烹饪学校，教丧尸如何制作\"素食脑花\"，成为了丧尸界的米其林大厨，达成了跨物种和平！</p>"
+                },
+                ending_t: {
+                    title: "结局 T：遗憾退场",
+                    content: "<p>你以为自己是变异了，扣动了扳机。然而你不知道的是，第二天清晨，军方的解药和救援直升机就空投到了你的山头上。你倒在了黎明前最黑暗的时刻。</p>"
+                }
+            }
+        };
+        
+        function startTest() {
+            history = [];
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion('q1');
+        }
+        
+        function showQuestion(questionId) {
+            const question = testData.questions[questionId];
+            if (!question) return;
+            
+            const questionContent = document.getElementById('question-content');
+            let html = `<div class="question fade-in">
+                <h2>${question.text}</h2>
+                <div class="options">`;
+            
+            question.options.forEach(option => {
+                html += `<div class="option" onclick="selectOption('${option.next}')">${option.text}</div>`;
+            });
+            
+            if (history.length > 0) {
+                html += `</div>
+                <button class="prev-btn" onclick="goBack()">← 返回上一题</button>`;
+            } else {
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            questionContent.innerHTML = html;
+        }
+        
+        function selectOption(next) {
+            if (testData.endings[next]) {
+                showResult(next);
+            } else {
+                history.push(next);
+                showQuestion(next);
+            }
+        }
+        
+        function goBack() {
+            if (history.length > 1) {
+                history.pop();
+                showQuestion(history[history.length - 1]);
+            } else if (history.length === 1) {
+                history.pop();
+                showQuestion('q1');
+            }
+        }
+        
+        function showResult(endingId) {
+            const ending = testData.endings[endingId];
+            if (!ending) return;
+            
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const resultContent = document.getElementById('result-content');
+            resultContent.innerHTML = `
+                <h2>☣ 命运揭晓 ☣</h2>
+                <h3>${ending.title}</h3>
+                <div class="result-content">${ending.content}</div>
+            `;
+        }
+    </script>
+</body>
+</html>
