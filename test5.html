@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱情能量测试：测测你的爱情能量类型</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            min-height: 100vh;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 0 10px 20px 0;
+            padding: 12px 24px;
+            background-color: #e91e63;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .back-link:hover {
+            background-color: #c2185b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        h1 {
+            text-align: center;
+            color: #e91e63;
+            text-shadow: 0 0 5px rgba(233, 30, 99, 0.3);
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .question {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin: 10px 0;
+        }
+        .option input {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 15px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #c2185b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .result {
+            margin: 20px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #f8bbd0 0%, #f48fb1 100%);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result h2 {
+            color: #c2185b;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .result h3 {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #c2185b;
+        }
+        .result p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 15px 0;
+            color: #555;
+        }
+        .result strong {
+            color: #c2185b;
+        }
+        .result ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            padding-left: 20px;
+        }
+        .result li {
+            margin: 10px 0;
+            color: #555;
+        }
+        .result-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .result-icon {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <a href="index.html" class="back-link">返回总目录</a>
+        </div>
+        
+        <h1>爱情能量测试：测测你的爱情能量类型</h1>
+        <div class="intro">
+            <p>你的爱情能量类型是什么？快来测一测吧~</p>
+            <p>人类的潜意识往往会投射在对物品的偏好上。</p>
+            <p>请想象你走进了一家不存在于地图上的古董店，里面摆满了带着时光印记的老物件。</p>
+            <p>凭第一直觉完成下面 10 道题，选出你最想带走的那件物品。</p>
+        </div>
+        
+        <form id="test-form">
+            <div class="question">
+                <h3>Q1. 推开古董店吱呀作响的木门，展柜上哪件物品最先吸引你的目光？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" value="A" required>
+                        A. 一只黄铜外壳、带着划痕的老式打火机
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="B">
+                        B. 一只触感温润、釉色澄净的青瓷茶杯
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="C">
+                        C. 一块银质怀表，表盘上刻着复杂的星月轨迹
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="D">
+                        D. 一个胡桃木制成、依然能转动的八音盒
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q2. 店铺角落里有一个落满灰尘的木箱，打开后你最想拿出：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" value="A" required>
+                        A. 一双有些褪色，但皮质柔软的红舞鞋
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="B">
+                        B. 一条手工编织，触感依然厚实温暖的粗线毛毯
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="C">
+                        C. 一本皮面装帧，带有黄铜锁扣的空白日记本
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="D">
+                        D. 一罐装满五颜六色、晶莹剔透的老玻璃弹珠
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q3. 走到一张斑驳的书桌前，上面散落着一些旧书写工具，你会拿起：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" value="A" required>
+                        A. 一支笔尖还残留着干涸墨迹的金属钢笔
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="B">
+                        B. 一支笔身圆润的玻璃蘸水笔
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="C">
+                        C. 一支羽毛保存完好的火烈鸟羽毛笔
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="D">
+                        D. 一盒长短不一，外包装已经泛黄的彩色蜡笔
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q4. 在首饰匣里，你发现了一件旧首饰，你觉得哪件最合眼缘？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" value="A" required>
+                        A. 一枚镶嵌着暗红宝石的做旧铜戒
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="B">
+                        B. 一枚打磨得极其光滑，没有任何雕饰的玉石平安扣
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="C">
+                        C. 一个存放着放照片的银质复古吊坠
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="D">
+                        D. 一枚珐琅彩绘，颜色依然鲜亮的小向日葵胸针
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q5. 古董店的光线有些暗，如果只能选一盏旧灯照明，你会选：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" value="A" required>
+                        A. 一盏防风玻璃被熏黑过、火光跳跃的煤油提灯
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="B">
+                        B. 一盏灯罩是磨砂玻璃，光线朦胧柔和的床头台灯
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="C">
+                        C. 一座造型繁复，有着岁月氧化痕迹的高脚银烛台
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="D">
+                        D. 一盏有着彩色琉璃拼接灯罩，光影斑斓的台灯
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q6. 店主问你想要点什么消遣，你会选择哪种旧物？</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" value="A" required>
+                        A. 一张充满年代感，曲调激昂的弗拉明戈黑胶唱片
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="B">
+                        B. 一本纸页泛黄，里面夹着干花的旧诗集
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="C">
+                        C. 一副边缘已经磨损，牌面充满神秘色彩的旧塔罗牌
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="D">
+                        D. 一台虽然掉漆，但按键依然清脆的手摇木制弹珠台
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q7. 如果要带走一件可以感知时间的物件，你会选：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" value="A" required>
+                        A. 一个装着暗红色细沙，流速很快的黄铜沙漏
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="B">
+                        B. 一个利用水滴记录时间，安静无声的古代漏壶
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="C">
+                        C. 一个刻满经纬线，用来观测星空位置的黄铜星盘
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="D">
+                        D. 一个每到整点就会弹出小鸟报时的机械咕咕钟
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q8. 准备离开时，天气变凉了，你会在门口的衣架上取下：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" value="A" required>
+                        A. 一件皮质做旧，带着不羁气息的机车夹克
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="B">
+                        B. 一条质地柔软，亲肤贴面的羊绒长围巾
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="C">
+                        C. 一件厚重、深色，带点神秘感的连帽羊毛斗篷
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="D">
+                        D. 一顶编织细密，装饰着明亮缎带的复古草帽
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q9. 结账时，店主递给你一封用火漆印章封好的信，你希望印章的图案是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q9" value="A" required>
+                        A. 燃烧的火焰或展翅的飞鸟
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="B">
+                        B. 柔和的水波或安静的游鱼
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="C">
+                        C. 弯弯的月相或栖息的猫头鹰
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="D">
+                        D. 盛开的雏菊或初升的太阳
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Q10. 走出古董店，你闻到信封上残留着一种旧日的气息，那是：</h3>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q10" value="A" required>
+                        A. 辛辣的肉桂与松木香
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="B">
+                        B. 雨后泥土与干净的皂香
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="C">
+                        C. 陈旧纸张与沉稳的檀木香
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="D">
+                        D. 甜橙皮与温暖的香草味
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">提交测试</button>
+        </form>
+        
+        <div id="result" class="result" style="display: none;">
+            <h2>测试结果</h2>
+            <div id="result-content" class="result-content"></div>
+            <div style="margin-top: 30px;">
+                <a href="test5.html" class="back-link">重新测试</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 统计各选项的数量
+            const counts = { A: 0, B: 0, C: 0, D: 0 };
+            for (let i = 1; i <= 10; i++) {
+                const radio = document.querySelector(`input[name="q${i}"]:checked`);
+                if (radio) {
+                    counts[radio.value]++;
+                }
+            }
+            
+            // 找出最多的选项
+            let maxCount = 0;
+            let maxOption = '';
+            let isUniform = true;
+            
+            for (const [option, count] of Object.entries(counts)) {
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxOption = option;
+                    isUniform = false;
+                } else if (count === maxCount && maxOption) {
+                    isUniform = true;
+                }
+            }
+            
+            // 显示结果
+            const resultContent = document.getElementById('result-content');
+            if (isUniform) {
+                // 票数均匀
+                resultContent.innerHTML = `
+                    <div class="result-icon">☁️</div>
+                    <h3>流云型｜无拘无束</h3>
+                    <p>你的爱情能量：流云</p>
+                    <p>你像天边自在流动的云，没有固定的形状，不被任何标签、任何框架束缚，只顺着自己的心意，活成最舒服的样子。</p>
+                    <p>爱情里的你，从来不会被 "恋爱就该怎样" 的刻板标准绑架，心动时，你可以坦荡直白，不搞无谓的暧昧拉扯；相处时，你能细腻包容，稳稳接住对方的情绪；想给感情添彩时，你有恰到好处的浪漫巧思；需要扛起责任时，你也能拿出让人安心的靠谱担当。你不被任何模板限制，只跟着当下的心动和真实的感受走，潇洒从容。</p>
+                    <p><strong>✨ 你的爱情超能力：</strong>你有着难得的恋爱松弛感，不内耗、不拧巴，爱得自在又坦荡。你有着清醒的恋爱内核，不被世俗的爱情模板洗脑，清楚知道自己想要什么，不跟风、不盲从，只忠于自己的真心。你总能顺着彼此的节奏，找到最舒服的相处模式，和你在一起永远没有束缚感。</p>
+                    <p><strong>💡 为什么你很特别：</strong>你始终忠于自己，不迎合、不勉强，不被任何规则绑架。你有你的节奏，这份不被定义的清醒与自在，是你在爱情里最独一无二的魅力。</p>
+                    <p>继续做这朵自在流动的流云，随心而行，永远做最真实的自己，真爱会循着你的脚步，与你共赴一场无拘无束的爱恋。</p>
+                `;
+            } else {
+                switch (maxOption) {
+                    case 'A':
+                        resultContent.innerHTML = `
+                            <div class="result-icon">🔥</div>
+                            <h3>火焰型｜热烈赤子</h3>
+                            <p>你的能量关键词：勇敢、直接、投入</p>
+                            <p>你就像一束永不熄灭的炽焰，自带耀眼光芒，爱情里的你，从来都是坦荡又热烈，爱得直白，恨得坦荡。你不喜欢试探，更不会藏着掖着自己的心意，喜欢一个人，就会主动靠近、全力奔赴，哪怕会受伤，也依然保持着敢爱敢恨的勇气；不喜欢一个人，也会干脆利落拒绝，不耽误别人，也不委屈自己。</p>
+                            <p>在爱情里，你是绝对的主动者，会毫无保留地付出自己的真心，会把所有的偏爱都给对方，会用自己的热情点燃这段感情，让身边的人都能感受到你对爱情的执着与真诚。你不喜欢平淡如水的相处，偏爱轰轰烈烈的爱恋，喜欢一起去体验新鲜事物，喜欢那种心跳加速、满心欢喜的感觉，哪怕偶尔会冲动，也依然保持着对爱情最纯粹的热爱。</p>
+                            <p><strong>✨你的爱情超能力：</strong>自带强大的感染力，能瞬间点燃对方的热情，让原本平淡的感情变得鲜活有趣；拥有极致的真诚，不虚伪、不敷衍，能让对方感受到满满的安全感与偏爱；敢爱敢恨的勇气，能打破所有的犹豫与胆怯，主动争取自己的幸福。</p>
+                            <p><strong>💡为什么你很特别：</strong>你的热烈从来都不是浮躁与冲动，而是发自内心的真诚与坦荡；你的主动从来都不是卑微与讨好，而是对爱情的执着与勇敢；你不畏惧受伤，不害怕遗憾，哪怕经历过背叛与失望，依然会选择相信爱情，依然会以最热烈的姿态去迎接下一段心动。</p>
+                            <p>你懂得珍惜心动的感觉，也太向往纯粹的爱情。继续做这束热烈的炽焰，发光发热，真爱会循着你的磁场，不顾一切向你奔赴。</p>
+                        `;
+                        break;
+                    case 'B':
+                        resultContent.innerHTML = `
+                            <div class="result-icon">💧</div>
+                            <h3>流水型｜温柔治愈</h3>
+                            <p>你的能量关键词：包容、细腻、细水长流</p>
+                            <p>你就像一汪清澈的山涧流水，温柔、绵长、治愈，有着独属于自己的温柔力量，能抚平所有的浮躁与不安。爱情里的你，更偏爱细水长流的温情，你懂得陪伴的意义，明白爱情从来都不是一时的心动，而是长久的坚守与滋养。</p>
+                            <p>你性格温柔细腻，心思敏感通透，总能轻易察觉到对方的情绪变化，在对方疲惫时给予安慰，在对方迷茫时给予陪伴，在对方难过时给予温暖。你不擅长表达自己的心意，却会用行动把所有的温柔都藏在细节里：一杯温热的奶茶、一句贴心的问候、一个坚定的陪伴，都是你表达爱意的方式。你包容、善良，愿意为了爱情妥协，但也不会委屈自己，你有自己的底线与原则，温柔而有力量。</p>
+                            <p>在爱情里，你是最可靠的陪伴者，是对方最温暖的避风港，和你在一起，不用伪装、不用逞强，可以肆无忌惮地做自己，所有的疲惫与不安，都能被你温柔治愈。你追求安稳与踏实，喜欢那种细水长流的相处模式，不慌不忙、不疾不徐，慢慢了解、慢慢相爱、慢慢走到最后。</p>
+                            <p><strong>✨你的爱情超能力：</strong>极致的包容力，能接纳对方的所有不完美，包容对方的小脾气与小缺点；强大的治愈力，能抚平对方的创伤与疲惫，给对方满满的安全感；细腻的观察力，能精准捕捉对方的需求，用细节温暖对方的每一天。</p>
+                            <p><strong>💡为什么你很特别：</strong>你的温柔是历经世事依然选择的善良与通透，你的包容是换位思考的智慧与格局；你能在不经意间温暖身边的人，用自己的温柔力量，滋养着每一段感情。</p>
+                            <p>继续做这汪清澈的清涧吧，温柔前行，找到那个与你彼此滋养的人，陪你走过岁岁年年。</p>
+                        `;
+                        break;
+                    case 'C':
+                        resultContent.innerHTML = `
+                            <div class="result-icon">🌙</div>
+                            <h3>月光型｜浪漫诗意</h3>
+                            <p>你的能量关键词：精神共鸣、浪漫、纯粹</p>
+                            <p>你就像深夜里的一轮明月，温柔、浪漫、又带着一丝疏离，爱情里的你，是天生的浪漫主义者，不追求世俗的喧嚣，只偏爱精神上的共鸣与契合。你向往的爱情，是“身无彩凤双飞翼，心有灵犀一点通”的默契，是“愿得一心人，白首不相离”的纯粹，是藏在细节里的诗意与浪漫。</p>
+                            <p>你性格内敛，心思细腻，你或许不会直白地表达爱意，却会把所有的浪漫都藏在细节里：一束精心挑选的花、一句温柔的情话、一个浪漫的仪式感，都能让你感受到爱情的美好。你喜欢独处，也享受孤独，在独处的时光里，你会慢慢沉淀自己，思考爱情的意义，你不喜欢被爱情束缚，渴望拥有属于自己的空间与自由，哪怕在恋爱中，也依然保持着自己的独立性。</p>
+                            <p>在爱情里，你是最特别的存在，你不迎合、不敷衍，只愿意和灵魂契合的人同行，你追求的是精神上的同频，是彼此懂得、彼此欣赏、彼此成就。你不喜欢世俗的功利与浮躁，更偏爱纯粹的、诗意的爱情，哪怕这段感情来得慢一点，你也愿意耐心等待，因为你相信，对的人，终会相遇。</p>
+                            <p><strong>✨ 你的爱情超能力：</strong>极致的浪漫感，能创造出独一无二的仪式感，让每一段感情都充满诗意；强大的共情力，能读懂对方的心底心事，与对方产生精神共鸣；独立的人格魅力，不依附、不盲从，能保持自己的初心与热爱。</p>
+                            <p><strong>💡 为什么你很特别：</strong>你的浪漫是对生活的热爱，你坚守纯粹的爱情，不随波逐流，始终保持着自己的诗意与温柔，用自己的方式，守护着对爱情的美好期许。</p>
+                            <p>继续做这轮清冷的月隐吧，真爱会循着你的浪漫，与你撞个满怀。</p>
+                        `;
+                        break;
+                    case 'D':
+                        resultContent.innerHTML = `
+                            <div class="result-icon">☀</div>
+                            <h3>阳光型｜鲜活元气</h3>
+                            <p>你的能量关键词：活泼、陪伴、安全感</p>
+                            <p>你就像盛夏里无拘无束的晴光，鲜活、明亮、元气满满，有着独属于自己的蓬勃感染力，走到哪里，就能把快乐和暖意带到哪里。爱情里的你，是自带光芒的开心果，你偏爱轻松自在相处，懂得 "好的爱情，是让彼此都能做回无忧无虑的小孩"，明白爱情最珍贵的，从来都不是沉重的承诺，而是日复一日的欢喜与安心。</p>
+                            <p>你性格开朗活泼，坦荡真诚，像个永远向阳的小太阳，总能轻易捕捉到生活里的甜，也总能把这份甜传递给身边的人。对待爱情，你专一又坦荡，不会藏着掖着自己的心意，你喜欢用直白的欢喜、真诚的分享、永远在线的陪伴来兑现爱意。</p>
+                            <p>在爱情里，你是最治愈的同行者，是对方疲惫生活里的光。和你在一起，能感受到松弛的快乐、踏实的安心，你能用自己的元气，化解所有的负面情绪，让感情始终保持着鲜活又温暖的状态。</p>
+                            <p><strong>✨ 你的爱情超能力：</strong>极致的情绪感染力，能瞬间驱散对方的阴霾，让相处永远充满轻松与欢喜；超强的真诚共情力，不端着、不伪装，能让对方毫无顾忌地卸下防备，做最真实的自己；持久的鲜活续航力，永远对生活保有热爱，能把平淡的相处经营得满是惊喜，爱意不会被时光消磨。</p>
+                            <p><strong>💡 为什么你很特别：</strong>你拥有完整的自我内核，对生活有着发自内心的热爱，你总能用最直白的快乐打动身边的人，用最松弛的姿态，给对方最踏实的幸福。你能看见爱情的无数种模样，不局限于单一的相处模式，拥有更包容的爱情观与更强大的经营能力。你不被标签定义，不被框架束缚，拥有独一无二的魅力。</p>
+                            <p>继续保持你这份鲜活与坦荡，这是你最动人的底色，对的人一定会被你这份向阳而生的元气深深吸引，与你奔赴一场满是欢喜的圆满。</p>
+                        `;
+                        break;
+                }
+            }
+            
+            // 显示结果，隐藏表单
+            document.getElementById('test-form').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
