@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你究竟有多喜欢TA？- 心理测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(180deg, #fdf6f8 0%, #fafafa 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        .header {
+            text-align: center;
+            padding: 32px 0 28px;
+        }
+        .header h1 {
+            font-size: 28px;
+            color: #2d2d2d;
+            font-weight: 700;
+            letter-spacing: 2px;
+            animation: titleFadeIn 0.8s ease-out;
+        }
+        @keyframes titleFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header .line {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff8aac, #e84a7f);
+            margin: 16px auto;
+            border-radius: 2px;
+            animation: lineExpand 0.8s ease-out 0.2s both;
+        }
+        @keyframes lineExpand {
+            from { width: 0; opacity: 0; }
+            to { width: 60px; opacity: 1; }
+        }
+        .progress {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 28px;
+        }
+        .progress-dot {
+            width: 32px;
+            height: 4px;
+            background: #ebe5e7;
+            border-radius: 2px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .progress-dot.active {
+            background: linear-gradient(90deg, #ff8aac, #e84a7f);
+            width: 44px;
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .progress-dot.done {
+            background: #e84a7f;
+        }
+        .page-indicator {
+            text-align: center;
+            font-size: 13px;
+            color: #bbb;
+            margin-bottom: 22px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .question-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 14px;
+            box-shadow: 0 3px 16px rgba(232,74,127,0.08);
+            border: 1px solid #f8f0f2;
+            animation: cardSlideIn 0.4s ease-out both;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+        }
+        .question-card:nth-child(1) { animation-delay: 0s; }
+        .question-card:nth-child(2) { animation-delay: 0.06s; }
+        .question-card:nth-child(3) { animation-delay: 0.12s; }
+        .question-card:nth-child(4) { animation-delay: 0.18s; }
+        .question-card:nth-child(5) { animation-delay: 0.24s; }
+        .question-card:nth-child(6) { animation-delay: 0.30s; }
+        .question-card:nth-child(7) { animation-delay: 0.36s; }
+        .question-card:nth-child(8) { animation-delay: 0.42s; }
+        .question-card:nth-child(9) { animation-delay: 0.48s; }
+        .question-card:nth-child(10) { animation-delay: 0.54s; }
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(232,74,127,0.12);
+        }
+        @keyframes cardSlideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, #ff8aac, #e84a7f);
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        .question-text {
+            color: #3d3d3d;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 22px;
+            display: inline;
+        }
+        .slider-container {
+            padding: 10px 0 6px;
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        .slider-track {
+            position: relative;
+            height: 10px;
+            background: #f3f0f0;
+            border-radius: 5px;
+            margin: 0 6px;
+        }
+        .slider-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #ff8aac, #ff6b9d);
+            border-radius: 5px;
+            transition: width 0.15s ease;
+        }
+        .slider-thumb {
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            border: 4px solid #ff6b9d;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+            transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            box-shadow: 0 3px 12px rgba(255,107,157,0.3);
+            z-index: 2;
+        }
+        .slider-thumb:hover {
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 5px 18px rgba(255,107,157,0.45);
+            border-color: #ff8aac;
+        }
+        .slider-thumb.dragging {
+            cursor: grabbing;
+            transform: translate(-50%, -50%) scale(1.18);
+            box-shadow: 0 8px 24px rgba(255,107,157,0.5);
+            border-color: #e84a7f;
+            transition: transform 0.1s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .slider-thumb.snapping {
+            transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .slider-ticks {
+            position: absolute;
+            top: -8px;
+            left: 0;
+            right: 0;
+            height: 26px;
+            pointer-events: none;
+        }
+        .slider-tick {
+            position: absolute;
+            top: 0;
+            width: 3px;
+            height: 26px;
+            background: linear-gradient(180deg, #ffd4e0 0%, #f0d4dc 100%);
+            border-radius: 2px;
+            transform: translateX(-50%);
+            transition: background 0.3s ease;
+        }
+        .slider-tick.active {
+            background: linear-gradient(180deg, #ff8aac 0%, #e84a7f 100%);
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 14px;
+            margin-top: 32px;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 26px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-btn.prev {
+            background: #f5f5f5;
+            color: #888;
+        }
+        .nav-btn.prev:hover {
+            background: #eee;
+            transform: translateY(-2px);
+        }
+        .nav-btn.next {
+            background: linear-gradient(135deg, #ff8aac, #e84a7f);
+            color: white;
+            box-shadow: 0 4px 18px rgba(232,74,127,0.3);
+        }
+        .nav-btn.next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(232,74,127,0.4);
+        }
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .nav-btn.next.submit {
+            background: linear-gradient(135deg, #ff8aac, #e84a7f);
+            animation: btnGlow 2s ease-in-out infinite;
+        }
+        @keyframes btnGlow {
+            0%, 100% { box-shadow: 0 4px 18px rgba(232,74,127,0.3); }
+            50% { box-shadow: 0 6px 28px rgba(232,74,127,0.5); }
+        }
+        .start-page {
+            text-align: center;
+            padding: 48px 20px;
+        }
+        .start-page h1 {
+            font-size: 30px;
+            color: #2d2d2d;
+            margin-bottom: 10px;
+            font-weight: 700;
+            animation: titleFadeIn 0.8s ease-out;
+        }
+        .start-page .subtitle {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 36px;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+        .start-card {
+            background: linear-gradient(135deg, #fff5f8, #fff);
+            border-radius: 20px;
+            padding: 28px;
+            margin: 24px 0;
+            text-align: left;
+            border: 1px solid #ffe8f0;
+            animation: cardSlideIn 0.6s ease-out 0.4s both;
+        }
+        .start-card h3 {
+            color: #e84a7f;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+        .start-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .start-btn {
+            display: inline-block;
+            padding: 16px 64px;
+            background: linear-gradient(135deg, #ff8aac, #e84a7f);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 24px;
+            box-shadow: 0 6px 24px rgba(232,74,127,0.35);
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+        .start-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 32px rgba(232,74,127,0.45);
+        }
+        .start-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+        .result-page {
+            text-align: center;
+            padding: 48px 20px;
+        }
+        .result-page h2 {
+            font-size: 22px;
+            color: #2d2d2d;
+            margin-bottom: 24px;
+        }
+        .score-display {
+            font-size: 80px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8aac, #e84a7f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 24px 0;
+            animation: scorePop 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        @keyframes scorePop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .result-title {
+            font-size: 26px;
+            color: #e84a7f;
+            margin-bottom: 10px;
+            animation: fadeIn 0.6s ease-out 0.3s both;
+        }
+        .result-subtitle {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 36px;
+            animation: fadeIn 0.6s ease-out 0.4s both;
+        }
+        .result-desc {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: left;
+            line-height: 1.9;
+            color: #555;
+            font-size: 14px;
+            box-shadow: 0 3px 16px rgba(0,0,0,0.05);
+            animation: cardSlideIn 0.6s ease-out 0.5s both;
+        }
+        .restart-btn {
+            display: inline-block;
+            padding: 15px 44px;
+            background: linear-gradient(135deg, #ff8aac, #e84a7f);
+            color: white;
+            border: none;
+            border-radius: 26px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 36px;
+            box-shadow: 0 4px 18px rgba(232,74,127,0.3);
+        }
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(232,74,127,0.4);
+        }
+        .back-link {
+            display: inline-block;
+            padding: 8px 14px;
+            color: #ccc;
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+        .back-link:hover {
+            color: #e84a7f;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="padding: 8px 0;">
+            <a href="index.html" class="back-link">← 返回目录</a>
+        </div>
+
+        <div id="start-page" class="start-page">
+            <div class="header">
+                <h1>你究竟有多喜欢TA？</h1>
+                <div class="line"></div>
+            </div>
+            <p class="subtitle">通过50个场景，探索你内心最真实的情感</p>
+
+            <div class="start-card">
+                <h3>测试说明</h3>
+                <p>本测试将通过50个细致入微的生活场景，带你进行一次深度的自我情感探索。不管你现在正和TA处在什么关系阶段，这个测试都能帮你看清自己内心最真实的情感状态。</p>
+            </div>
+
+            <button class="start-btn" id="start-btn">开始测试</button>
+        </div>
+
+        <div id="test-page" class="hidden">
+            <div class="header">
+                <h1>你究竟有多喜欢TA？</h1>
+                <div class="line"></div>
+            </div>
+            <div class="progress" id="progress"></div>
+            <div class="page-indicator" id="page-indicator">1 / 5</div>
+
+            <div id="questions-container"></div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn prev" id="prev-btn">上一页</button>
+                <button class="nav-btn next" id="next-btn" disabled>下一页</button>
+            </div>
+        </div>
+
+        <div id="result-page" class="result-page hidden">
+            <div class="header">
+                <h1>测试结果</h1>
+                <div class="line"></div>
+            </div>
+            <div class="score-display" id="score-display"></div>
+            <div class="result-title" id="result-title"></div>
+            <div class="result-subtitle" id="result-subtitle"></div>
+            <div class="result-desc" id="result-desc"></div>
+            <button class="restart-btn" id="restart-btn">重新测试</button>
+        </div>
+    </div>
+
+    <script>
+        var questions = [
+            '看到好笑的梗、可爱的猫狗或美丽的风景，下意识地想发给TA。',
+            '即使在人群很密集的地方，你的目光也能瞬间锁定TA的位置。',
+            '经常会习惯性地点开TA的社交主页（朋友圈/动态），哪怕知道没更新。',
+            '别人无意间提到和TA同名的一个字或词，你的耳朵会立刻竖起来。',
+            '你能很快回想起TA今天（或最近一次见面）穿的衣服颜色。',
+            '会在日常生活中突然思考TA在做什么（比如想到TA现在是不是在吃饭/睡觉）。',
+            '你的手机相册里，存着TA的照片、截图或者专属表情包。',
+            '再次去到TA常去或是你们一起去过的地方，心里会有特殊的悸动。',
+            '晚上睡觉前，脑海里经常会回放你们白天/曾经的聊天记录或互动细节。',
+            '你曾不止一次在梦里见到过TA，或者梦见过和TA相关的场景。',
+            'TA回消息的速度和语气，很影响你接下来几个小时的心情。',
+            '听到TA随口的一句夸奖，你能开心得在心里放烟花。',
+            '如果察觉到TA今天情绪低落，你的心情也会跟着莫名沉重。',
+            '当你遇到委屈、挫折或爆棚的好消息时，TA是你第一个想倾诉的人。',
+            '收到TA主动发来的消息时，心脏会有一种漏跳一拍或微电流穿过的感觉。',
+            'TA的一句无心之失，也会让你陷入一段自我内耗，并反复咀嚼。',
+            '只要有TA在场的聚会，哪怕其他人你都不熟，你也觉得很有意思。',
+            '因为TA喜欢某首歌、某部电影或某项运动，你开始主动去了解这些领域。',
+            '哪怕只是和TA待在一个房间里各做各的事，不说话也觉得极其安心。',
+            '看到TA和别的人（或可能产生好感的人）谈笑风生，心里会发酸或烦躁。',
+            '在别人眼里TA的某个小缺点，在你眼里也觉得很可爱。',
+            '你会在朋友面前不自觉地提起TA。',
+            '在TA面前，你会卸下平时的成熟或伪装，变得有点幼稚。',
+            '你很在意自己在TA眼里的形象，见TA前一定会精心打理自己。',
+            '为了能和TA多待一会儿，你愿意绕远路，或者推掉其他的局。',
+            '如果有人批评或误解TA，你会产生强烈的保护欲，想为TA辩护。',
+            '你曾在心里偷偷把你们的名字写在一起，或者测过星座/MBTI的匹配度。',
+            '每次和TA对视超过3秒，你会忍不住先移开视线，或者心跳加速。',
+            '你觉得TA的性格、长相或声音，刚好完美踩在你的审美点上。',
+            '哪怕TA今天穿得很随意，你依然觉得TA很有魅力。',
+            '你想要知道TA过去的感情经历和童年故事。',
+            '你愿意把自己最隐秘的创伤、脆弱和不堪，毫无保留地讲给TA听。',
+            '你希望自己对TA来说是特别的，接受不了TA用对你的方式对别人。',
+            '如果TA遇到经济或生活上的巨大困难，你愿意拿出自己的积蓄或资源帮TA。',
+            '你们之间有专属于彼此的昵称、暗号或只有你们懂的内部笑话。',
+            '遇到激烈的观念分歧时，比起赢下争论，你心里更害怕因此失去TA。',
+            '你越来越不喜欢用朋友这个词来定义你们现在的关系。',
+            '你会下意识地记住TA随口提到的一件很小的事。',
+            '你极其享受和TA的肢体接触（哪怕只是肩膀碰到一起），并且渴望更多。',
+            '在你心里，TA已经被标记为限量版，就算出现条件更好的人也无法替代。',
+            '你的未来规划（如去哪座城市、做什么工作）里，已经悄悄把TA放了进去。',
+            '如果时机成熟，你非常骄傲且愿意把TA正式介绍给所有家人和死党。',
+            '即使预见到和TA在一起会面临巨大的现实阻力（如异地、家庭反对），你也想试一试。',
+            '认识了TA之后，你产生了新的我想要变成一个更好、更优秀的人的动力。',
+            '你不仅爱TA现在的光芒，也做好了接纳TA未来衰老、生病或低谷的准备。',
+            '你深信你们在灵魂深处有某种别人永远无法理解的独特共鸣。',
+            '你发自内心地希望TA能过得幸福。',
+            '潜意识里觉得，如果这辈子错过了TA，将会是你人生中无法弥补的巨大遗憾。',
+            '哪怕目前看不到任何确定的结果，你也希望能走到TA身边。',
+            '如果世界末日明天就来，我今天最想见的人就是TA。'
+        ];
+
+        var results = [
+            { min: 0, max: 14, title: '免疫状态', subtitle: '风平浪静，毫无波澜', desc: 'TA目前并没有真正进入你的精神世界。你们可能只是维持着表面的社交礼仪，或者你对TA有着明确的心理防御机制。你非常理智，重心完全在自己身上，这段关系对你而言只是一杯白开水，解渴即可，不加任何糖分。' },
+            { min: 15, max: 29, title: '浅层好感', subtitle: '微风拂面，略带欣赏', desc: '你给TA加了一层薄薄的好感滤镜。你会觉得TA是个挺不错的人，和TA相处很轻松，偶尔也会有一闪而过的欣赏。但这颗种子还停留在非常表层的土壤，你随时可以抽身退步。这更多是慕强或是对美好事物的喜爱，远未达到走心的程度。' },
+            { min: 30, max: 44, title: '暧昧发酵', subtitle: '暗流涌动，反复试探', desc: '你已经进入了情绪的发酵期。你会因为TA的靠近而窃喜，也会因为TA的冷淡而内耗。你在理智与情感之间反复拉扯，时不时猜测TA的心意。这股喜欢已经足够让你产生轻微的占有欲和期待，你们正站在恋爱的分水岭上，需要一个破冰的契机。' },
+            { min: 45, max: 59, title: '心动预警', subtitle: '防线松动，眼底有光', desc: '警告！你的心动雷达已经彻夜鸣笛！TA已经强势入侵了你的日常生活和潜意识。你的情绪晴雨表开始被TA的一举一动所牵引，甚至愿意为了TA打破一些自己的小原则。你很清楚自己正在陷进去，想要靠近TA的欲望已经快要藏不住了。' },
+            { min: 60, max: 74, title: '陷入热恋', subtitle: '满心满眼，唯你而已', desc: '无论你们是否已经确立关系，你的心理状态已经是绝对的热恋级别。你的时间、精力和情绪都在无条件地向TA倾斜。TA的缺点在你眼里变成了可爱的佐证，你在TA身上投入了巨大的情感沉没成本且甘之如饴，这是多巴胺分泌最旺盛、最上头的阶段。' },
+            { min: 75, max: 89, title: '灵魂共振', subtitle: '深情款款，岁月长河', desc: '你的喜欢已经褪去了最初的盲目冲动，沉淀为一种深邃的联结。你不仅迷恋TA的闪光点，更接纳TA的破碎与真实。你已经把TA写入了自己未来的长期规划里，这不再是一时的情绪上头，而是深思熟虑后，依然决定坚定走向TA的双向奔赴感。' },
+            { min: 90, max: 100, title: '非TA不可', subtitle: '宿命牵引，毫无保留', desc: '这是最高阶的极致情感。在你的认知里，TA不仅是伴侣，更是你灵魂的另一半拼图。你的爱包含了极致的包容、奉献与不可替代性。哪怕这段关系面临巨大的现实阻碍，你也有与之对抗的绝对勇气。全世界的人加起来，也抵不过TA看向你时的那个眼神。' }
+        ];
+
+        var answers = [];
+        var currentPage = 0;
+        var questionsPerPage = 10;
+        var isDragging = false;
+        var currentDragTarget = null;
+
+        function init() {
+            answers = new Array(50).fill(-1);
+            currentPage = 0;
+            document.getElementById('start-btn').addEventListener('click', startTest);
+            document.getElementById('prev-btn').addEventListener('click', prevPage);
+            document.getElementById('next-btn').addEventListener('click', nextPage);
+            document.getElementById('restart-btn').addEventListener('click', restartTest);
+        }
+
+        function startTest() {
+            document.getElementById('start-page').classList.add('hidden');
+            document.getElementById('test-page').classList.remove('hidden');
+            renderQuestions();
+            renderProgress();
+            updateNavButtons();
+        }
+
+        function renderQuestions() {
+            var container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            var startIndex = currentPage * questionsPerPage;
+            for (var i = 0; i < questionsPerPage; i++) {
+                var qIndex = startIndex + i;
+                var card = document.createElement('div');
+                card.className = 'question-card';
+                card.innerHTML =
+                    '<span class="question-num">' + (qIndex + 1) + '</span>' +
+                    '<div class="question-text">' + questions[qIndex] + '</div>' +
+                    '<div class="slider-container" data-question="' + qIndex + '">' +
+                        '<div class="slider-labels">' +
+                            '<span>完全没有</span>' +
+                            '<span>非常强烈</span>' +
+                        '</div>' +
+                        '<div class="slider-track">' +
+                            '<div class="slider-ticks">' +
+                                '<div class="slider-tick" style="left: 0%"></div>' +
+                                '<div class="slider-tick" style="left: 25%"></div>' +
+                                '<div class="slider-tick" style="left: 50%"></div>' +
+                                '<div class="slider-tick" style="left: 75%"></div>' +
+                                '<div class="slider-tick" style="left: 100%"></div>' +
+                            '</div>' +
+                            '<div class="slider-fill" style="width: ' + getPercent(answers[qIndex]) + '"></div>' +
+                            '<div class="slider-thumb" style="left: ' + getPercent(answers[qIndex]) + '" data-question="' + qIndex + '"></div>' +
+                        '</div>' +
+                    '</div>';
+                container.appendChild(card);
+            }
+
+            initSliders();
+            updateTickStates();
+        }
+
+        function getPercent(score) {
+            if (score === -1) return '0%';
+            return (score / 4 * 100) + '%';
+        }
+
+        function updateTickStates() {
+            var ticks = document.querySelectorAll('.slider-tick');
+            var currentScore = answers[parseInt(ticks[0].closest('.slider-container').dataset.question)];
+            if (currentScore === -1) currentScore = 0;
+            ticks.forEach(function(tick, idx) {
+                if (idx <= currentScore) {
+                    tick.classList.add('active');
+                } else {
+                    tick.classList.remove('active');
+                }
+            });
+        }
+
+        function initSliders() {
+            var thumbs = document.querySelectorAll('.slider-thumb');
+            var tracks = document.querySelectorAll('.slider-track');
+
+            thumbs.forEach(function(thumb) {
+                thumb.addEventListener('mousedown', startDrag);
+                thumb.addEventListener('touchstart', startDrag, { passive: false });
+            });
+
+            tracks.forEach(function(track) {
+                track.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('slider-thumb')) return;
+                    var rect = track.getBoundingClientRect();
+                    var x = e.clientX - rect.left;
+                    var percent = (x / rect.width) * 100;
+                    percent = Math.max(0, Math.min(100, percent));
+                    var qIndex = parseInt(track.parentElement.dataset.question);
+                    snapToPosition(qIndex, percent);
+                });
+            });
+        }
+
+        function startDrag(e) {
+            e.preventDefault();
+            isDragging = true;
+            currentDragTarget = e.target;
+            currentDragTarget.classList.add('dragging');
+            currentDragTarget.classList.remove('snapping');
+
+            var moveHandler = function(e) {
+                if (!isDragging) return;
+                var track = currentDragTarget.parentElement;
+                var rect = track.getBoundingClientRect();
+                var clientX = e.clientX || e.touches[0].clientX;
+                var x = clientX - rect.left;
+                var percent = (x / rect.width) * 100;
+                percent = Math.max(0, Math.min(100, percent));
+
+                var fill = track.querySelector('.slider-fill');
+                currentDragTarget.style.left = percent + '%';
+                fill.style.width = percent + '%';
+
+                updateTickStatesDrag(track.parentElement.dataset.question, percent);
+            };
+
+            var endHandler = function(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                currentDragTarget.classList.remove('dragging');
+
+                var track = currentDragTarget.parentElement;
+                var rect = track.getBoundingClientRect();
+                var clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX) || 0;
+                var x = clientX - rect.left;
+                var percent = (x / rect.width) * 100;
+                percent = Math.max(0, Math.min(100, percent));
+
+                var qIndex = parseInt(currentDragTarget.dataset.question);
+                snapToPosition(qIndex, percent);
+
+                document.removeEventListener('mousemove', moveHandler);
+                document.removeEventListener('mouseup', endHandler);
+                document.removeEventListener('touchmove', moveHandler);
+                document.removeEventListener('touchend', endHandler);
+                currentDragTarget = null;
+            };
+
+            document.addEventListener('mousemove', moveHandler);
+            document.addEventListener('mouseup', endHandler);
+            document.addEventListener('touchmove', moveHandler, { passive: false });
+            document.addEventListener('touchend', endHandler);
+        }
+
+        function updateTickStatesDrag(qIndex, percent) {
+            var container = document.querySelector('.slider-container[data-question="' + qIndex + '"]');
+            var score = Math.round(percent / 25);
+            var ticks = container.querySelectorAll('.slider-tick');
+            ticks.forEach(function(tick, idx) {
+                if (idx <= score) {
+                    tick.classList.add('active');
+                } else {
+                    tick.classList.remove('active');
+                }
+            });
+        }
+
+        function snapToPosition(qIndex, percent) {
+            var score = Math.round(percent * 4 / 100);
+            score = Math.max(0, Math.min(4, score));
+
+            answers[qIndex] = score;
+
+            var thumb = document.querySelector('.slider-thumb[data-question="' + qIndex + '"]');
+            var fill = thumb.parentElement.querySelector('.slider-fill');
+
+            thumb.classList.add('snapping');
+            var snappedPercent = (score / 4 * 100) + '%';
+            thumb.style.left = snappedPercent;
+            fill.style.width = snappedPercent;
+
+            setTimeout(function() {
+                thumb.classList.remove('snapping');
+            }, 250);
+
+            updateTickStates();
+            checkPageComplete();
+        }
+
+        function renderProgress() {
+            var progress = document.getElementById('progress');
+            var html = '';
+            for (var i = 0; i < 5; i++) {
+                var cls = 'progress-dot';
+                if (i === currentPage) cls += ' active';
+                else if (i < currentPage) cls += ' done';
+                html += '<div class="' + cls + '"></div>';
+            }
+            progress.innerHTML = html;
+            document.getElementById('page-indicator').textContent = (currentPage + 1) + ' / 5';
+        }
+
+        function checkPageComplete() {
+            var startIndex = currentPage * questionsPerPage;
+            var isComplete = true;
+            for (var i = 0; i < questionsPerPage; i++) {
+                if (answers[startIndex + i] === -1) {
+                    isComplete = false;
+                    break;
+                }
+            }
+
+            var nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = !isComplete;
+            if (currentPage === 4) {
+                nextBtn.textContent = '查看结果';
+                nextBtn.classList.add('submit');
+            } else {
+                nextBtn.textContent = '下一页';
+                nextBtn.classList.remove('submit');
+            }
+        }
+
+        function updateNavButtons() {
+            var prevBtn = document.getElementById('prev-btn');
+            prevBtn.style.visibility = currentPage === 0 ? 'hidden' : 'visible';
+            checkPageComplete();
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                renderQuestions();
+                renderProgress();
+                updateNavButtons();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < 4) {
+                currentPage++;
+                renderQuestions();
+                renderProgress();
+                updateNavButtons();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            var totalScore = 0;
+            for (var i = 0; i < answers.length; i++) {
+                totalScore += answers[i];
+            }
+            var finalScore = Math.round(totalScore / 2);
+
+            var result = results[0];
+            for (var j = 0; j < results.length; j++) {
+                if (finalScore >= results[j].min && finalScore <= results[j].max) {
+                    result = results[j];
+                    break;
+                }
+            }
+
+            document.getElementById('test-page').classList.add('hidden');
+            var resultPage = document.getElementById('result-page');
+            resultPage.classList.remove('hidden');
+            document.getElementById('score-display').textContent = finalScore;
+            document.getElementById('result-title').textContent = result.title;
+            document.getElementById('result-subtitle').textContent = result.subtitle;
+            document.getElementById('result-desc').textContent = result.desc;
+        }
+
+        function restartTest() {
+            answers = new Array(50).fill(-1);
+            currentPage = 0;
+            document.getElementById('result-page').classList.add('hidden');
+            document.getElementById('test-page').classList.remove('hidden');
+            renderQuestions();
+            renderProgress();
+            updateNavButtons();
+        }
+
+        init();
+    </script>
+</body>
+</html>
