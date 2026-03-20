@@ -385,12 +385,44 @@
             color: #ccc;
             font-size: 12px;
         }
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 15px;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #999;
+        }
+        .stat-icon {
+            font-size: 16px;
+        }
+        .stat-count {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+        .back-link {
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link:hover {
+            color: #ff6b35;
+        }
     </style>
 </head>
 <body>
     <div class="progress-bar" id="progressBar"></div>
 
     <div class="container">
+        <div style="padding: 8px 0;">
+            <a href="index.html" class="back-link">← 返回目录</a>
+        </div>
+
         <div class="intro-page active" id="introPage">
             <div class="intro-header">
                 <h1>测一测你的狗塑<br>是什么品种</h1>
@@ -817,6 +849,16 @@
             resultHTML += `
                 <button class="retest-btn" onclick="location.reload()">重新测试</button>
                 <div class="footer">测一测你的狗塑是什么品种</div>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-icon">👁</span>
+                        <span>访问量</span>
+                        <span class="stat-count" id="busuanzi_container_site_pv">
+                            <span id="busuanzi_value_site_pv">-</span>
+                        </span>
+                        <span>次</span>
+                    </div>
+                </div>
             `;
 
             document.getElementById('resultPage').innerHTML = resultHTML;
