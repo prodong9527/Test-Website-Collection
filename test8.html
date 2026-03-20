@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测一测你的狗塑是什么品种</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(180deg, #fef9f3 0%, #fdf2e9 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .intro-page, .test-page, .result-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .intro-page.active, .test-page.active, .result-page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-header {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .intro-header h1 {
+            font-size: 24px;
+            color: #5a4a3a;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .intro-header p {
+            font-size: 14px;
+            color: #8a7a6a;
+            line-height: 1.8;
+            padding: 0 10px;
+        }
+
+        .dog-animation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+        .dog-frame {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            image-rendering: pixelated;
+            display: none;
+        }
+        .dog-frame.active {
+            display: block;
+        }
+
+        #testDogContainer {
+            margin-bottom: 15px;
+        }
+
+        .start-btn {
+            display: block;
+            width: 80%;
+            max-width: 300px;
+            margin: 30px auto;
+            padding: 16px 30px;
+            background: linear-gradient(135deg, #ff9a56, #ff6b35);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+        }
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff9a56, #ff6b35);
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        .test-header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        .question-counter {
+            font-size: 14px;
+            color: #ff6b35;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .module-title {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+            animation: slideIn 0.4s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .question-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .option-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            padding: 14px 18px;
+            background: #f8f8f8;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            line-height: 1.6;
+        }
+        .option-btn:hover {
+            background: #fff0e8;
+            border-color: #ff9a56;
+            color: #ff6b35;
+        }
+        .option-btn.selected {
+            background: linear-gradient(135deg, #ff9a56, #ff6b35);
+            color: white;
+            border-color: transparent;
+            transform: scale(1.02);
+        }
+
+        .nav-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-btn.prev {
+            background: #f0f0f0;
+            color: #666;
+        }
+        .nav-btn.next {
+            background: linear-gradient(135deg, #ff9a56, #ff6b35);
+            color: white;
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-page {
+            padding: 20px 0;
+        }
+        .result-main {
+            text-align: center;
+            background: white;
+            border-radius: 24px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        .result-label {
+            font-size: 12px;
+            color: #ff6b35;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        .result-breed-img {
+            width: 115px;
+            height: 115px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fef0e8, #fff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.2);
+            position: relative;
+        }
+        .result-dog-frame {
+            width: 60px;
+            height: 60px;
+            image-rendering: pixelated;
+            display: none;
+            position: absolute;
+        }
+        .result-dog-frame.active {
+            display: block;
+        }
+        .result-title {
+            font-size: 22px;
+            color: #5a4a3a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .result-percentage {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff9a56, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0;
+        }
+        .result-keywords {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .keyword-tag {
+            padding: 6px 14px;
+            background: #fff5f0;
+            color: #ff6b35;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .dna-section {
+            background: white;
+            border-radius: 24px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        .dna-title {
+            font-size: 16px;
+            color: #5a4a3a;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .dna-item {
+            margin-bottom: 16px;
+        }
+        .dna-item:last-child {
+            margin-bottom: 0;
+        }
+        .dna-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+        .dna-name {
+            color: #333;
+            font-weight: 500;
+        }
+        .dna-percent {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+        .dna-tag {
+            font-size: 10px;
+            color: #999;
+            margin-left: 5px;
+        }
+        .dna-bar-bg {
+            height: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .dna-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff9a56, #ff6b35);
+            border-radius: 5px;
+            transition: width 1s ease;
+        }
+        .dna-bar.zero {
+            background: #ff4444;
+        }
+
+        .zero-section {
+            background: white;
+            border-radius: 24px;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .zero-stamp {
+            display: inline-block;
+            padding: 8px 20px;
+            border: 3px solid #ff4444;
+            color: #ff4444;
+            font-size: 14px;
+            font-weight: 700;
+            transform: rotate(-5deg);
+            margin-bottom: 15px;
+        }
+        .zero-title {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .zero-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .retest-btn {
+            display: block;
+            width: 80%;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 14px 30px;
+            background: #f0f0f0;
+            color: #666;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .retest-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #ccc;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container">
+        <div class="intro-page active" id="introPage">
+            <div class="intro-header">
+                <h1>测一测你的狗塑<br>是什么品种</h1>
+                <p>20种狗狗性格全面覆盖<br>45道题目深度解析<br>找出你内心深处的灵魂犬种</p>
+            </div>
+
+            <div class="dog-animation-container" id="dogContainer">
+                <img src="狗狗(1).png" class="dog-frame active" id="frame1">
+                <img src="狗狗(2).png" class="dog-frame" id="frame2">
+                <img src="狗狗(3).png" class="dog-frame" id="frame3">
+                <img src="狗狗(4).png" class="dog-frame" id="frame4">
+                <img src="狗狗(5).png" class="dog-frame" id="frame5">
+                <img src="狗狗(6).png" class="dog-frame" id="frame6">
+                <img src="狗狗(7).png" class="dog-frame" id="frame7">
+                <img src="狗狗(8).png" class="dog-frame" id="frame8">
+            </div>
+
+            <button class="start-btn" onclick="startTest()">开始测试</button>
+        </div>
+
+        <div class="test-page" id="testPage">
+            <div class="dog-animation-container" id="testDogContainer">
+                <img src="狗狗(5).png" class="dog-frame active" id="test-frame1">
+                <img src="狗狗(6).png" class="dog-frame" id="test-frame2">
+                <img src="狗狗(7).png" class="dog-frame" id="test-frame3">
+                <img src="狗狗(8).png" class="dog-frame" id="test-frame4">
+            </div>
+            <div class="test-header">
+                <div class="question-counter" id="questionCounter">第 1 题</div>
+                <div class="module-title" id="moduleTitle">模块一：社交面具与初印象</div>
+            </div>
+
+            <div class="question-card" id="questionCard">
+                <div class="question-text" id="questionText"></div>
+                <div class="option-list" id="optionList"></div>
+            </div>
+
+            <div class="nav-btns">
+                <button class="nav-btn prev" id="prevBtn" onclick="prevQuestion()">上一题</button>
+                <button class="nav-btn next" id="nextBtn" onclick="nextQuestion()">下一题</button>
+            </div>
+        </div>
+
+        <div class="result-page" id="resultPage">
+        </div>
+    </div>
+
+    <script>
+        const BREEDS = ['边牧', '金毛', '萨摩耶', '柯基', '德牧', '杜宾', '哈士奇', '拉布拉多', '阿拉斯加', '泰迪', '斑点狗', '西高地', '巴哥', '法斗', '比格', '博美', '吉娃娃', '中华田园犬', '柴犬', '藏獒'];
+
+        const BREED_INFO = {
+            '边牧': { keywords: ['智商碾压', '计划通', '无情的工作机器'] },
+            '金毛': { keywords: ['暖男本男', '社交天花板', '无条件信任'] },
+            '萨摩耶': { keywords: ['微笑天使', '快乐制造机', '社牛本牛'] },
+            '柯基': { keywords: ['屁股杀手', '活力炸弹', '小短腿大智慧'] },
+            '德牧': { keywords: ['全能战士', '纪律严明', '可靠系数爆表'] },
+            '杜宾': { keywords: ['精英气质', '逻辑至上', '冷酷型男友'] },
+            '哈士奇': { keywords: ['眼神超人', '抽象大师', '发疯文学创始人'] },
+            '拉布拉多': { keywords: ['导盲大师', '贪吃鬼', '稳定输出王'] },
+            '阿拉斯加': { keywords: ['憨厚巨人', '胃口王者', '慢悠悠的生活家'] },
+            '泰迪': { keywords: ['人精本精', '撩人高手', '情感大师'] },
+            '斑点狗': { keywords: ['艺术家人格', '抽象派代表', '独特审美'] },
+            '西高地': { keywords: ['高冷贵族', '倔强小老头', '精致利己'] },
+            '巴哥': { keywords: ['忧郁艺术家', '丧系代表', '躺平大师'] },
+            '法斗': { keywords: ['享乐主义', '躺赢达人', '贵族散漫'] },
+            '比格': { keywords: ['大耳朵怪', '精力无限', '不管死活乐天派'] },
+            '博美': { keywords: ['傲娇本娇', '情绪雷达', '粘人精'] },
+            '吉娃娃': { keywords: ['暴躁战神', '狮子魂', '护短狂魔'] },
+            '中华田园犬': { keywords: ['隐世纯爱', '生存大师', '忠诚极限'] },
+            '柴犬': { keywords: ['倔强反骨', '装聋作哑', '熟人勿近'] },
+            '藏獒': { keywords: ['孤傲王者', '领地意识', '深情厚谊'] }
+        };
+
+        const BREED_ZERO_COMMENTS = {
+            '边牧': '完美避开了所有内卷基因，你的大脑极其松弛，拒绝进行任何复杂的算计',
+            '金毛': '讨好型人格绝缘体，你已经成功做到了抵制世界上一切PUA',
+            '萨摩耶': '傻白甜基因已完全剔除，你是一个极度难骗、不长恋爱脑的狠人',
+            '柯基': '毫无凑热闹的世俗欲望，你能冷漠地路过所有八卦阵地',
+            '德牧': '规矩是死的，你是活的。一身反骨，你绝不按任何既定套路出牌',
+            '杜宾': '你是一个毫无架子、极其接地气的亲民选手',
+            '拉布拉多': '你完全做到了反PUA，拒绝吃亏，拒绝当老好人',
+            '巴哥': '无法做到心如止水！你的灵魂里依然燃烧着对这个世界的熊熊八卦之火',
+            '比格': '极其安静祥和，你的精神状态非常美丽，完全没有任何发疯的迹象',
+            '博美': '你的情绪极其独立，根本不需要别人来哄',
+            '柴犬': '极其听劝的乖宝宝，你的反骨被彻底抽离，"好的，没问题，你说的都对"',
+            '藏獒': '你的社交大门永远向全世界敞开，欢迎任何人随时光临'
+        };
+
+        const MODULES = [
+            '模块一：社交面具与初印象',
+            '模块二：搞钱、打工与生存法则',
+            '模块三：情绪雷达与精神状态',
+            '模块四：生活方式与自我取悦',
+            '模块五：亲密关系与灵魂深处'
+        ];
+
+        const QUESTIONS = [
+            { q: '周末早晨醒来，你通常的第一反应是：', o: ['充满活力，立刻在群里发表情包问有没有人出来玩！', '脑子里迅速过一遍今天的待办事项和时间线。', '翻个身继续睡，只要天没塌就别叫我。', '渴望有人发消息给我，但绝不主动找别人。'] },
+            { q: '朋友临时喊你出门聚餐，你会：', o: ['秒回"马上到！"，迅速换衣服出门。', '询问都有谁、去哪里，评估社交价值和精力消耗。', '表面答应，内心疯狂祈祷活动突然取消。', '问能不能带自己一起，不去的话会有点小失落。'] },
+            { q: '在完全陌生的聚会环境中，你的状态是：', o: ['迅速破冰，不到十分钟就和全场加上了微信。', '找个舒服的角落坐下，保持礼貌微笑，等别人来搭话。', '盯上桌上的零食，吃饱喝足，顺便语出惊人逗笑大家。', '紧紧贴着带自己来的朋友，寸步不离，像个挂件。'] },
+            { q: '别人对你的第一印象通常是：', o: ['阳光开朗，永远像个小太阳。', '气场强大，有点高冷，看起来脑子转得很快。', '精神状态领先人类十年，随时准备发疯。', '乖巧可爱但自带一种"生人勿近"的结界。'] },
+            { q: '遇到不熟的人强行跟你套近乎，你会：', o: ['顺着对方的话聊，不想让场面冷下来。', '礼貌且疏离地回应，迅速终结话题。', '满嘴跑火车，用魔法打败魔法，把对方绕晕。', '眼神警惕，浑身写满"你别过来啊"。'] },
+            { q: '在微信群里，你最常扮演的角色是：', o: ['气氛组组长，表情包大户，捧哏第一名。', '潜水观察员，只有遇到专业问题或干货时才发言。', '梗王，经常发一些让人满头问号的抽象发言。', '私聊王者，群里不怎么说话，但私下跟好朋友疯狂吐槽。'] },
+            { q: '如果走在路上突然被陌生人要微信，你的内心OS是：', o: ['"哇，我今天魅力这么大吗！"（开心给付）', '"这人是不是做推销的？或者是骗子？"（冷漠拒绝）', '"嘿嘿，我要给他留个假号码或者发个搞笑表情包。"', '吓一跳，立刻摆手后退并快速逃离现场。'] },
+            { q: '朋友发长语音给你，你的反应是：', o: ['耐心听完，然后也回一条长语音。', '直接转文字，提取核心信息。', '听一半没耐心了，直接回一个表情包敷衍过去。', '如果是喜欢的人就反复听，普通人就假装没看到。'] },
+            { q: '你对"合群"这件事怎么看？', o: ['很重要，我害怕被孤立，喜欢大家在一起的氛围。', '毫无意义，高质量的独处胜过低质量的社交。', '我就是群体的中心，我干嘛大家都跟着干嘛。', '看心情，舒服就合，不舒服就自己待着。'] },
+            { q: '面对一项极其复杂的全新任务，你的态度是：', o: ['兴奋！先冲了再说，车到山前必有路。', '迅速拆解任务，建立模型，列出清晰的甘特图和里程碑。', '先拖延到DDL前一夜，然后靠爆发力创造奇迹。', '感到焦虑内耗，需要有人肯定和鼓励才敢动手。'] },
+            { q: '当你的意见和上司/老师产生严重分歧时，你会：', o: ['积极沟通，试图用热情和感性同化对方。', '拿出严密的数据和底层逻辑，据理力争，绝不退让。', '表面"嗯嗯嗯您说得对"，背地里偷偷按自己的来。', '感到委屈，即使自己是对的也不敢过度反驳，生闷气。'] },
+            { q: '团队合作中遇到一直"划水摸鱼"的队友，你会：', o: ['叹口气，自己把他的活儿也干了，不想起冲突。', '毫不留情地当面指出，并重新划定责任边界。', '比他更会摸鱼，大家一起摆烂。', '阴阳怪气地内涵他，或者直接向上级/老师举报。'] },
+            { q: '连续高强度工作/学习了三小时，你现在的状态是：', o: ['依然精神抖擞，还能再战五百年！', '专注力在线，必须保持心流完成当前模块。', '灵魂出窍，眼神呆滞，急需高热量零食续命。', '极其烦躁，想立刻掀桌子逃跑。'] },
+            { q: '如果今天超额完成了任务，你会怎么奖励自己？', o: ['约朋友去吃顿大餐，热闹一下。', '获得巨大的多巴胺满足，然后顺手开始做明天的计划。', '开启"勿扰模式"，回家疯狂熬夜打游戏/看剧。', '买一件购物车里放了很久、既美丽又无用的东西。'] },
+            { q: '对于每天都要遵守的"死规矩"，你的真实看法是：', o: ['规矩是保护大家的，我会乖乖遵守。', '如果逻辑合理就遵守，影响效率就想办法钻空子。', '规矩就是用来打破的！我偏不！', '只要别管到我头上，随便什么规矩都行。'] },
+            { q: '你的电脑桌面/物理桌面通常是什么样的？', o: ['乱中有序，充满各种可爱小摆件和解压玩具。', '极简主义，文件严格按目录树分类，效率至上。', '赛博废墟，文件随缘乱存，找东西全靠全局搜索。', '必须有自己专属的一套高颜值装备，绝不允许别人乱碰。'] },
+            { q: '面对突如其来的加班/加课通知：', o: ['虽然无奈，但很快调整好心态接受现实。', '皱眉评估收益，如果是必要的沉没成本就会接受。', '当场破防，在群里无能狂怒，发疯表情包刷屏。', '觉得天都塌了，默默掉眼泪觉得人生好艰难。'] },
+            { q: '你认为自己搞钱/学习的核心动力是：', o: ['为了让身边的人（家人、爱人）过得更好。', '掌控感，为了证明自己的能力，实现阶级跃升。', '纯粹为了以后能更爽地躺平玩耍。', '追求独立自由，不想看任何人的脸色。'] },
+            { q: '当你感到压力爆表、快要崩溃时，你会：', o: ['找最亲密的朋友疯狂倾诉，抱着对方大哭。', '一个人冷静复盘，或者去健身房疯狂撸铁发泄。', '突然开始大扫除、唱歌、或者做一些让人迷惑的举动。', '彻底切断所有联系，躲进自己的安全壳里谁也不理。'] },
+            { q: '别人不小心踩到了你的底线，你的反应是：', o: ['试图帮对方找借口，告诉自己算了吧。', '眼神瞬间变冷，不带脏字地指出对方的问题，极其压迫感。', '开启极致的阴阳怪气模式，直到对方破防。', '瞬间炸毛，疯狂输出，绝不允许自己受一点委屈。'] },
+            { q: '朋友伤心难过时，你会怎么安慰ta？', o: ['立刻冲上去抱住，给ta买好吃的，陪ta一起哭。', '冷静倾听，帮ta分析利弊，给出解决问题的 actionable 方案。', '在旁边默默讲个极其烂的冷笑话，试图转移注意力。', '疯狂骂那个惹ta生气的人，比当事人还激动。'] },
+            { q: '洗澡的时候，你通常在干什么？', o: ['跟着手机外放的音乐大声开演唱会。', '思考人生哲理，或者突然想通了白天没解出来的难题。', '脑补自己是某部剧的主角，上演精彩的内心大戏。', '放空大脑，闭着眼睛享受热水的治愈。'] },
+            { q: '你觉得自己有没有"精神洁癖"？', o: ['几乎没有，心极大，什么事睡一觉就忘了。', '有，极度受不了逻辑混乱、做事毫无条理的人。', '薛定谔的洁癖，全看今天精神状态正不正常。', '极其严重！只要对方做了一件让我下头的事，立刻拉黑绝不回头。'] },
+            { q: '夜晚躺在床上睡不着，你的脑子里在放什么电影？', o: ['回忆今天发生的开心事或者期待明天的游玩。', '反复鞭尸今天白天没发挥好的社交瞬间，疯狂懊恼。', '思考宇宙的尽头、外星人、或者末日生存计划。', '啥也想，听着白噪音强行让自己关机。'] },
+            { q: '看到网上有键盘侠在杠你，你会：', o: ['心里有点难受，反思是不是自己真的没说对。', '逻辑清晰地写一篇小长文反驳，将对方辩驳得体无完肤。', '兴奋起来了！顺着网线过去跟ta对线三百回合。', '懒得理这种低智生物，直接拉黑删除拉取一条龙。'] },
+            { q: '你最讨厌被别人怎样对待？', o: ['被大家遗忘、冷落或者孤立。', '智商受到质疑，或者被当成小孩子哄。', '强迫我遵守那些陈旧且毫无意义的规矩。', '突然入侵我的物理或心理私人空间。'] },
+            { q: '你的情绪来得快去得也快吗？', o: ['是的，上一秒哭下一秒笑，特别好哄。', '不，我会在心里记一本账，虽然不说但一直记得。', '我的情绪没有起伏，宛如一潭死水。', '看是谁惹我，在乎的人哄一句就好，不在乎的记恨一辈子。'] },
+            { q: '休息日你最理想的度过方式是：', o: ['去户外露营、飞盘，或者去人多的集市逛吃。', '看一场硬核科幻电影，或者独自钻研一个新软件/新技能。', '宅家刷短视频、玩游戏，昼夜完全颠倒，主打一个随性。', '点好香薰，泡个澡，享受独处的精致下午茶时光。'] },
+            { q: '你在消费时的金钱观是：', o: ['喜欢就买！快乐是无价的。', '极度注重性价比和数据参数，买前必看深度评测。', '经常为奇奇怪怪的创意或"美丽废物"盲目冲动消费。', '愿意花大价钱买高质量、提升生活质感的东西，宁缺毋滥。'] },
+            { q: '面对突如其来的大雨，而你没带伞：', o: ['觉得很浪漫，干脆在雨里跑起来或者踩水坑。', '迅速计算最佳避雨路线、奔跑速度及淋湿的概率面积。', '抱怨天气，然后拍个淋雨的抽象短视频发朋友圈。', '感到极其烦躁，妆/发型毁了，躲在屋檐下冷面叫车。'] },
+            { q: '你的房间里绝对不能缺少什么？', o: ['方便朋友来家里做客的超大沙发或地毯。', '一套高性能设备（电脑/显示器）或宽大的工作台。', '各种奇奇怪怪的手办、盲盒和堆积如山的零食。', '极度舒适且防透光的厚窗帘，以及有安全感的大床。'] },
+            { q: '如果可以拥有一种超能力，你希望是：', o: ['读心术，想知道大家心里到底都在想什么。', '超级大脑，过目不忘，瞬间掌握所有知识。', '瞬间移动，想去哪发疯就去哪，永远不会迟到。', '隐身术，在不想社交的时候随时可以消失不见。'] },
+            { q: '你平时最爱看哪种类型的影视/文学作品？', o: ['轻松搞笑的下饭喜剧或者热血治愈番。', '逻辑严密的硬核悬疑、烧脑推理或数据科普。', '脑洞大开的克苏鲁、无限流、或者无厘头神剧。', '画面极美、情感细腻的文艺片或大女主搞事业。'] },
+            { q: '当你完成了一件超有成就感的事，你最希望：', o: ['得到所有人的鲜花、掌声和点赞夸奖。', '获得实质性的奖励，比如奖金、证书、升职加薪。', '上网匿名狠狠炫耀一番，深藏功与名。', '只需要我在乎的那一两个人懂我就够了，其他人无所谓。'] },
+            { q: '如果别人借了你的东西一直没还，你会：', o: ['随口提一句，用开玩笑的方式提醒对方。', '直接发消息明确要求归还，这很正常不觉得尴尬。', '疯狂发表情包暗示，或者在朋友圈阴阳怪气。', '在心里脑补一百场大戏自己生闷气，就是拉不下脸要。'] },
+            { q: '你觉得自己最大的缺点是什么？', o: ['太容易共情，学不会拒绝，有点讨好型。', '太过理性和慕强，有时候显得过于冷漠没人情味。', '三分钟热度，极度散漫，精神状态极其不稳定。', '玻璃心，内耗严重，极度缺乏安全感。'] },
+            { q: '遇到心动的人，你的追求方式是：', o: ['打直球！疯狂输出好感，变成快乐的小跟班。', '默默收集对方信息，建立模型，制定完美的偶遇策略。', '故意在ta面前做些极其搞怪/显眼的事，吸引注意力。', '极度被动加傲娇，敌不动我不动，甚至故意装冷漠。'] },
+            { q: '恋爱中，你最看重伴侣什么特质？', o: ['能提供满分的情绪价值，事事有回应。', '智商在线，能和我进行深度的精神和逻辑交流。', '跟我一样是个有趣的神经病，能接住我所有的梗。', '尊重彼此的独立空间，绝对的忠诚不背叛。'] },
+            { q: '你觉得自己在感情里是个什么样的人？', o: ['毫无保留的付出型，恋爱脑晚期。', '清醒的沉没成本计算专家，一旦不对劲立刻抽身。', '若即若离的猫系人格，忽冷忽热。', '极度护短醋王，谁惹我的人我跟谁急。'] },
+            { q: '当关系让你感到疲惫时，你会：', o: ['积极沟通，努力修补，愿意妥协。', '理性分析利弊，及时止损。', '逃避现实，装疯卖傻，逼对方主动离开。', '大吵一架，然后老死不相往来。'] },
+            { q: '如果存在平行宇宙，你觉得另一个版本的你会是：', o: ['社交达人，所有人都喜欢我。', '改变世界的巨头，智商碾压所有人。', '奇葩天才或者流浪汉，活得自由洒脱。', '富贵人家的宠物，高审美精致生活。'] },
+            { q: '独处对你来说意味着什么？', o: ['折磨和寂寞，我无法忍受一个人待着。', '高效充电时间，可以推进自己的计划。', '阴暗爬行发疯的自由时间。', '终极安全感结界，不需要演了。'] },
+            { q: '如果流落荒岛只能带一个人，你会：', o: ['依靠同伴的帮助活下去，相信团队力量。', '用知识储备建造房屋，研究生存技能。', '发疯等死，觉得一切都没有意义了。', '孤狼般坚韧，一个人也能活得很好。'] },
+            { q: '如果必须放弃一样东西，你会选择放弃：', o: ['独处时间，完全融入集体。', '娱乐和无意义的社交。', '秩序感和对世俗眼光的在意。', '别人的关注和认可。'] },
+            { q: '你的人生信条是：', o: ['大家开心就好，世界需要和平。', '我只相信自己和结果。', '发疯可以治百病。', '保持真我，不被定义。'] }
+        ];
+
+        const SCORING_RULES = [
+            {a:{柯基:3,金毛:3,萨摩耶:2},b:{边牧:3,德牧:3,杜宾:2},c:{巴哥:3,法斗:3},d:{博美:3,吉娃娃:2,德牧:2},n:{藏獒:-2,柴犬:-2,边牧:-2,柯基:-2,斑点狗:-2,杜宾:-2}},
+            {a:{萨摩耶:3,金毛:2,柯基:2},b:{杜宾:3,西高地:3,边牧:2},c:{柴犬:3,藏獒:3,巴哥:2},d:{中华田园犬:3,阿拉斯加:2},n:{西高地:-2,藏獒:-2,比格:-2,哈士奇:-2,泰迪:-2,金毛:-2}},
+            {a:{泰迪:3,柯基:3,金毛:2},b:{西高地:3,拉布拉多:2,杜宾:2},c:{哈士奇:3,斑点狗:3,巴哥:2},d:{博美:3,阿拉斯加:3},n:{藏獒:-2,柴犬:-2,杜宾:-2,泰迪:-2,德牧:-2,边牧:-2}},
+            {a:{金毛:3,萨摩耶:3},b:{杜宾:3,边牧:3,德牧:2},c:{比格:3,哈士奇:3},d:{西高地:3,柴犬:3,藏獒:2},n:{杜宾:-2,藏獒:-2,萨摩耶:-2,巴哥:-2,西高地:-2,拉布拉多:-2}},
+            {a:{金毛:3,泰迪:3},b:{西高地:3,德牧:3,杜宾:2},c:{哈士奇:3,比格:3,斑点狗:2},d:{吉娃娃:3,柴犬:3,中华田园犬:2},n:{柴犬:-2,藏獒:-2,萨摩耶:-2,金毛:-2,柯基:-2}},
+            {a:{萨摩耶:3,柯基:3,泰迪:2},b:{边牧:3,藏獒:3,德牧:2},c:{比格:3,哈士奇:3},d:{中华田园犬:3,博美:2},n:{藏獒:-2,杜宾:-2,比格:-2,萨摩耶:-2}},
+            {a:{泰迪:3,金毛:3},b:{杜宾:3,德牧:3,西高地:2},c:{柴犬:3,斑点狗:3},d:{吉娃娃:3,阿拉斯加:3},n:{柴犬:-2,藏獒:-2,萨摩耶:-2,哈士奇:-2,拉布拉多:-2}},
+            {a:{拉布拉多:3,金毛:3,德牧:2},b:{边牧:3,西高地:3,杜宾:2},c:{哈士奇:3,法斗:3,巴哥:2},d:{博美:3,吉娃娃:3,中华田园犬:2},n:{边牧:-2,柴犬:-2,哈士奇:-2,萨摩耶:-2}},
+            {a:{金毛:3,萨摩耶:3},b:{杜宾:3,藏獒:3,边牧:2},c:{柯基:3,比格:3,泰迪:2},d:{西高地:3,柴犬:3,斑点狗:2},n:{藏獒:-2,西高地:-2,金毛:-2,柯基:-2,萨摩耶:-2}},
+            {a:{柯基:3,比格:3},b:{边牧:3,杜宾:3,德牧:2},c:{哈士奇:3,斑点狗:2},d:{博美:3,阿拉斯加:3},n:{边牧:-2,德牧:-2,哈士奇:-2,巴哥:-2}},
+            {a:{金毛:3,拉布拉多:3},b:{边牧:3,杜宾:3},c:{柴犬:3,泰迪:3},d:{中华田园犬:3,吉娃娃:2},n:{杜宾:-2,柴犬:-2,边牧:-2,杜宾:-2}},
+            {a:{拉布拉多:3,萨摩耶:2},b:{杜宾:3,西高地:3,边牧:2},c:{巴哥:3,法斗:3},d:{吉娃娃:3,泰迪:3},n:{杜宾:-2,西高地:-2,金毛:-2,拉布拉多:-2,德牧:-2,拉布拉多:-2}},
+            {a:{比格:3,斑点狗:3},b:{边牧:3,德牧:3},c:{柯基:3,法斗:3},d:{柴犬:3,哈士奇:3},n:{巴哥:-2,法斗:-2,哈士奇:-2,柯基:-2}},
+            {a:{金毛:3,萨摩耶:3},b:{边牧:3,杜宾:3},c:{柴犬:3,哈士奇:3},d:{西高地:3,博美:3,法斗:2},n:{藏獒:-2,西高地:-2,哈士奇:-2,巴哥:-2,边牧:-2}},
+            {a:{拉布拉多:3,德牧:3},b:{边牧:3,泰迪:3},c:{比格:3,哈士奇:3},d:{巴哥:3,藏獒:3},n:{哈士奇:-2,比格:-2,德牧:-2,拉布拉多:-2}},
+            {a:{柯基:3,博美:3},b:{边牧:3,杜宾:3},c:{哈士奇:3,比格:3},d:{西高地:3,柴犬:3},n:{边牧:-2,杜宾:-2,哈士奇:-2,巴哥:-2}},
+            {a:{金毛:3,拉布拉多:3},b:{杜宾:3,德牧:3,边牧:2},c:{比格:3,柴犬:3},d:{吉娃娃:3,阿拉斯加:3},n:{柴犬:-2,比格:-2,哈士奇:-2,萨摩耶:-2,杜宾:-2,边牧:-2}},
+            {a:{金毛:3,中华田园犬:3},b:{边牧:3,杜宾:3},c:{法斗:3,巴哥:3},d:{西高地:3,柴犬:3},n:{杜宾:-2,柴犬:-2,巴哥:-2,萨摩耶:-2}},
+            {a:{金毛:3,博美:3},b:{杜宾:3,边牧:3},c:{比格:3,哈士奇:3},d:{柴犬:3,藏獒:3,西高地:2},n:{藏獒:-2,杜宾:-2,阿拉斯加:-2,萨摩耶:-2,柯基:-2,泰迪:-2}},
+            {a:{萨摩耶:3,拉布拉多:3},b:{杜宾:3,德牧:3,西高地:2},c:{泰迪:3,斑点狗:3},d:{吉娃娃:3,比格:3},n:{杜宾:-2,吉娃娃:-2,萨摩耶:-2,金毛:-2}},
+            {a:{金毛:3,阿拉斯加:3},b:{边牧:3,西高地:3,杜宾:2},c:{哈士奇:3,柴犬:3},d:{吉娃娃:3,比格:3},n:{杜宾:-2,边牧:-2,哈士奇:-2,萨摩耶:-2}},
+            {a:{比格:3,柯基:3},b:{边牧:3,斑点狗:3},c:{泰迪:3,哈士奇:2},d:{巴哥:3,法斗:3},n:{德牧:-2,巴哥:-2,哈士奇:-2,萨摩耶:-2,德牧:-2,拉布拉多:-2}},
+            {a:{萨摩耶:3,拉布拉多:3},b:{杜宾:3,边牧:3},c:{哈士奇:3,比格:3},d:{西高地:3,柴犬:3,藏獒:2},n:{西高地:-2,杜宾:-2,哈士奇:-2,巴哥:-2}},
+            {a:{金毛:3,柯基:3},b:{西高地:3,博美:3},c:{斑点狗:3,哈士奇:3},d:{德牧:3,巴哥:3},n:{杜宾:-2,藏獒:-2,萨摩耶:-2,巴哥:-2,比格:-2,哈士奇:-2}},
+            {a:{萨摩耶:3,阿拉斯加:3},b:{边牧:3,杜宾:3},c:{比格:3,吉娃娃:3},d:{西高地:3,藏獒:3,柴犬:2},n:{杜宾:-2,西高地:-2,巴哥:-2,哈士奇:-2,金毛:-2,萨摩耶:-2}},
+            {a:{金毛:3,博美:3,德牧:2},b:{杜宾:3,西高地:3,边牧:2},c:{比格:3,柴犬:3,哈士奇:2},d:{藏獒:3,吉娃娃:3,西高地:2},n:{藏獒:-2,柴犬:-2,柯基:-2,金毛:-2}},
+            {a:{萨摩耶:3,比格:3},b:{边牧:3,西高地:3},c:{巴哥:3,法斗:3},d:{中华田园犬:3,藏獒:3},n:{杜宾:-2,藏獒:-2,金毛:-2,拉布拉多:-2}},
+            {a:{柯基:3,金毛:3},b:{边牧:3,杜宾:3},c:{哈士奇:3,巴哥:3},d:{西高地:3,法斗:3},n:{藏獒:-2,巴哥:-2,柯基:-2,比格:-2}},
+            {a:{萨摩耶:3,柯基:3},b:{边牧:3,德牧:3},c:{哈士奇:3,比格:3},d:{西高地:3,杜宾:3,法斗:2},n:{边牧:-2,杜宾:-2,哈士奇:-2,比格:-2}},
+            {a:{比格:3,金毛:3},b:{边牧:3,德牧:3},c:{哈士奇:3,斑点狗:3},d:{西高地:3,柴犬:3},n:{西高地:-2,杜宾:-2,柯基:-2,金毛:-2}},
+            {a:{金毛:3,拉布拉多:3},b:{边牧:3,杜宾:3},c:{柯基:3,哈士奇:3},d:{藏獒:3,西高地:3},n:{藏獒:-2,柴犬:-2,柯基:-2,比格:-2}},
+            {a:{泰迪:3,博美:3},b:{边牧:3,杜宾:3},c:{比格:3,斑点狗:3},d:{西高地:3,柴犬:3,藏獒:2},n:{藏獒:-2,柴犬:-2,柯基:-2,金毛:-2}},
+            {a:{金毛:3,萨摩耶:3},b:{边牧:3,德牧:3},c:{哈士奇:3,比格:3},d:{西高地:3,杜宾:3},n:{杜宾:-2,边牧:-2,哈士奇:-2,萨摩耶:-2}},
+            {a:{萨摩耶:3,博美:3},b:{杜宾:3,边牧:3},c:{柴犬:3,斑点狗:3},d:{藏獒:3,西高地:3,德牧:2,中华田园犬:2},n:{泰迪:-2,金毛:-2}},
+            {a:{金毛:3,拉布拉多:3},b:{边牧:3,西高地:3,杜宾:2,德牧:2},c:{泰迪:3,哈士奇:3},d:{吉娃娃:3,中华田园犬:3},n:{柴犬:-2,吉娃娃:-2,博美:-2,阿拉斯加:-2}},
+            {a:{金毛:3,萨摩耶:3},b:{杜宾:3,边牧:3},c:{比格:3,哈士奇:3},d:{博美:3,吉娃娃:3},n:{杜宾:-2,西高地:-2}},
+            {a:{柯基:3,金毛:3,德牧:2},b:{边牧:3,杜宾:3},c:{比格:3,哈士奇:3},d:{柴犬:3,西高地:3,藏獒:2},n:{柴犬:-2,西高地:-2,柯基:-2,金毛:-2}},
+            {a:{博美:3,金毛:3,德牧:2},b:{边牧:3,杜宾:3},c:{比格:3,斑点狗:3},d:{西高地:3,藏獒:3,中华田园犬:2},n:{杜宾:-2,藏獒:-2,泰迪:-2,柯基:-2}},
+            {a:{萨摩耶:3,阿拉斯加:3},b:{西高地:3,杜宾:3},c:{柴犬:3,泰迪:3},d:{吉娃娃:3,藏獒:3,博美:2},n:{巴哥:-2,哈士奇:-2}},
+            {a:{金毛:3,拉布拉多:3},b:{边牧:3,西高地:3,杜宾:2},c:{柴犬:3,法斗:3,巴哥:2},d:{吉娃娃:3,比格:3},n:{德牧:-2,杜宾:-2}},
+            {a:{萨摩耶:3,柯基:3},b:{边牧:3,杜宾:3},c:{哈士奇:3,比格:3},d:{西高地:3,博美:3,法斗:2},n:{藏獒:-2,西高地:-2}},
+            {a:{金毛:3,柯基:3},b:{边牧:3,德牧:3},c:{哈士奇:3,巴哥:3},d:{中华田园犬:3,藏獒:3},n:{萨摩耶:-2,博美:-2}},
+            {a:{柯基:3,金毛:3},b:{杜宾:3,藏獒:3,边牧:2},c:{比格:3,哈士奇:3},d:{西高地:3,柴犬:3},n:{泰迪:-2,萨摩耶:-2}},
+            {a:{萨摩耶:3,拉布拉多:3},b:{杜宾:3,边牧:3},c:{比格:3,哈士奇:3},d:{西高地:3,藏獒:3},n:{杜宾:-2,藏獒:-2}},
+            {a:{柯基:3,金毛:3},b:{边牧:3,德牧:3,杜宾:2},c:{比格:3,哈士奇:3},d:{西高地:3,博美:3},n:{柴犬:-2,藏獒:-2}}
+        ];
+
+        let currentQuestion = 0;
+        let answers = new Array(45).fill(-1);
+        let dogScores = {};
+        let introFrame = 0;
+        let testFrame = 0;
+        let introInterval = null;
+        let testInterval = null;
+
+        window.onload = function() {
+            introFrame = 0;
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('frame' + i).classList.remove('active');
+            }
+            document.getElementById('frame1').classList.add('active');
+            introInterval = setInterval(() => {
+                document.getElementById('frame' + (1 + introFrame)).classList.remove('active');
+                introFrame = (introFrame + 1) % 4;
+                document.getElementById('frame' + (1 + introFrame)).classList.add('active');
+            }, 200);
+        };
+
+        function startTest() {
+            document.getElementById('introPage').classList.remove('active');
+            document.getElementById('testPage').classList.add('active');
+            if (introInterval) clearInterval(introInterval);
+            testFrame = 0;
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('test-frame' + i).classList.remove('active');
+            }
+            document.getElementById('test-frame1').classList.add('active');
+            testInterval = setInterval(() => {
+                document.getElementById('test-frame' + (1 + testFrame)).classList.remove('active');
+                testFrame = (testFrame + 1) % 4;
+                document.getElementById('test-frame' + (1 + testFrame)).classList.add('active');
+            }, 200);
+            renderQuestion();
+        }
+
+        function getModule(questionIndex) {
+            if (questionIndex < 9) return 0;
+            if (questionIndex < 18) return 1;
+            if (questionIndex < 27) return 2;
+            if (questionIndex < 36) return 3;
+            return 4;
+        }
+
+        function renderQuestion(skipAnimation) {
+            const q = QUESTIONS[currentQuestion];
+            const moduleIdx = getModule(currentQuestion);
+
+            document.getElementById('questionCounter').textContent = `第 ${currentQuestion + 1} 题`;
+            document.getElementById('moduleTitle').textContent = MODULES[moduleIdx];
+            document.getElementById('questionText').textContent = q.q;
+
+            const progress = ((currentQuestion + 1) / 45) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            const optionList = document.getElementById('optionList');
+            optionList.innerHTML = '';
+
+            const optionLetters = ['A', 'B', 'C', 'D'];
+
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn' + (answers[currentQuestion] === idx ? ' selected' : '');
+                btn.textContent = `${optionLetters[idx]}. ${opt}`;
+                btn.onclick = () => selectOption(idx);
+                optionList.appendChild(btn);
+            });
+
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = currentQuestion === 44 ? '查看结果' : '下一题';
+
+            if (!skipAnimation) {
+                const card = document.getElementById('questionCard');
+                card.style.animation = 'none';
+                card.offsetHeight;
+                card.style.animation = 'slideIn 0.4s ease';
+            }
+        }
+
+        function selectOption(idx) {
+            answers[currentQuestion] = idx;
+            if (currentQuestion < 44) {
+                currentQuestion++;
+                renderQuestion(true);
+            } else {
+                showResult();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (answers[currentQuestion] === -1) {
+                return;
+            }
+
+            if (currentQuestion < 44) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function calculateScores() {
+            BREEDS.forEach(b => dogScores[b] = 0);
+
+            for (let q = 0; q < 45; q++) {
+                const answer = answers[q];
+                if (answer === -1) continue;
+
+                const rule = SCORING_RULES[q];
+                const optionKey = ['a', 'b', 'c', 'd'][answer];
+
+                const positiveBreeds = rule[optionKey];
+                if (positiveBreeds) {
+                    Object.keys(positiveBreeds).forEach(breed => {
+                        if (dogScores.hasOwnProperty(breed)) {
+                            dogScores[breed] += positiveBreeds[breed];
+                        }
+                    });
+                }
+
+                if (rule.n) {
+                    Object.keys(rule.n).forEach(breed => {
+                        if (dogScores.hasOwnProperty(breed)) {
+                            dogScores[breed] += rule.n[breed];
+                        }
+                    });
+                }
+            }
+
+            Object.keys(dogScores).forEach(breed => {
+                if (dogScores[breed] <= 0) {
+                    dogScores[breed] = 0;
+                }
+            });
+        }
+
+        function showResult() {
+            calculateScores();
+
+            document.getElementById('testPage').classList.remove('active');
+            document.getElementById('resultPage').classList.add('active');
+            document.getElementById('progressBar').style.width = '100%';
+
+            let totalScore = 0;
+            Object.values(dogScores).forEach(score => {
+                if (score > 0) totalScore += score;
+            });
+
+            if (totalScore === 0) {
+                Object.keys(dogScores).forEach(b => dogScores[b] = 1);
+                totalScore = Object.keys(dogScores).length;
+            }
+
+            let percentages = [];
+            Object.keys(dogScores).forEach(breed => {
+                if (dogScores[breed] > 0) {
+                    const pct = (dogScores[breed] / totalScore) * 100;
+                    percentages.push({ breed, score: dogScores[breed], percent: Math.round(pct * 10) / 10 });
+                }
+            });
+
+            percentages.sort((a, b) => b.percent - a.percent);
+
+            const zeroBreeds = Object.keys(dogScores).filter(b => dogScores[b] <= 0 && BREED_ZERO_COMMENTS.hasOwnProperty(b));
+
+            const mainBreed = percentages[0];
+            const mainBreedInfo = BREED_INFO[mainBreed.breed];
+
+            let resultHTML = `
+                <div class="result-main">
+                    <div class="result-label">主导品种</div>
+                    <div class="result-breed-img">
+                        <img src="狗狗(1).png" class="result-dog-frame active" id="result-frame1">
+                        <img src="狗狗(2).png" class="result-dog-frame" id="result-frame2">
+                        <img src="狗狗(3).png" class="result-dog-frame" id="result-frame3">
+                        <img src="狗狗(4).png" class="result-dog-frame" id="result-frame4">
+                    </div>
+                    <div class="result-title">你的灵魂里，住着一只【${mainBreed.breed}】</div>
+                    <div class="result-percentage">${mainBreed.percent}%</div>
+                    <div class="result-keywords">
+                        ${mainBreedInfo.keywords.map(k => `<span class="keyword-tag">${k}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div class="dna-section">
+                    <div class="dna-title">你的"狗塑"DNA成分表</div>
+            `;
+
+            const top5 = percentages.slice(0, 5);
+            const maxPercent = top5[0].percent;
+
+            top5.forEach((item, idx) => {
+                const barWidth = (item.percent / maxPercent) * 100;
+                const isMain = idx === 0;
+                resultHTML += `
+                    <div class="dna-item">
+                        <div class="dna-info">
+                            <span class="dna-name">${item.breed}${isMain ? '<span class="dna-tag">（主导）</span>' : ''}</span>
+                            <span class="dna-percent">${item.percent}%</span>
+                        </div>
+                        <div class="dna-bar-bg">
+                            <div class="dna-bar" style="width: ${barWidth}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            resultHTML += `</div>`;
+
+            if (zeroBreeds.length > 0) {
+                const zeroBreed = zeroBreeds[0];
+
+                resultHTML += `
+                    <div class="zero-section">
+                        <div class="zero-stamp">绝缘体鉴定</div>
+                        <div class="zero-title">${zeroBreed}</div>
+                        <div class="zero-desc">${BREED_ZERO_COMMENTS[zeroBreed] || '你与这种性格特征完全绝缘'}</div>
+                    </div>
+                `;
+            }
+
+            resultHTML += `
+                <button class="retest-btn" onclick="location.reload()">重新测试</button>
+                <div class="footer">测一测你的狗塑是什么品种</div>
+            `;
+
+            document.getElementById('resultPage').innerHTML = resultHTML;
+
+            let resultFrame = 0;
+            setInterval(() => {
+                document.getElementById('result-frame' + (resultFrame + 1)).classList.remove('active');
+                resultFrame = (resultFrame + 1) % 4;
+                document.getElementById('result-frame' + (resultFrame + 1)).classList.add('active');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
