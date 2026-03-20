@@ -227,10 +227,10 @@
 
         <div class="footer">
             <p>更多测试持续更新中...</p>
-            <p style="margin-top:10px;">👁 总访问量 <span id="LA_TOTAL_PV">-</span> 次 &nbsp;&nbsp; 👤 访客数 <span id="LA_UNIQUE_VISITOR">-</span> 人</p>
+            <p style="margin-top:10px;font-size:12px;color:#b0b0b0;">👁 总访问量 <span id="la_page_total">-</span> 次 &nbsp;&nbsp; 👤 访客数 <span id="la_site_uv">-</span> 人</p>
         </div>
     </div>
-    <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js"></script>
-    <script>LA.init({id:"3PMkra95wHQDhV8a",ck:"3PMkra95wHQDhV8a"})</script>
+    <script charset="UTF-8" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:"3PMkra95wHQDhV8a",ck:"3PMkra95wHQDhV8a",autoData:true},function(data){document.getElementById('la_page_total').innerText=data.pageTotal||'0';document.getElementById('la_site_uv').innerText=data.uniqueVisitor||'0';});</script>
 </body>
 </html>
