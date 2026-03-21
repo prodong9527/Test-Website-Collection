@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测一测你的攻受体质</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(180deg, #fff5f7 0%, #ffeef2 50%, #fff 100%);
+            min-height: 100vh;
+            color: #4a3f3f;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff9a9e, #fecfef);
+            transition: width 0.4s ease;
+            z-index: 100;
+        }
+
+        .back-link {
+            color: #c9a7a7;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            color: #e07a7a;
+        }
+
+        .intro-page, .test-page, .result-page {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+        .intro-page.active, .test-page.active, .result-page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-header {
+            text-align: center;
+            padding: 50px 0 30px;
+        }
+        .intro-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .intro-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #6b4e4e;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        .intro-header p {
+            font-size: 14px;
+            color: #a08080;
+            line-height: 2;
+        }
+        .intro-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #ffb6c1, #ff9a9e);
+            margin: 25px auto;
+            border-radius: 2px;
+        }
+
+        .start-btn {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ffb6c1, #ff9a9e);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 154, 158, 0.5);
+        }
+
+        .test-header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .question-counter {
+            font-size: 13px;
+            color: #c9a7a7;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .dimension-tag {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: #d4919a;
+            letter-spacing: 1px;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 28px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            animation: slideIn 0.5s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .question-text {
+            font-size: 15px;
+            color: #5a4a4a;
+            line-height: 1.8;
+            margin-bottom: 22px;
+            font-weight: 500;
+        }
+
+        .option-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-btn {
+            padding: 14px 18px;
+            background: #fff;
+            border: 1.5px solid #f0e0e0;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 14px;
+            color: #6b5a5a;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            line-height: 1.7;
+        }
+        .option-btn:hover {
+            background: #fff5f7;
+            border-color: #ffb6c1;
+            color: #d47a7a;
+        }
+        .option-btn.selected {
+            background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,154,158,0.2));
+            border-color: #ff9a9e;
+            color: #c76b6b;
+            font-weight: 500;
+        }
+
+        .nav-btns {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-btn.prev {
+            background: #fff;
+            color: #c9a7a7;
+            border: 1.5px solid #f0e0e0;
+        }
+        .nav-btn.next {
+            background: linear-gradient(135deg, #ffb6c1, #ff9a9e);
+            color: white;
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-page {
+            padding: 20px 0;
+        }
+        .result-main {
+            text-align: center;
+            background: rgba(255,255,255,0.95);
+            border-radius: 28px;
+            padding: 35px 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(255,154,158,0.15);
+        }
+        .result-label {
+            font-size: 12px;
+            color: #c9a7a7;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+        .result-type {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff9a9e, #e07a7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .result-title {
+            font-size: 20px;
+            color: #6b4e4e;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .result-desc {
+            font-size: 14px;
+            color: #7a6a6a;
+            line-height: 2;
+            text-align: left;
+        }
+
+        .dimension-result {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+        .dim-item {
+            text-align: center;
+        }
+        .dim-label {
+            font-size: 11px;
+            color: #b0a0a0;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        .dim-value {
+            font-size: 22px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ff9a9e, #e07a7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .retest-btn {
+            display: block;
+            width: 200px;
+            margin: 25px auto;
+            padding: 13px 35px;
+            background: #fff;
+            color: #c9a7a7;
+            border: 1.5px solid #f0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .retest-btn:hover {
+            background: #fff5f7;
+            border-color: #ffb6c1;
+        }
+
+        .radar-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+        .radar-title {
+            font-size: 13px;
+            color: #c9a7a7;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        .radar-chart {
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .radar-labels {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .radar-label {
+            position: absolute;
+            font-size: 11px;
+            color: #a08080;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 60px;
+        }
+        .radar-label span {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #d47a7a;
+            margin-top: 3px;
+        }
+
+        .floating-petals {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .petal {
+            position: absolute;
+            font-size: 18px;
+            opacity: 0.2;
+            animation: fall 20s linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 0.2; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(100vh) rotate(360deg) translateX(100px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-petals" id="floatingPetals"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container">
+        <div class="intro-page active" id="introPage">
+            <a href="index.html" class="back-link">← 返回目录</a>
+
+            <div class="intro-header">
+                <div class="intro-icon">🌸</div>
+                <h1>测一测你的攻受体质</h1>
+                <p>40道题深度解析<br>揭示你在亲密关系中的真实模样<br>16种性格类型全面覆盖</p>
+                <div class="intro-divider"></div>
+            </div>
+
+            <button class="start-btn" onclick="startTest()">开 始 探 索</button>
+        </div>
+
+        <div class="test-page" id="testPage">
+            <a href="index.html" class="back-link">← 返回目录</a>
+            <div class="test-header">
+                <div class="question-counter" id="questionCounter">第 1 题</div>
+                <div class="dimension-tag" id="dimensionTag">攻受值</div>
+            </div>
+
+            <div class="question-card" id="questionCard">
+                <div class="question-text" id="questionText"></div>
+                <div class="option-list" id="optionList"></div>
+            </div>
+
+            <div class="nav-btns">
+                <button class="nav-btn prev" id="prevBtn" onclick="prevQuestion()">上一题</button>
+                <button class="nav-btn next" id="nextBtn" onclick="nextQuestion()">下一题</button>
+            </div>
+        </div>
+
+        <div class="result-page" id="resultPage">
+        </div>
+    </div>
+
+    <script>
+        const SHUFFLED_ORDER = [10, 4, 11, 37, 26, 25, 31, 12, 5, 33, 22, 29, 24, 19, 13, 35, 36, 27, 14, 23, 21, 32, 38, 30, 20, 17, 40, 34, 3, 1, 39, 28, 6, 7, 9, 15, 16, 18, 2, 8];
+
+        const ORIGINAL_QUESTIONS = [
+            { q: '当和伴侣共同规划旅行时，你一般都会：', o: ['我决定所有行程并安排妥当', '我定大方向，细节对方补充', '对方出方案，我来拍板', '对方全权安排，我跟着走'] },
+            { q: '当与伴侣在外遇到突发性外部冲突（如与人争执）时，你下意识的动作是：', o: ['挡在对方前面', '把对方拉到自己身边', '站在对方身边观察', '默默退后让对方处理'] },
+            { q: '收到礼物时，你的内心活动：', o: ['思考下次怎么回赠更有掌控感的礼物', '觉得开心，摸摸对方的头', '觉得对方很宠自己', '开心且依赖感增加'] },
+            { q: '关于未来和伴侣的生活蓝图：', o: ['把对方完全纳入我构建的版图', '两人商量，我掌握最终否决权', '共同努力，倾向于听对方的愿景', '期待对方给我一个安稳的未来'] },
+            { q: '当对方遇到工作或学业的重大困难时，你会：', o: ['直接接手帮对方解决核心问题', '给出指导性意见和策略', '提供情绪价值和陪伴', '感到慌张，不知所措'] },
+            { q: '当两人产生意见分歧，但都认为自己对时：', o: ['必须按我的来，事后再哄', '讲事实摆道理，主导讨论', '试图妥协，但心里委屈', '放弃坚持，听从对方'] },
+            { q: '你与伴侣的消费方式倾向是：', o: ['掌控两人的财务大权', '我承担大部分开销', 'AA制或随性', '乐于让对方为我花钱'] },
+            { q: '你对于伴侣间"照顾"这件事的理解是：', o: ['我喜欢全方位照顾对方的生活', '互相关照，会在关键时刻向对方提供核心支持', '我更享受被照顾', '我非常需要对方的日常照顾'] },
+            { q: '在朋友聚会中，你们的互动一般是：', o: ['我主导话题，随时关注对方', '各自社交，但我会留意对方', '配合对方的社交节奏', '乖乖坐在对方身边不怎么说话'] },
+            { q: '你对"占有"的理解是：', o: ['对方是我的所属物', '我是关系的主导者', '我们都是独立的', '我是对方的专属'] },
+            { q: '别人对你的第一印象通常是：', o: ['气场很强，有压迫感', '稳重成熟，干练', '亲切温和，好脾气', '柔软弱势，易相处'] },
+            { q: '面对伴侣的无理取闹，你会：', o: ['严厉制止，不容挑衅', '冷静分析，让对方适可而止', '无奈叹气，选择顺从', '跟着一起闹或觉得委屈'] },
+            { q: '在团队合作中，你的角色通常是：', o: ['绝对的领导者/规则制定者', '核心骨干成员', '配合度高的执行者', '边缘划水或求助者'] },
+            { q: '当被伴侣指出缺点时，你的反应：', o: ['强势反驳，不愿低头', '表面平静，暗自评估', '虚心接受并道歉', '觉得委屈，容易哭'] },
+            { q: '当你遇到重大个人挫折时，你会：', o: ['咬牙死扛，绝不示弱', '默默解决，情绪稳定', '需要向对方倾诉', '感觉天塌了，极度崩溃'] },
+            { q: '你说话的常用语调：', o: ['笃定、不容置疑', '平稳、有逻辑', '温和、商量语气', '软糯、带有依赖感'] },
+            { q: '当你发现对方撒谎，你会：', o: ['当面无情拆穿并对峙', '收集证据后冷静摊牌', '试探性地委婉询问', '害怕失去而不敢揭穿'] },
+            { q: '你对待竞争的态度是：', o: ['必须赢，享受征服感', '尽力而为，看重结果', '佛系面对，不喜欢冲突', '害怕竞争，习惯退缩'] },
+            { q: '你的性格底色更接近：', o: ['刀锋、烈火', '岩石、大树', '湖水、微风', '棉花，白云'] },
+            { q: '吵架后的破冰期，你会：', o: ['绝对不先低头', '讲道理直到占上风', '等对方来哄我', '我先服软求和'] },
+            { q: '你和伴侣一起走在路上时，更习惯：', o: ['喜欢自己走，按自己的步调', '并排走，不需要肢体接触', '自然地牵手或挽着', '十指紧扣或紧紧搂着'] },
+            { q: '你和伴侣关于睡觉的偏好是：', o: ['倾向分房或分床睡，保证睡眠质量', '同床但必须分被子，各睡各的', '偶尔碰到手脚，自然入睡', '必须抱在一起或枕着手臂睡'] },
+            { q: '你和伴侣恋爱后的周末是：', o: ['必须有完全独处的日子', '半天约会，半天各做各的事', '两人宅在一起各做各的', '24小时黏在一起，共同行动'] },
+            { q: '你的伴侣出差一周，你会选择：', o: ['觉得清静，极度享受独处时光', '只有晚上例行聊几句', '经常发消息报备日常', '每天打好几个视频电话，很想念'] },
+            { q: '你和伴侣一起在外面吃饭时的座位是：', o: ['面对面坐，保持社交距离', '面对面坐，偶尔交流', '挨着坐，偶尔碰碰脚', '必须挨着坐，还要贴着'] },
+            { q: '关于两人的手机和隐私，你认为应该：', o: ['这是绝对的个人禁区，不可触碰', '互相尊重隐私，不看对方手机', '不设防，偶尔看一眼', '互换密码，随时随便看'] },
+            { q: '当你心情不好时，你会选择：', o: ['让我一个人呆着，绝对别来烦我', '给我倒杯水然后出去', '陪在身边什么都不用说', '一直抱着我、哄我'] },
+            { q: '你对与伴侣同居的态度是：', o: ['极其抵触，需要自己的住所', '偏向分开住，保留神秘感', '顺其自然，可以接受', '极其渴望，越早越好'] },
+            { q: '当伴侣想参与你个人的兴趣爱好时，你会：', o: ['拒绝，这是我的私人净土', '随便，但最好别干涉我', '欢迎加入，一起玩', '超级开心，手把手教并希望对方喜欢'] },
+            { q: '你的个人边界感：', o: ['极强，像一堵墙', '清晰，有门有锁', '模糊，容易被跨越', '几乎没有，希望两人融为一体'] },
+            { q: '表达爱意时，你倾向于：', o: ['设局套路，看对方面红耳赤', '正话反说，傲娇别扭地表达', '用行动默默证明，温和自然', '直球表白，大声说爱'] },
+            { q: '看到对方吃醋，你的反应是：', o: ['觉得有趣，故意再添把火逗一下', '表面不耐烦，心里很受用', '马上认真解释清楚', '紧张地抱着对方哄'] },
+            { q: '对方夸你好看/厉害时：', o: ['挑眉坏笑："那当然，以后多夸点"', '脸红转过头："少拍马屁"', '害羞低头："哪有"', '开心大笑："谢谢宝贝！"'] },
+            { q: '你准备惊喜的风格更像是：', o: ['充满反转和解谜的连环套路', '假装忘记，最后甩出礼物', '挑一个合适的时机正常送出', '刚买完就忍不住提前拿出来'] },
+            { q: '当两人产生误会时，你会选择：', o: ['故意看对方着急，掌控节奏', '阴阳怪气或冷战暗示', '觉得麻烦，简单解释几句', '立刻坐下来坦诚沟通，急于澄清'] },
+            { q: '你的承诺通常是：', o: ['充满掌控欲的誓言，带点恶趣味', '别别扭扭但言出必行的句子', '朴实无华的一句"有我在"', '真诚热烈、掏心掏肺的长篇大论'] },
+            { q: '对待伴侣的秘密，你会：', o: ['暗中调查清楚，掌握底牌', '旁敲侧击地试探', '等对方主动开口', '直接问，或者觉得无所谓'] },
+            { q: '你最喜欢叫对方什么：', o: ['带有欺负性质或专属的奇怪外号', '连名带姓或略带傲娇的词', '规矩的小名或名字', '宝贝、宝宝等直白的甜腻称呼'] },
+            { q: '你的吃醋表现通常是：', o: ['表面不动声色，背地里整治对方', '甩脸子、生闷气，等对方猜', '直接表达不满并要求解释', '委屈巴巴地告诉对方自己难受'] },
+            { q: '总体来说，你的情绪外化程度：', o: ['深藏不露，心思极难猜', '口是心非，需要反向理解', '情绪稳定，表里如一', '像透明的玻璃，一目了然'] }
+        ];
+
+        const DIM_LABELS = ['攻受值', '气场值', '独立值', '表达值'];
+
+        const RESULTS = {
+            'TSID': { name: '高冷腹黑攻', desc: '你是天生的执棋者，自带一种生人勿近的强大气场。在感情中，你极其看重个人的独立空间，排斥毫无边界感的过度黏糊。你表达爱意的方式从不是大张旗鼓，而是步步为营的套路与不动声色的偏爱。你喜欢把控关系的发展节奏，只在绝对的安全区里释放自己深藏的温柔。懂你的人会沉溺于你这种充满反差与拉扯感的魅力中。' },
+            'TSIF': { name: '成熟爹系攻', desc: '你是伴侣眼中最坚实的依靠。你性格稳重理智，有着极其清晰的边界感，既能自己独立前行，也能为对方遮风挡雨。你非常反感恋爱中的弯弯绕绕和猜忌，喜欢打直球，有什么说什么。你给足伴侣安全感的方式，是用最成熟的手段解决生活中的实际问题。和你谈恋爱，既能享受被全方位保护的踏实，又能拥有绝对自由的个人空间。' },
+            'TSCD': { name: '疯批醋王攻', desc: '你的占有欲和领地意识极强，一旦认定一个人，就恨不得把对方时刻圈在自己的视线范围内。你极其渴望亲密的肢体接触，但又常常不愿直说，反而喜欢用一点恶趣味的小手段去欺负或逗弄伴侣，看着对方面红耳赤你就会暗自爽快。你是个超级大醋坛子，任何靠近你伴侣的人都会让你警铃大作。你的爱，热烈、霸道且极具侵略性。' },
+            'TSCF': { name: '直球狼狗攻', desc: '你在外人面前气场全开、雷厉风行，但在喜欢的人面前，会瞬间化身为一只护主的大狼狗。你的行动力满分，爱意表达得既热烈又纯粹，从不掩饰自己的喜欢。你极其享受和伴侣黏在一起的时光，随时随地都想贴贴抱抱。你给的爱就像夏日的骄阳，直白且滚烫，能让伴侣感受到被百分百坚定选择的绝对偏爱。' },
+            'TWID': { name: '钓系美人攻', desc: '你表面看起来毫无攻击性，对什么都淡淡的，仿佛什么都不在意，实则内心极其通透，是拿捏人心的高手。你极度需要自己的小天地，不喜欢被束缚。在恋爱中，你最擅长以退为进，通过若即若离的极致拉扯感，让伴侣心甘情愿地围着你转。你从不需要大声宣誓主权，仅凭一个眼神或一个不经意的动作，就能把对方的心钓得死死的。' },
+            'TWIF': { name: '清冷寡欲攻', desc: '你就像一阵自由的清风，不争不抢，淡泊寡言。你既没有强烈的掌控欲也没有黏人的需求，极其享受高质量的独处时光。你对待感情真诚坦荡，没有任何复杂的套路，但自带一种疏离感。你所追求的，是那种"同在一个屋檐下，各做各的事也觉得很舒服"的神仙爱情。你尊重彼此的独立人格，是细水长流、互不干涉模式的最佳践行者。' },
+            'TWCD': { name: '绿茶心机攻', desc: '你绝对是恋爱中的高级玩家。外表看似柔弱无害、毫无主见，实则满脑子精明的小心思。你极其渴望伴侣的关注和陪伴，而你获取这些的方式不是强求，而是熟练运用装可怜、撒娇和巧妙的茶言茶语。你懂得如何展示自己的脆弱来激发对方的保护欲，用最柔软的姿态把伴侣吃得死死的，让对方心甘情愿为你付出一切。' },
+            'TWCF': { name: '纯情奶狗攻', desc: '你的底色是极其温柔且纯粹的。你脾气极好，对伴侣几乎没有任何防备心和攻击性。你就像一杯暖胃的温水，用无限的包容和真诚融化对方。你非常黏人，满眼都是伴侣，喜欢跟在对方身后打转，随时提供极高的情绪价值。和你在一起，伴侣不需要有任何顾虑，因为你是那个永远可以无脑信任、永远在原地等待的贴心小狗。' },
+            'BSID': { name: '高冷女王受', desc: '你是一座极难靠近的冰山，独立且带刺。你的外表强势冷漠，内心却藏着别扭与傲娇。你极度排斥毫无灵魂的过度亲密，需要广阔的个人空间。在感情里，你习惯用高标准去试探和考验对方，只有那个极具耐心、能看穿你坚硬外壳并坚定走向你的人，才能得到你毫无保留的偏爱，一旦你认定，便会在保持女王姿态的同时，给予最深沉的忠诚。' },
+            'BSIF': { name: '洒脱直爽受', desc: '你性格坚韧、干脆利落，遇到事情习惯自己扛，绝不喜欢依附于任何人。你有着极强的独立思考能力和清晰的个人边界。你极其不屑于恋爱中的套路和虚情假意，表达喜欢直接且坦荡。你所寻找的，不是单方面的庇护和宠溺，而是势均力敌、能并肩作战的战友型爱情。两个人各自发光，顶峰相见，是你最理想的状态。' },
+            'BSCD': { name: '傲娇心软受', desc: '你日常气场一米八，看起来谁也不服，但在感情里其实是个极度需要陪伴的小作精。你是典型的嘴硬心软，心里明明很在乎，嘴上却总是要毒舌两句。你非常护短，领地意识极强，容易吃醋，但吃醋了又拉不下脸直说，往往会用发脾气或阴阳怪气来引起伴侣的注意。只要对方能看穿你的小傲娇并顺毛捋，你就会瞬间乖乖听话。' },
+            'BSCF': { name: '阳光直球受', desc: '你的生命力极其旺盛，像一个小太阳一样耀眼且充满感染力。虽然在关系中处于受位，但你绝不娇弱，性格直爽大方。你喜欢热烈、直白地表达爱意，开心就笑，想念就大声说出来。你非常热衷于充满活力的亲密互动和双向奔赴的陪伴。和你谈恋爱，就像每天都在进行一场痛快淋漓的冒险，充满着无尽的快乐和正能量。' },
+            'BWID': { name: '冰山慢热受', desc: '你的性格偏向内向和敏感，出于自我保护，你给自己建了一层厚厚的壳。你对亲密接触非常慢热，极度需要属于自己的安全屋。即使心里已经对某人产生了好感，表面上你也会因为胆怯和别扭而表现得云淡风轻。你不擅长主动出击，需要伴侣有极大的耐心和温柔，一点一滴地融化你的防备，才能看到你内心深处的柔软与长情。' },
+            'BWIF': { name: '佛系咸鱼受', desc: '你是真正的人间清醒，自带一种慵懒、疏离的咸鱼气质。你极其享受独处，对世俗那些轰轰烈烈、黏黏糊糊的恋爱套路没有太多渴望。你性格真实平和，不作不闹，从不向伴侣索取过度的情绪价值，同时也不希望对方来过度打扰你的生活节奏。你期待的恋爱是自然发生、水到渠成的，两个人轻松自在，不需要为了讨好彼此而戴上面具。' },
+            'BWCD': { name: '钓系粘人受', desc: '你日常需要伴侣提供大量的情绪价值和关注度。虽然你看起来软萌可爱，但其实心思非常活络。你经常口是心非，懂得如何通过欲擒故纵、假装生气或一点点小委屈，来最大化地博取伴侣的宠爱和紧张。你非常享受被人在乎、被人紧紧抓在手心里的感觉，只要对方给足了甜头和哄劝，你就会开心地贴过去，甜度爆表。' },
+            'BWCF': { name: '软萌甜心受', desc: '你是毫无防备心的纯粹体质，就是一颗行走的"夹心软糖"。你极度依赖伴侣，喜欢撒娇、求抱抱，享受被对方关心的感觉。你表达爱意的方式直接且毫无保留，心里有十分爱，就会表现出十二分。遇到事情，你的第一反应就是躲到伴侣身后寻求庇护。你天真无邪、全身心信任的模样，能轻易激发任何人的保护欲，惹人无限怜爱。' }
+        };
+
+        let currentDisplayIndex = 0;
+        let answers = new Array(40).fill(-1);
+
+        function startTest() {
+            document.getElementById('introPage').classList.remove('active');
+            document.getElementById('testPage').classList.add('active');
+            renderQuestion();
+            createFloatingPetals();
+        }
+
+        function createFloatingPetals() {
+            const container = document.getElementById('floatingPetals');
+            const petals = ['🌸', '✿', '❀', '💮', '🏵'];
+            for (let i = 0; i < 12; i++) {
+                const petal = document.createElement('span');
+                petal.className = 'petal';
+                petal.textContent = petals[Math.floor(Math.random() * petals.length)];
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDelay = Math.random() * 20 + 's';
+                petal.style.fontSize = (14 + Math.random() * 12) + 'px';
+                container.appendChild(petal);
+            }
+        }
+
+        function getDimension(displayIndex) {
+            const originalQ = SHUFFLED_ORDER[displayIndex];
+            if (originalQ <= 10) return DIM_LABELS[0];
+            if (originalQ <= 20) return DIM_LABELS[1];
+            if (originalQ <= 30) return DIM_LABELS[2];
+            return DIM_LABELS[3];
+        }
+
+        function renderQuestion(skipAnimation) {
+            const originalQIndex = SHUFFLED_ORDER[currentDisplayIndex] - 1;
+            const q = ORIGINAL_QUESTIONS[originalQIndex];
+            const dimension = getDimension(currentDisplayIndex);
+
+            document.getElementById('questionCounter').textContent = `第 ${currentDisplayIndex + 1} 题`;
+            document.getElementById('dimensionTag').textContent = dimension;
+            document.getElementById('questionText').textContent = q.q;
+
+            const progress = ((currentDisplayIndex + 1) / 40) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            const optionList = document.getElementById('optionList');
+            optionList.innerHTML = '';
+
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn' + (answers[currentDisplayIndex] === idx ? ' selected' : '');
+                btn.textContent = opt;
+                btn.onclick = () => selectOption(idx);
+                optionList.appendChild(btn);
+            });
+
+            document.getElementById('prevBtn').disabled = currentDisplayIndex === 0;
+            document.getElementById('nextBtn').textContent = currentDisplayIndex === 39 ? '查看结果' : '下一题';
+
+            if (!skipAnimation) {
+                const card = document.getElementById('questionCard');
+                card.style.animation = 'none';
+                card.offsetHeight;
+                card.style.animation = 'slideIn 0.4s ease';
+            }
+        }
+
+        function selectOption(idx) {
+            answers[currentDisplayIndex] = idx;
+            renderQuestion(true);
+            setTimeout(() => {
+                if (currentDisplayIndex < 39) {
+                    currentDisplayIndex++;
+                    renderQuestion();
+                } else {
+                    showResult();
+                }
+            }, 200);
+        }
+
+        function prevQuestion() {
+            if (currentDisplayIndex > 0) {
+                currentDisplayIndex--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (answers[currentDisplayIndex] === -1) return;
+            if (currentDisplayIndex < 39) {
+                currentDisplayIndex++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function calculateScores() {
+            let rawScores = {1_10: 0, 11_20: 0, 21_30: 0, 31_40: 0};
+
+            for (let i = 0; i < 40; i++) {
+                const originalQ = SHUFFLED_ORDER[i];
+                const score = 4 - answers[i];
+
+                if (originalQ <= 10) rawScores[1_10] += score;
+                else if (originalQ <= 20) rawScores[11_20] += score;
+                else if (originalQ <= 30) rawScores[21_30] += score;
+                else rawScores[31_40] += score;
+            }
+
+            let radar = {
+                掌控欲: Math.round((rawScores[1_10] / 40) * 100),
+                侵略性: Math.round(((rawScores[1_10] + rawScores[11_20]) / 80) * 100),
+                独立: Math.round((rawScores[21_30] / 40) * 100),
+                粘人: Math.round(((50 - rawScores[21_30]) / 40) * 100),
+                腹黑: Math.round((rawScores[31_40] / 40) * 100),
+                傲娇: Math.round(((rawScores[11_20] + rawScores[31_40]) / 80) * 100),
+                钓系: Math.round((((50 - rawScores[11_20]) + rawScores[31_40]) / 80) * 100)
+            };
+
+            return {
+                raw: rawScores,
+                radar: radar,
+                攻受: rawScores[1_10],
+                气场: rawScores[11_20],
+                独立: rawScores[21_30],
+                表达: rawScores[31_40]
+            };
+        }
+
+        function getResultType(scores) {
+            const t1 = scores.攻受 >= 25 ? 'T' : 'B';
+            const t2 = scores.气场 >= 25 ? 'S' : 'W';
+            const t3 = scores.独立 >= 25 ? 'I' : 'C';
+            const t4 = scores.表达 >= 25 ? 'D' : 'F';
+            return t1 + t2 + t3 + t4;
+        }
+
+        function drawRadar(radar) {
+            const labels = ['掌控欲', '侵略性', '独立', '粘人', '腹黑', '傲娇', '钓系'];
+            const values = [radar.掌控欲, radar.侵略性, radar.独立, radar.粘人, radar.腹黑, radar.傲娇, radar.钓系];
+            const centerX = 140, centerY = 140, radius = 100;
+            const angleStep = (Math.PI * 2) / 7;
+            const startAngle = -Math.PI / 2;
+
+            let points = [];
+            for (let i = 0; i < 7; i++) {
+                const angle = startAngle + i * angleStep;
+                const value = values[i] / 100;
+                const x = centerX + Math.cos(angle) * radius * value;
+                const y = centerY + Math.sin(angle) * radius * value;
+                points.push({x, y, label: labels[i], value: values[i]});
+            }
+
+            let html = '<div class="radar-section"><div class="radar-title">七维人格雷达图</div><div class="radar-chart">';
+            html += '<svg width="280" height="280" viewBox="0 0 280 280">';
+
+            for (let r = 1; r <= 4; r++) {
+                const polygonPoints = [];
+                for (let i = 0; i < 7; i++) {
+                    const angle = startAngle + i * angleStep;
+                    const x = centerX + Math.cos(angle) * radius * (r / 4);
+                    const y = centerY + Math.sin(angle) * radius * (r / 4);
+                    polygonPoints.push(`${x},${y}`);
+                }
+                html += `<polygon points="${polygonPoints.join(' ')}" fill="none" stroke="#f0e0e0" stroke-width="1"/>`;
+            }
+
+            for (let i = 0; i < 7; i++) {
+                const angle = startAngle + i * angleStep;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                html += `<line x1="${centerX}" y1="${centerY}" x2="${x}" y2="${y}" stroke="#f0e0e0" stroke-width="1"/>`;
+            }
+
+            const dataPoints = points.map(p => `${p.x},${p.y}`).join(' ');
+            html += `<polygon points="${dataPoints}" fill="rgba(255,154,158,0.3)" stroke="#ff9a9e" stroke-width="2"/>`;
+
+            for (let i = 0; i < 7; i++) {
+                html += `<circle cx="${points[i].x}" cy="${points[i].y}" r="4" fill="#ff9a9e"/>`;
+            }
+
+            html += '</svg>';
+
+            html += '<div class="radar-labels">';
+            for (let i = 0; i < 7; i++) {
+                const angle = startAngle + i * angleStep;
+                const labelX = centerX + Math.cos(angle) * (radius + 35);
+                const labelY = centerY + Math.sin(angle) * (radius + 35);
+                html += `<div class="radar-label" style="left:${labelX}px;top:${labelY}px;">${points[i].label}<span>${points[i].value}</span></div>`;
+            }
+            html += '</div></div></div>';
+
+            return html;
+        }
+
+        function showResult() {
+            const scores = calculateScores();
+            const resultType = getResultType(scores);
+            const result = RESULTS[resultType];
+
+            document.getElementById('testPage').classList.remove('active');
+            document.getElementById('resultPage').classList.add('active');
+            document.getElementById('progressBar').style.width = '100%';
+
+            let html = `
+                <a href="index.html" class="back-link">← 返回目录</a>
+                <div class="result-main">
+                    <div class="result-label">你的体质类型</div>
+                    <div class="result-type">${resultType}</div>
+                    <div class="result-title">${result.name}</div>
+                </div>
+
+                <div class="dimension-result">
+                    <div class="dim-item">
+                        <div class="dim-label">攻受值</div>
+                        <div class="dim-value">${scores.攻受}</div>
+                    </div>
+                    <div class="dim-item">
+                        <div class="dim-label">气场值</div>
+                        <div class="dim-value">${scores.气场}</div>
+                    </div>
+                    <div class="dim-item">
+                        <div class="dim-label">独立值</div>
+                        <div class="dim-value">${scores.独立}</div>
+                    </div>
+                    <div class="dim-item">
+                        <div class="dim-label">表达值</div>
+                        <div class="dim-value">${scores.表达}</div>
+                    </div>
+                </div>
+
+                ${drawRadar(scores.radar)}
+
+                <div class="result-main" style="margin-top:20px;">
+                    <div class="result-desc">${result.desc}</div>
+                </div>
+
+                <button class="retest-btn" onclick="location.reload()">重新测试</button>
+            `;
+
+            document.getElementById('resultPage').innerHTML = html;
+        }
+    </script>
+</body>
+</html>
