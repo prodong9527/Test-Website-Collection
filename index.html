@@ -11,149 +11,185 @@
             box-sizing: border-box;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif;
-            background: linear-gradient(180deg, #f8f9ff 0%, #f0f2f8 100%);
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(180deg, #fefcf9 0%, #faf6f1 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            color: #3a3530;
         }
         .container {
-            max-width: 700px;
+            max-width: 680px;
             margin: 0 auto;
+            padding: 50px 24px 80px;
         }
+
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .header-bg {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(200,180,160,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .header-icon {
+            font-size: 42px;
+            margin-bottom: 16px;
+            opacity: 0.9;
         }
         .header h1 {
-            font-size: 28px;
-            color: #2d2d2d;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 12px;
+            font-size: 30px;
+            font-weight: 600;
+            color: #3a3530;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
         }
-        .header .line {
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            margin: 0 auto;
-            border-radius: 2px;
+        .header-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, #c8b4a0, transparent);
+            margin: 20px auto;
         }
         .header p {
-            color: #999;
-            font-size: 14px;
-            margin-top: 15px;
+            font-size: 13px;
+            color: #8a7a6a;
+            letter-spacing: 2px;
         }
+
         .category {
-            margin-bottom: 35px;
+            margin-bottom: 50px;
+        }
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+            padding-left: 4px;
+        }
+        .category-num {
+            font-size: 11px;
+            color: #a09080;
+            letter-spacing: 1px;
         }
         .category-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-            padding-left: 5px;
-        }
-        .category-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        .category-icon.love {
-            background: linear-gradient(135deg, #ff8aac, #e84a7f);
-        }
-        .category-icon.personality {
-            background: linear-gradient(135deg, #9b9bff, #6b6bff);
-        }
-        .category-icon.game {
-            background: linear-gradient(135deg, #6bffb8, #2ecc71);
-        }
-        .category-icon.fun {
-            background: linear-gradient(135deg, #ffb86b, #ff6b35);
-        }
-        .category-title h2 {
-            font-size: 18px;
-            color: #333;
+            font-size: 17px;
+            color: #3a3530;
             font-weight: 600;
+            letter-spacing: 1px;
         }
-        .category-title .count {
-            font-size: 12px;
-            color: #999;
-            font-weight: normal;
-            margin-left: 8px;
+        .category-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, #e0d8cc, transparent);
+            margin-left: 10px;
         }
+
         .test-list {
             list-style: none;
-        }
-        .test-item {
-            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }
         .test-item a {
             display: block;
-            padding: 18px 22px;
-            background: #fff;
-            border-radius: 14px;
+            padding: 22px 24px;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #ebe5dd;
+            border-radius: 16px;
             text-decoration: none;
-            color: #333;
-            transition: all 0.25s ease;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-            border: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+        .test-item a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .test-item.love a::before { background: linear-gradient(to bottom, #e8a0b0, #d48090); }
+        .test-item.personality a::before { background: linear-gradient(to bottom, #a0a0d0, #8080c0); }
+        .test-item.game a::before { background: linear-gradient(to bottom, #80c0a0, #50a080); }
+
         .test-item a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            border-color: #e8e8e8;
+            transform: translateX(6px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-color: #d8d0c4;
+        }
+        .test-item a:hover::before {
+            opacity: 1;
         }
         .test-item a h3 {
             font-size: 15px;
             font-weight: 600;
-            margin-bottom: 6px;
-            color: #333;
+            color: #3a3530;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
         .test-item a p {
             font-size: 13px;
-            color: #999;
-            line-height: 1.5;
+            color: #8a7a6a;
+            line-height: 1.6;
         }
-        .test-item.love a:hover {
-            border-color: #ff8aac;
-        }
-        .test-item.personality a:hover {
-            border-color: #9b9bff;
-        }
-        .test-item.game a:hover {
-            border-color: #6bffb8;
-        }
-        .test-item.fun a:hover {
-            border-color: #ffb86b;
-        }
+        .test-item.love a:hover h3 { color: #c87080; }
+        .test-item.personality a:hover h3 { color: #7070b0; }
+        .test-item.game a:hover h3 { color: #509070; }
+
         .footer {
             text-align: center;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid #eee;
+            margin-top: 60px;
+            padding-top: 40px;
+        }
+        .footer-line {
+            width: 60px;
+            height: 1px;
+            background: #d0c8bc;
+            margin: 0 auto 30px;
         }
         .footer p {
             font-size: 12px;
-            color: #b0b0b0;
+            color: #a09080;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 40px 16px 60px;
+            }
+            .header h1 {
+                font-size: 24px;
+            }
+            .test-item a {
+                padding: 18px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <div class="header-bg"></div>
+            <div class="header-icon">*</div>
             <h1>测试网站合集</h1>
-            <div class="line"></div>
-            <p>各种有趣的测试，持续更新中！</p>
+            <div class="header-line"></div>
+            <p>Somewhere beyond the tests</p>
         </div>
 
         <div class="category">
-            <div class="category-title">
-                <div class="category-icon love">💕</div>
-                <h2>感情类<span class="count">5个测试</span></h2>
+            <div class="category-header">
+                <span class="category-num">01</span>
+                <span class="category-title">感情类</span>
+                <span class="category-line"></span>
             </div>
             <ul class="test-list">
                 <li class="test-item love">
@@ -190,9 +226,10 @@
         </div>
 
         <div class="category">
-            <div class="category-title">
-                <div class="category-icon personality">✨</div>
-                <h2>性格类<span class="count">3个测试</span></h2>
+            <div class="category-header">
+                <span class="category-num">02</span>
+                <span class="category-title">性格类</span>
+                <span class="category-line"></span>
             </div>
             <ul class="test-list">
                 <li class="test-item personality">
@@ -211,11 +248,18 @@
         </div>
 
         <div class="category">
-            <div class="category-title">
-                <div class="category-icon game">🎮</div>
-                <h2>互动游戏类<span class="count">2个测试</span></h2>
+            <div class="category-header">
+                <span class="category-num">03</span>
+                <span class="category-title">互动游戏类</span>
+                <span class="category-line"></span>
             </div>
             <ul class="test-list">
+                <li class="test-item game">
+                    <a href="test10.html">
+                        <h3>你心中的家是什么</h3>
+                        <p>一趟驶向归属的列车，穿越晨昏与星海，5种结局深度解析</p>
+                    </a>
+                </li>
                 <li class="test-item game">
                     <a href="test4.html">
                         <h3>红月降临：你在末世能活多久？</h3>
@@ -232,11 +276,11 @@
         </div>
 
         <div class="footer">
-            <p>更多测试持续更新中...</p>
-            <p style="margin-top:10px;font-size:12px;color:#b0b0b0;">👁 总访问量 <span id="la_page_total">-</span> 次 &nbsp;&nbsp; 👤 访客数 <span id="la_site_uv">-</span> 人</p>
+            <div class="footer-line"></div>
+            <p>More tests coming soon</p>
         </div>
     </div>
     <script charset="UTF-8" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-    <script>LA.init({id:"3PMkra95wHQDhV8a",ck:"3PMkra95wHQDhV8a",autoData:true},function(data){document.getElementById('la_page_total').innerText=data.pageTotal||'0';document.getElementById('la_site_uv').innerText=data.uniqueVisitor||'0';});</script>
+    <script>LA.init({id:"3PMkra95wHQDhV8a",ck:"3PMkra95wHQDhV8a"});</script>
 </body>
 </html>

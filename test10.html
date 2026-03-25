@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测一测你心中的家是什么</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'STSong', serif;
+            background: linear-gradient(180deg, #faf8f5 0%, #f5f0e8 100%);
+            min-height: 100vh;
+            color: #4a4540;
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 30px 25px;
+            min-height: 100vh;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8b7355, #a69076);
+            transition: width 0.6s ease;
+            z-index: 100;
+        }
+
+        .intro-page, .test-page, .result-page {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+        .intro-page.active, .test-page.active, .result-page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .intro-header {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+        .intro-title {
+            font-size: 11px;
+            color: #a69076;
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .intro-main-title {
+            font-size: 26px;
+            color: #5a4a3a;
+            font-weight: 400;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+        .intro-subtitle {
+            font-size: 13px;
+            color: #8b7355;
+            line-height: 2.2;
+        }
+        .intro-divider {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, #a69076, transparent);
+            margin: 40px auto;
+        }
+        .intro-start {
+            font-size: 15px;
+            color: #8b7355;
+            letter-spacing: 4px;
+            margin-top: 40px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .intro-start:hover {
+            color: #5a4a3a;
+        }
+
+        .question-card {
+            animation: slideUp 0.8s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scene-title {
+            font-size: 11px;
+            color: #a69076;
+            letter-spacing: 3px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question-text {
+            font-size: 16px;
+            color: #3a3530;
+            line-height: 2;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .option {
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid #e0d8cc;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #5a4a3a;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+            line-height: 1.8;
+        }
+        .option:hover {
+            background: rgba(139,115,85,0.1);
+            border-color: #a69076;
+            transform: translateX(5px);
+        }
+
+        .result-page {
+            padding: 40px 0;
+        }
+        .result-label {
+            font-size: 10px;
+            color: #a69076;
+            letter-spacing: 6px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .result-title {
+            font-size: 22px;
+            color: #5a4a3a;
+            text-align: center;
+            font-weight: 400;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+        .result-subtitle {
+            font-size: 13px;
+            color: #8b7355;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+        .result-quote {
+            background: rgba(139,115,85,0.08);
+            border-left: 2px solid #a69076;
+            padding: 25px 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: #6a5a4a;
+            line-height: 2;
+            font-size: 13px;
+        }
+        .result-desc {
+            font-size: 14px;
+            color: #4a4540;
+            line-height: 2.2;
+            text-align: justify;
+        }
+        .result-heading {
+            font-size: 13px;
+            color: #5a4a3a;
+            letter-spacing: 2px;
+            margin: 35px 0 15px;
+        }
+        .ticket-quote {
+            background: linear-gradient(135deg, #f5f0e8 0%, #ebe5d9 100%);
+            border: 1px solid #d0c8bc;
+            border-radius: 4px;
+            padding: 25px 30px;
+            margin: 40px 0;
+            position: relative;
+            text-align: center;
+        }
+        .ticket-quote::before {
+            content: '车票赠言';
+            position: absolute;
+            top: -10px;
+            left: 30px;
+            background: #f5f0e8;
+            padding: 0 10px;
+            font-size: 10px;
+            color: #a69076;
+            letter-spacing: 3px;
+        }
+        .ticket-quote p {
+            font-size: 14px;
+            color: #5a4a3a;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+        .ticket-quote .author {
+            font-size: 12px;
+            color: #8b7355;
+            margin-top: 15px;
+            display: block;
+        }
+        .retest {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #e0d8cc;
+        }
+        .retest-btn {
+            font-size: 11px;
+            color: #8b7355;
+            letter-spacing: 3px;
+            background: none;
+            border: 1px solid #d0c8bc;
+            padding: 12px 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .retest-btn:hover {
+            color: #5a4a3a;
+            border-color: #a69076;
+        }
+
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .floating-line {
+            position: absolute;
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #d0c8bc, transparent);
+            animation: floatLine 20s linear infinite;
+        }
+        @keyframes floatLine {
+            0% { transform: translateY(-100px); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        .back-link {
+            display: inline-block;
+            font-size: 11px;
+            color: #a69076;
+            letter-spacing: 2px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: color 0.3s;
+        }
+        .back-link:hover {
+            color: #5a4a3a;
+        }
+
+        .footer-line {
+            width: 60px;
+            height: 1px;
+            background: #d0c8bc;
+            margin: 40px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-bg" id="floatingBg"></div>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="container">
+        <div class="intro-page active" id="introPage">
+            <a href="index.html" class="back-link">返回目录</a>
+
+            <div class="intro-header">
+                <div class="intro-title">A Journey Home</div>
+                <div class="intro-main-title">如果踏上旅途是为了回家</div>
+                <div class="intro-divider"></div>
+                <div class="intro-subtitle">
+                    一辆永不停歇的列车<br>
+                    穿越晨昏，掠过星海<br>
+                    载你驶向，那个叫做归属的终点
+                </div>
+                <div class="intro-start" id="startBtn" onclick="startJourney()">--- 踏上旅程 ---</div>
+            </div>
+        </div>
+
+        <div class="test-page" id="testPage">
+            <a href="index.html" class="back-link">返回目录</a>
+            <div class="question-card" id="questionCard">
+                <div class="scene-title" id="sceneTitle"></div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="options"></div>
+            </div>
+        </div>
+
+        <div class="result-page" id="resultPage">
+        </div>
+    </div>
+
+    <script>
+        const QUESTIONS = {
+            1: { q: "列车缓缓启动，窗外的站台渐渐远去。你选择的车厢是：", o: ["有柔软毯子和抱枕的暗红色复古包厢", "简洁明亮、窗帘半掩的单人隔间", "热闹非凡、人们低声交谈的硬座车厢"] },
+            2: { q: "窗外的风景开始变换，你首先路过的是：", o: ["一片被晨雾笼罩的金色麦田", "一座飘着雪花、安静祥和的北欧小镇", "一片倒映着漫天星光的无边湖泊"] },
+            3: { q: "列车驶入了一条长长的隧道。黑暗中，你在想什么？", o: ["下一站的风景会不会更美", "期待隧道尽头会是怎样的光景", "珍惜在黑暗里这一刻的宁静"] },
+            4: { q: "你的对面坐下了一个人，TA最吸引你注意的特征是：", o: ["TA一直在低头画画，画纸上透出温暖的色彩", "TA的眼睛颜色，和你曾经养过的一只宠物一模一样", "TA对你露出了一个仿佛认识你很久的微笑，像老朋友一样"] },
+            5: { q: "车厢广播突然响起：'前方即将驶入黄昏，请大家……' 广播卡壳了，你觉得接下来的提示会是什么？", o: ["请大家闭上眼睛，在心里许下一个美好的愿望", "请大家握紧身边人的手，静静感受此刻的温度", "请大家看向窗外，目送今天的最后一道晚霞"] },
+            6: { q: "你起身去接水，在两节车厢的连接处，你捡到了一样东西。那是一件：", o: ["停在某个特定时间的精致怀表", "一张边缘泛黄、画着手绘地图的羊皮纸", "一把生了点红锈，但刻着你名字缩写的黄铜钥匙"] },
+            7: { q: "对面的乘客突然递给你一颗糖，糖纸是半透明的彩色。你觉得吃下去会是什么味道？", o: ["淡淡的薄荷味，能让人瞬间清醒", "像海风一样，带着阳光的微咸味道", "酸酸甜甜的，在嘴里会泛起一阵暖意"] },
+            8: { q: "窗外的大雪越来越大，列车在一座雪山中平稳地停下了。四周万籁俱寂，你会：", o: ["裹紧毛毯，享受这份与世隔绝的绝对宁静", "去餐车要一杯热腾腾的红茶或热可可暖手", "擦去车窗上的雾气，单纯地欣赏这片纯白无瑕的雪景"] },
+            9: { q: "窗外的星海中，你突然看到一座漂浮的孤岛，岛上的灯塔亮起了一盏温柔的暖光。你认为它在传递什么信息？", o: ["我在这里，你并不孤单", "欢迎回家，旅人", "继续前行吧，最美的风景在前方"] },
+            10: { q: "对面的乘客下车了，TA在座位上留下了一束花。这束花的状态是：", o: ["刚刚含苞待放，花瓣上沾着清晨的露水", "正在最热烈地盛开，散发着迷人的香气", "被精心压制成的干花书签，永远不会褪色"] },
+            11: { q: "列车长查票走到你面前，他看了看你的票，温和地问：'你是在告别，还是在追寻？'你的回答是：", o: ["我在和过去的一个阶段告别", "我在去寻找一件丢失的礼物", "沉默不语，反问他终点那边的天气好不好"] },
+            12: { q: "列车穿过一片发光的星云。借着微光，车窗上仿佛倒映出了你童年时的模样。那个小小的你正对你做着口型，你觉得TA在说什么？", o: ["你一直都很棒，辛苦啦", "今天也要开开心心的哦", "不要忘记我，也不要忘记你的梦想"] },
+            13: { q: "走廊上飘来一阵悠扬的风铃声，你听到隔壁包厢传来低声的哼唱。你会：", o: ["走过去敲门，询问能否一起分享这首歌", "靠在墙上静静聆听这美妙的旋律，不忍打扰", "回到座位，在脑海中默默记录下这段调子"] },
+            14: { q: "你在车厢角落发现了一个木制邮筒，上面写着'寄往过去'。如果你只能寄出一张明信片，你会写给几岁时的自己？", o: ["童年无忧无虑时的自己", "刚刚经历人生第一次重大转折时的自己", "一个月前的自己"] },
+            15: { q: "拿着地图的你，发现地图上的路线和列车实际行驶的方向完全相反。你会：", o: ["觉得这是一种奇妙的隐喻，开始期待未知的惊喜", "相信列车的方向，把地图当作一份纪念品收好", "仔细研究地图，觉得也许地球是圆的，终点是同一个地方"] },
+            16: { q: "拿着刻着你名字的钥匙，你试着去开走廊尽头那扇门。门轻轻开了，里面是：", o: ["一间布置得极为温馨、燃着壁炉放着摇椅的房间", "一个装满了信件的房间，全是你曾经收到过的祝福", "一面巨大的镜子，里面照出了你笑得最灿烂的那个瞬间"] },
+            17: { q: "你走进餐车，桌上摆着一台老式唱片机，正在播放一首歌。你觉得这首歌的旋律是：", o: ["欢快跳跃，像游乐场里的圆舞曲", "舒缓轻柔，像一首安心的摇篮曲", "充满力量，像清晨的晨光般明亮"] },
+            18: { q: "突然，一只发光的蝴蝶飞进了车厢，它停在了你的肩膀上。你觉得它代表着：", o: ["一份来自远方朋友的思念", "你某个即将苏醒的梦想", "即将到来的好运与奇迹"] },
+            19: { q: "列车员路过了你身边，递给你一杯水，杯子里的水是：", o: ["清凉甘甜的山泉水", "一杯琥珀色果酿，带有淡淡果香", "泡着不知名花朵的温茶，香气馥郁"] },
+            20: { q: "随着列车深入，空调风口送来一阵柔和的微风，你觉得风里带着什么气味？", o: ["阳光晒过的干净棉被的味道", "夏天暴雨过后的泥土与青草香", "刚出炉的烘焙麦香，带着淡淡的黄油味"] },
+            21: { q: "列车驶过一片如明镜般的巨大湖泊。你低头看向湖面，水里的倒影是：", o: ["一片比天空更澄澈的倒悬星海", "一座沉睡在水底、散发着柔光的水晶之城", "一群自由飞翔、紧紧相随的白鸟"] },
+            22: { q: "你在座位下发现了一个小巧的八音盒，打开后，里面的小人是：", o: ["一个独自旋转、姿态优雅的芭蕾舞者", "一只振翅欲飞的青鸟", "两个正在默契地跳着华尔兹的影子"] },
+            23: { q: "列车缓缓减速，窗外的森林里有一群麋鹿穿行。你会：", o: ["迅速拿出手机拍下这奇妙的一幕", "双手合十，在心里默默许个愿", "什么都不做，只是隔着玻璃静静欣赏不打扰"] },
+            24: { q: "餐车的桌上放着一沓空白的明信片。如果让你随手画点什么留给下一位旅客，你会画：", o: ["一个散发着光芒的小太阳", "一座带烟囱、冒着炊烟的小房子", "一条蜿蜒伸向群山深处的路"] },
+            25: { q: "隔壁座位的慈祥老奶奶正在织一条长长的围巾。她微笑着问你最喜欢什么颜色，想把你喜欢的颜色织进去。你会选：", o: ["像火焰和晚霞一样的温暖色调", "像深海和夜空一样的宁静冷色调", "像燕麦和亚麻一样的温柔大地色"] },
+            26: { q: "检票员走过来，要在你的车票上打个特殊的孔，你希望是什么形状的？", o: ["一颗星星", "一片树叶", "一个船锚"] },
+            27: { q: "餐车的今日限定甜点名叫'昨日之云'。你尝了一口，觉得味道像：", o: ["入口即化的棉花糖，带着纯粹的甜味", "清新的薄荷，有一丝能唤醒记忆的微凉", "淡淡的热牛奶味，让人感到无比安心"] },
+            28: { q: "外面下起了淅淅沥沥的小雨，车窗玻璃上渐渐蒙上了一层白色的水雾。你下意识地伸出手指，在玻璃上画了什么？", o: ["一个简单的笑脸，希望自己在雨天也能有好心情", "只是用手心擦出一块清晰的玻璃，静静地看向窗外的雨景", "慢慢写下了一个你一直在心里默念的名字或单词，然后看着它模糊"] },
+            29: { q: "一颗发光的石子咕噜噜滚到了你的脚边，一闪一闪的。你会：", o: ["弯腰捡起来放进口袋，当做护身符", "把它轻轻拨回走廊，让它继续在列车上流浪", "只是静静看着它，不触碰未知的东西"] },
+            30: { q: "一个看不清面容的幻影小孩跑过，扔飞了一架纸飞机，刚好落在了你的膝盖上。你会：", o: ["微笑着把它像飞镖一样扔回给小孩", "拆开看看里面有没有写什么童言童语的秘密", "把纸飞机原封不动地夹在书里当书签"] },
+            31: { q: "夜幕降临，车厢里的灯光自动调暗，变成了温暖的橘黄色。此时你的心情是：", o: ["一阵困意袭来，感到被保护着的安心", "涌起一丝淡淡的怀旧和对远方某人的思念", "精神反而变好了，期待夜晚会遇到什么"] },
+            32: { q: "座位旁边有一副列车提供的耳机，你戴上它，里面播放的声音是：", o: ["只有你自己能听懂的空灵悠远吟唱", "海浪有节奏地拍打沙滩的治愈白噪音", "一段温柔、缓慢、像是诉说故事的钢琴独奏"] },
+            33: { q: "广播提示：'本次列车尾部设有一节360度全透明的星空观景车厢。'你会去吗？", o: ["当然要去，我想看到更广阔无垠的风景", "算了吧，我现在的座位就挺舒服的，不想挪动", "如果碰巧有人愿意陪我一起去，我就去"] },
+            34: { q: "你路过车厢连接处的'失物招领箱'，里面有一件东西莫名吸引了你的视线：", o: ["一把断了一根弦的木吉他", "一本贴满各个城市票根的厚厚手帐", "一个旧款的、里面还有胶卷的复古相机"] },
+            35: { q: "白发苍苍的厨师长爷爷端来三种汤，你会选择喝哪种？", o: ["熬煮得酸甜浓郁的番茄红烩汤：喝下后，你会短暂回到一生中最快乐的那一天重温美好", "飘着几片翠绿菜叶的热汤：喝下后，你会遗忘一件最想忘记的事情，获得久违的平静与释然", "热气腾腾、飘着奶香的南瓜浓汤：没有特效，但喝下后浑身温暖，仿佛被拥抱"] },
+            36: { q: "当你意识到整节车厢现在只剩你一个人时，你的第一反应是：", o: ["感到一阵前所未有的轻松，独享整片风景", "觉得有一点点孤单，但也十分平静", "开始一个个车厢漫步，享受这份难得的静谧时光"] },
+            37: { q: "你在座位底下又发现了一个带密码的复古皮箱。直觉告诉你，密码是：", o: ["你的生日", "一个对你来说意义重大的纪念日", "一串你脑海中突然浮现的幸运数字"] },
+            38: { q: "列车减速，窗外出现了一座沐浴在晨光中的宁静小镇。这是唯一一次中途停靠。你会下车吗？", o: ["会，小镇看起来太美好了，我想在这里停留下看看", "不会，这风景很美，但我要去我真正的终点", "我想下车散个步买束花，在开车前跑回来"] },
+            39: { q: "突然，车厢重力消失了短短十秒钟。所有物品像气球一样漂浮在空中，你想伸手抓住的是：", o: ["你的那张旧车票", "身边飘过的一张老照片", "什么都不抓，闭上眼睛享受这片刻的奇妙失重感"] },
+            40: { q: "隧道尽头，天亮了。光线照进车厢，你发现原本旧旧的绿皮火车，内部竟然变成了：", o: ["一座极其华丽、充满艺术气息的移动画廊", "像一间长满了鲜花和绿藤的玻璃温室", "没有变化，它依旧是那辆充满回忆的绿皮火车"] },
+            41: { q: "广播再次响起：'本次列车即将抵达终点。下车前，请决定是否要将这趟旅程化作一场梦境。'", o: ["不要，这一切的体验都是我宝贵的财富", "变成梦吧，醒来后我想要一个全新的开始", "把最美好的那部分留下就可以了"] },
+            42: { q: "你站起身准备收拾行李下车，这时候你发现，你带上车的行李：", o: ["变得非常有分量，里面装满了沿途的收获", "变得轻飘飘的，好像一切重担都被卸下了", "变成了一个精美的礼盒，等待你去拆开"] },
+            43: { q: "列车长走到你面前，收走了你剪过孔的车票。他微笑着问了你最后一个问题：'你觉得，终点站会有谁在等你？'", o: ["我爱的人和爱我的人", "只有我自己，但我并不觉得孤单", "一个我从未见过，但注定会相遇的人"] },
+            44: { q: "车门即将打开，门外的光线非常柔和。你迈出第一步时的心情是：", o: ["充满期待，迫不及待想要冲出去拥抱新世界", "有些留恋车厢里的温暖，但也准备好迎接未来", "极度平静，无论外面是什么，我都欣然接受"] },
+            45: { q: "列车完全停稳。车门打开，风吹了进来。你闭上眼睛深吸了一口气，风里带来了什么气息？", o: ["颜料、松节油和陈旧纸张的怀旧味道", "柴火燃烧、热可可和烤面包的温暖香气", "泥土、雨水和森林深处的清新冷冽气息"] }
+        };
+
+        const JUMPS = {
+            1: [2, 8, 9],
+            2: [6, 5, 12],
+            3: [4, 14, 10],
+            4: [7, 10, 11],
+            5: [12, 13, 14],
+            6: [12, 15, 16],
+            7: [11, 13, 17],
+            8: [14, 15, 18],
+            9: [16, 17, 19],
+            10: [18, 20, 21],
+            11: [21, 22, 19],
+            12: [23, 24, 25],
+            13: [24, 26, 22],
+            14: [21, 23, 27],
+            15: [25, 28, 26],
+            16: [27, 29, 24],
+            17: [28, 26, 22],
+            18: [23, 25, 29],
+            19: [28, 27, 21],
+            20: [24, 25, 26],
+            21: [25, 26, 27],
+            22: [26, 27, 28],
+            23: [27, 28, 29],
+            24: [28, 29, 30],
+            25: [29, 30, 31],
+            26: [30, 31, 32],
+            27: [31, 32, 33],
+            28: [32, 33, 34],
+            29: [33, 34, 35],
+            30: [34, 35, 36],
+            31: [35, 36, 37],
+            32: [36, 37, 38],
+            33: [37, 38, 39],
+            34: [38, 39, 40],
+            35: [40, 41, 42],
+            36: [45, 43, 44],
+            37: [42, 41, 45],
+            38: ["E", 45, 42],
+            39: [43, 40, 44],
+            40: [45, 44, 43],
+            41: [45, "D", 44],
+            42: ["A", "C", 45],
+            43: ["B", "C", "D"],
+            44: ["D", "E", "C"],
+            45: ["A", "B", "C"]
+        };
+
+        const RESULTS = {
+            A: {
+                title: "未完成的旧画布",
+                subtitle: "Your Unfinished Canvas",
+                quote: '"万物皆有裂痕，那是光照进来的地方。" —— 莱昂纳德·科恩',
+                heading: "深度解析",
+                desc: "对你而言，回家不是前往某个具体的地点，而是回到某段未曾好好告别的时光。你的远行，是为了寻找弥补遗憾的颜料。你是一个情感细腻、且容易内耗的念旧者。在你心中，真正的'家'并不是一个物理概念，而是一个'完美无缺的过去'。你的人生轨迹看似一直在向前走，一直在探索新的世界，但你的潜意识里，始终停留在一副尚未完工的画作前。那里有你未曾说出口的道歉、错过的缘分，或是没能坚持到底的梦想。你之所以不断远行，是为了让自己变得更好、更强大，是为了收集足够多的故事和能力，然后带着这些颜料，回到过去，试图在心里把那副残缺的画补全。遗憾是生命的常态，但你的执着本身，就是一首动人的诗。"
+            },
+            B: {
+                title: "炉火摇曳的林间帐篷",
+                subtitle: "A Tent by the Forest Fire",
+                quote: '"正因为你为你的玫瑰花费了时间，这才使你的玫瑰变得如此重要。" —— 安东尼·德·圣-埃克苏佩里',
+                heading: "深度解析",
+                desc: "你的家存在于纯粹的人际关系中。你不在乎世俗的成就，只要有几个人在场，哪里都是你的归处。你是一个拥有恒温灵魂的人。你的归属感极度依赖于人，而不是地方或成就。对你而言，远行去大城市打拼，去见识广阔的天地，最终的意义并不是为了获得权力或财富，而是为了找到那些频率一致的灵魂。如果一个地方金碧辉煌却没有懂你的人，对你来说就是荒漠；而只要有知己、爱人围炉夜话，哪怕是在冰天雪地里生起一堆篝火，那里就是你最安稳的家。你的远行，为你筛选出了那些愿意陪你烤火的人。"
+            },
+            C: {
+                title: "听得见落雪的山谷",
+                subtitle: "A Valley Where Snowfall Is Audible",
+                quote: '"在隆冬，我终于知道，我身上有一个不可战胜的夏天。" —— 阿尔贝·加缪',
+                heading: "深度解析",
+                desc: "你用了漫长的远行去体验喧嚣，最终确认了你唯一的归宿，是真正的、毫无杂念的自我。你是一个极度独立、精神世界丰盈的独行者。在别人看来，你可能有些清冷或难以接近。你的远行，更像是一场漫长的降噪之旅。你穿梭在人际与繁华之中，是为了看清哪些热闹是自己不需要的。体验过喧嚣后你反而更加确信，你最贪恋的归宿，不过是内心深处那片不被打扰的宁静。你心中的家，是一个绝对私密、不被打扰的岛屿。在这个空间里，你不需要扮演任何角色，你只是你自己。远行的意义，就是为了让你攒够底气，心安理得地踏上这座只属于你一个人的月光之岛，享受绝对的平静。"
+            },
+            D: {
+                title: "追逐晨光的无尽旷野",
+                subtitle: "The Endless Plain Chasing Morning Light",
+                quote: '"并非所有流浪者都迷失了方向。" —— J.R.R. 托尔金',
+                heading: "深度解析",
+                desc: "你不属于任何一个温暖的壁炉。你的远行就是归宿本身，你永远在寻找更高处的风景。你拥有拓荒者的灵魂，内心燃烧着不灭的野心和对未知的好奇。'如果远行的意义是为了回家'，这句话在你身上或许要反过来读——对你来说，你的家，就在远行的路上。你潜意识里抗拒那种安逸、一眼望到头的安定。你认定的归宿，不是避风港，而是补给站。你只是在清晨的旷野短暂休息，等待太阳升起，然后你就会迎着风，去寻找下一个可以探寻的真理。你的灵魂，永远在路上。"
+            },
+            E: {
+                title: "藏在琥珀里的童话镇",
+                subtitle: "A Fairy Tale Village Encased in Amber",
+                quote: '"所有的大人都曾经是小孩，虽然，只有少数的人记得。" —— 安东尼·德·圣-埃克苏佩里',
+                heading: "深度解析",
+                desc: "你厌恶成人世界的残酷法则。你用幻想和纯真构筑了一个家，试图将最美好的时间永远定格。你是一个内心住着小孩的'彼得·潘'。你的内心充满了浪漫主义和对童话的向往，但现实世界的繁杂规则常常让你感到疲惫。你的远行，很多时候是一种对纯真年代的溯源。当你感到压力时，你的灵魂就会跳上这辆列车，试图回到那个一切都很简单、充满安全感的无忧岁月。你认定的家，像是一座被包裹在琥珀里的童话镇，那里没有时间的流逝，也没有分别的忧伤，只有永远澄澈的初心。"
+            }
+        };
+
+        let currentQuestion = 1;
+        let totalQuestions = 45;
+
+        function startJourney() {
+            document.getElementById('introPage').style.display = 'none';
+            document.getElementById('testPage').style.display = 'block';
+            createFloatingLines();
+            renderQuestion();
+        }
+
+        function createFloatingLines() {
+            const container = document.getElementById('floatingBg');
+            for (let i = 0; i < 8; i++) {
+                const line = document.createElement('div');
+                line.className = 'floating-line';
+                line.style.left = (10 + Math.random() * 80) + '%';
+                line.style.animationDelay = Math.random() * 20 + 's';
+                container.appendChild(line);
+            }
+        }
+
+        function startTest() {
+            document.getElementById('introPage').classList.remove('active');
+            document.getElementById('testPage').classList.add('active');
+            createFloatingLines();
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = QUESTIONS[currentQuestion];
+            const jumps = JUMPS[currentQuestion];
+
+            document.getElementById('sceneTitle').textContent = `第 ${currentQuestion} 幕`;
+            document.getElementById('questionText').textContent = q.q;
+
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            const optionsEl = document.getElementById('options');
+            optionsEl.innerHTML = '';
+
+            q.o.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option';
+                btn.textContent = opt;
+                btn.onclick = () => selectOption(idx);
+                optionsEl.appendChild(btn);
+            });
+        }
+
+        function selectOption(idx) {
+            const next = JUMPS[currentQuestion][idx];
+
+            if (typeof next === 'string') {
+                showResult(next);
+            } else {
+                currentQuestion = next;
+                renderQuestion();
+            }
+        }
+
+        function showResult(ending) {
+            const result = RESULTS[ending];
+            const firstPart = result.desc.split('。')[0] + '。';
+            const quoteMatch = result.quote.match(/"([^"]+)"\s*——\s*(.+)/);
+            const quoteText = quoteMatch ? quoteMatch[1] : result.quote;
+            const quoteAuthor = quoteMatch ? quoteMatch[2].trim() : '';
+
+            document.getElementById('testPage').style.display = 'none';
+            document.getElementById('resultPage').style.display = 'block';
+            document.getElementById('progressBar').style.width = '100%';
+
+            document.getElementById('resultPage').innerHTML = `
+                <a href="index.html" class="back-link">返回目录</a>
+                <div class="result-label">终点站</div>
+                <div class="result-title">${result.title}</div>
+                <div class="result-subtitle">${result.subtitle}</div>
+                <div class="result-quote">"${firstPart}"</div>
+                <div class="result-desc">${result.desc}</div>
+                <div class="ticket-quote">
+                    <p>${quoteText}</p>
+                    <span class="author">—— ${quoteAuthor}</span>
+                </div>
+                <div class="footer-line"></div>
+                <div class="retest">
+                    <button class="retest-btn" onclick="location.reload()">重新踏上旅程</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
